@@ -1,0 +1,13 @@
+{
+	"title": "My Presentation",
+	"slides": [
+		{
+			"title": "First Slide",
+			"content": "Some content"
+		},
+		{
+			"title": "Second Slide",
+			"content": "More content"
+		}
+	]
+}
