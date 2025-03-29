@@ -8,7 +8,25 @@ public class CommandHistory {
     private Stack<MenuCommand> undoStack = new Stack<>();
     private Stack<MenuCommand> redoStack = new Stack<>();
 
-    
+    public Stack<MenuCommand> getUndoStack()
+    {
+        return this.undoStack;
+    }
+
+    public void setUndoStack(Stack<MenuCommand> undoStack)
+    {
+        this.undoStack = undoStack;
+    }
+
+    public Stack<MenuCommand> getRedoStack()
+    {
+        return this.redoStack;
+    }
+
+    public void setRedoStack(Stack<MenuCommand> redoStack)
+    {
+        this.redoStack = redoStack;
+    }
 
     public void execute(MenuCommand command) {
         command.execute();

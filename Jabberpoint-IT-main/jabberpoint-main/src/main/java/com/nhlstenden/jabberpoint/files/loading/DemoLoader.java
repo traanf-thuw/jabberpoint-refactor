@@ -54,7 +54,7 @@ public class DemoLoader extends FileLoader {
         slide.addText(2, "use File->Open from the menu.");
         slide.addText(1, " ");
         slide.addText(1, "This is the end of the presentation.");
-        slide.addSlideItem(new BitmapItem(1, "JabberPoint.jpg"));
+        slide.addSlideItem(new BitmapItem(1, "test.jpg"));
         presentation.append(slide);
     }
 

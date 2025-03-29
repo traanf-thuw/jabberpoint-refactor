@@ -37,20 +37,6 @@ public class SlideViewerFrame extends JFrame {
 	 * @param slideViewerComponent The view component.
 	 * @param presentation The current presentation
 	 */
-//	public void setupWindow(SlideViewerComponent slideViewerComponent, Presentation presentation) {
-//		setTitle(JabberPoint.JAB_NAME + " " + JabberPoint.JAB_VERSION);
-//		addWindowListener(new WindowAdapter() {
-//				@Override
-//				public void windowClosing(WindowEvent e) {
-//					System.exit(0);
-//				}
-//			});
-//		getContentPane().add(slideViewerComponent);
-//		addKeyListener(new KeyController(presentation)); //Add a controller
-//		setMenuBar(new MenuController(this, presentation));	//Add another controller
-//		setSize(new Dimension(WIDTH, HEIGHT)); //Same sizes a slide has
-//		setVisible(true);
-//	}
 
 	public void setupWindow(SlideViewerComponent slideViewerComponent, Presentation presentation) {
 		setTitle(JabberPoint.JAB_NAME + " " + JabberPoint.JAB_VERSION);
@@ -74,7 +60,7 @@ public class SlideViewerFrame extends JFrame {
 	}
 
 	// ✅ Properly create and set up the MenuBar
-	private MenuBar createMenuBar(Presentation presentation) {
+	public MenuBar createMenuBar(Presentation presentation) {
 		MenuBar menuBar = new MenuBar();
 		MenuController menuController = new MenuController(this, presentation);
 

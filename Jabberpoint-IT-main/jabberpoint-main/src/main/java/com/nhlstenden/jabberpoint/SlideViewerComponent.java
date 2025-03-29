@@ -43,6 +43,36 @@ public class SlideViewerComponent extends JComponent {
 		this.frame = frame;
 	}
 
+	public Slide getSlide()
+	{
+		return this.slide;
+	}
+
+	public void setSlide(Slide slide)
+	{
+		this.slide = slide;
+	}
+
+	public Font getLabelFont()
+	{
+		return this.labelFont;
+	}
+
+	public Presentation getPresentation()
+	{
+		return this.presentation;
+	}
+
+	public void setPresentation(Presentation presentation)
+	{
+		this.presentation = presentation;
+	}
+
+	public JFrame getFrame()
+	{
+		return this.frame;
+	}
+
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(Slide.WIDTH, Slide.HEIGHT);
