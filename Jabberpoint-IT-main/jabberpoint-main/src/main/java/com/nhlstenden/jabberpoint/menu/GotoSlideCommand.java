@@ -1,7 +1,7 @@
 package com.nhlstenden.jabberpoint.menu;
 
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.SlideViewerFrame;
+import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 
 import javax.swing.*;
 
@@ -26,7 +26,7 @@ public class GotoSlideCommand implements MenuCommand
         {
             try
             {
-                int slideNumber = Integer.parseInt(slideNumberStr.trim());
+                int slideNumber = Integer.parseInt(slideNumberStr.trim()) - 1;
                 if (slideNumber >= 0 && slideNumber < presentation.getShowList().size())
                 {
                     presentation.setSlideNumber(slideNumber);

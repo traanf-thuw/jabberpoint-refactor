@@ -1,7 +1,7 @@
 package com.nhlstenden.jabberpoint.menu;
 
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.SlideViewerFrame;
+import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 import com.nhlstenden.jabberpoint.files.saving.XMLSaver;
 
 import javax.swing.*;

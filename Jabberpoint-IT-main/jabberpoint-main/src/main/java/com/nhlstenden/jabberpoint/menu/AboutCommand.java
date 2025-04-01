@@ -1,7 +1,6 @@
 package com.nhlstenden.jabberpoint.menu;
 
-import com.nhlstenden.jabberpoint.AboutBox;
-import com.nhlstenden.jabberpoint.SlideViewerFrame;
+import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 
 class AboutCommand implements MenuCommand {
     private SlideViewerFrame frame;

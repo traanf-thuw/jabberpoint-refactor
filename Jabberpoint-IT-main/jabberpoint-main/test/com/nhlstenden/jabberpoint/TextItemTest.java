@@ -1,5 +1,6 @@
 package com.nhlstenden.jabberpoint;
 
+import com.nhlstenden.jabberpoint.slide.TextItem;
 import com.nhlstenden.jabberpoint.style.LevelStyle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -107,19 +108,6 @@ public class TextItemTest {
 
         // Cleanup
         realGraphics.dispose();
-    }
-
-    @Test
-    public void testLeafOperations_ExpectThrow()
-    {
-        // Arrange
-        TextItem item = new TextItem(1, "Test");
-        AbstractSlideItem child = mock(AbstractSlideItem.class);
-
-        // Act & Assert
-        assertTrue(item.getChildren().isEmpty());
-        assertThrows(UnsupportedOperationException.class, () -> item.addChild(child));
-        assertThrows(UnsupportedOperationException.class, () -> item.removeChild(child));
     }
 
     @Test

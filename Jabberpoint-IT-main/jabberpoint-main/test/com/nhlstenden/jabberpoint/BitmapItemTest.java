@@ -1,5 +1,8 @@
 package com.nhlstenden.jabberpoint;
 
+import com.nhlstenden.jabberpoint.slide.BitmapItem;
+import com.nhlstenden.jabberpoint.slide.CompositeSlideItem;
+import com.nhlstenden.jabberpoint.slide.TextItem;
 import com.nhlstenden.jabberpoint.style.LevelStyle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,19 +75,6 @@ public class BitmapItemTest {
 
         // Assert
         verify(g, never()).drawImage(any(), anyInt(), anyInt(), anyInt(), anyInt(), any());
-    }
-
-    @Test
-    public void testLeafOperations_ExpectPass()
-    {
-        // Arrange
-        BitmapItem item = new BitmapItem(1, null);
-        AbstractSlideItem child = mock(AbstractSlideItem.class);
-
-        // Act & Assert
-        assertTrue(item.getChildren().isEmpty());
-        assertThrows(UnsupportedOperationException.class, () -> item.addChild(child));
-        assertThrows(UnsupportedOperationException.class, () -> item.removeChild(child));
     }
 
     @Test

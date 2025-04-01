@@ -1,6 +1,10 @@
 package com.nhlstenden.jabberpoint.files.saving;
 
 import com.nhlstenden.jabberpoint.*;
+import com.nhlstenden.jabberpoint.slide.BitmapItem;
+import com.nhlstenden.jabberpoint.slide.Slide;
+import com.nhlstenden.jabberpoint.slide.SlideComponent;
+import com.nhlstenden.jabberpoint.slide.TextItem;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -27,14 +31,14 @@ public class XMLSaver extends FileSaver{
         out.println("<!DOCTYPE presentation SYSTEM \"jabberpoint.dtd\">");
         out.println("<presentation>");
         out.print("<showtitle>");
-        out.print(presentation.getTitle());
+        out.print(presentation.getShowTitle());
         out.println("</showtitle>");
         for (int slideNumber=0; slideNumber<presentation.getSize(); slideNumber++) {
             Slide slide = presentation.getSlide(slideNumber);
             out.println("<slide>");
             out.println("<title>" + slide.getTitle() + "</title>");
-            List<AbstractSlideItem> slideItems = slide.getSlideItems();
-            for (AbstractSlideItem slideItem : slideItems) {
+            List<SlideComponent> slideItems = slide.getSlideItems();
+            for (SlideComponent slideItem : slideItems) {
                 out.print("<item kind=");
                 if (slideItem instanceof TextItem) {
                     out.print("\"text\" level=\"" + slideItem.getLevel() + "\">");

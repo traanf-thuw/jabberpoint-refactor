@@ -1,7 +1,7 @@
 package com.nhlstenden.jabberpoint.menu;
 
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.Slide;
+import com.nhlstenden.jabberpoint.slide.Slide;
 import com.nhlstenden.jabberpoint.style.DefaultStyle;
 
 class NewPresentationCommand implements MenuCommand {

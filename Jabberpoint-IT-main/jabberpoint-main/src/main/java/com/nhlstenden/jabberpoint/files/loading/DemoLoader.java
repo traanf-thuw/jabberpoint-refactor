@@ -1,6 +1,8 @@
 package com.nhlstenden.jabberpoint.files.loading;
 
 import com.nhlstenden.jabberpoint.*;
+import com.nhlstenden.jabberpoint.slide.BitmapItem;
+import com.nhlstenden.jabberpoint.slide.Slide;
 import com.nhlstenden.jabberpoint.style.DefaultStyle;
 import com.nhlstenden.jabberpoint.style.Style;
 
@@ -20,7 +22,7 @@ public class DemoLoader extends FileLoader {
 
     @Override
     public void loadPresentation(Presentation presentation, File file) {
-        presentation.setTitle("Demo Presentation");
+        presentation.setShowTitle("Demo Presentation");
         Style style = new DefaultStyle();
         Slide slide;
         slide = new Slide(style);
@@ -54,7 +56,7 @@ public class DemoLoader extends FileLoader {
         slide.addText(2, "use File->Open from the menu.");
         slide.addText(1, " ");
         slide.addText(1, "This is the end of the presentation.");
-        slide.addSlideItem(new BitmapItem(1, "test.jpg"));
+        slide.addSlideItem(new BitmapItem(1, "JabberPoint.jpg"));
         presentation.append(slide);
     }
 

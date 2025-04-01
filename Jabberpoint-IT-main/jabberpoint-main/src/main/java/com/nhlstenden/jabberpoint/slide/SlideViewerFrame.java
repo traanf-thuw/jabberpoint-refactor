@@ -1,5 +1,8 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.slide;
 
+import com.nhlstenden.jabberpoint.JabberPoint;
+import com.nhlstenden.jabberpoint.KeyController;
+import com.nhlstenden.jabberpoint.Presentation;
 import com.nhlstenden.jabberpoint.menu.MenuController;
 
 import java.awt.*;
@@ -27,7 +30,7 @@ public class SlideViewerFrame extends JFrame {
 	public SlideViewerFrame(String title, Presentation presentation) {
 		super(title);
 		SlideViewerComponent slideViewerComponent = new SlideViewerComponent(presentation, this);
-		presentation.setShowView(slideViewerComponent);
+		presentation.setSlideViewComponent(slideViewerComponent);
 		setupWindow(slideViewerComponent, presentation);
 	}
 
@@ -37,6 +40,20 @@ public class SlideViewerFrame extends JFrame {
 	 * @param slideViewerComponent The view component.
 	 * @param presentation The current presentation
 	 */
+//	public void setupWindow(SlideViewerComponent slideViewerComponent, Presentation presentation) {
+//		setTitle(JabberPoint.JAB_NAME + " " + JabberPoint.JAB_VERSION);
+//		addWindowListener(new WindowAdapter() {
+//				@Override
+//				public void windowClosing(WindowEvent e) {
+//					System.exit(0);
+//				}
+//			});
+//		getContentPane().add(slideViewerComponent);
+//		addKeyListener(new KeyController(presentation)); //Add a controller
+//		setMenuBar(new MenuController(this, presentation));	//Add another controller
+//		setSize(new Dimension(WIDTH, HEIGHT)); //Same sizes a slide has
+//		setVisible(true);
+//	}
 
 	public void setupWindow(SlideViewerComponent slideViewerComponent, Presentation presentation) {
 		setTitle(JabberPoint.JAB_NAME + " " + JabberPoint.JAB_VERSION);
@@ -51,7 +68,7 @@ public class SlideViewerFrame extends JFrame {
 		getContentPane().add(slideViewerComponent);
 		addKeyListener(new KeyController(presentation)); // Add a controller
 
-		// ✅ Create a proper MenuBar
+		// Create a proper MenuBar
 		MenuBar menuBar = createMenuBar(presentation);
 		setMenuBar(menuBar);
 
@@ -59,7 +76,7 @@ public class SlideViewerFrame extends JFrame {
 		setVisible(true);
 	}
 
-	// ✅ Properly create and set up the MenuBar
+	// Properly create and set up the MenuBar
 	public MenuBar createMenuBar(Presentation presentation) {
 		MenuBar menuBar = new MenuBar();
 		MenuController menuController = new MenuController(this, presentation);

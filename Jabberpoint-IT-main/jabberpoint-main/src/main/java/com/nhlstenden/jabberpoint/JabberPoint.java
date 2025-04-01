@@ -2,7 +2,7 @@ package com.nhlstenden.jabberpoint;
 
 import com.nhlstenden.jabberpoint.files.FileHandler;
 import com.nhlstenden.jabberpoint.files.loading.DemoLoader;
-import com.nhlstenden.jabberpoint.style.Style;
+import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 
 /** JabberPoint Main Program
  * <p>This program is distributed under the terms of the accompanying

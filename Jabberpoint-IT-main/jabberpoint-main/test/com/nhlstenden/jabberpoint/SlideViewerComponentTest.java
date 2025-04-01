@@ -1,5 +1,7 @@
 package com.nhlstenden.jabberpoint;
 
+import com.nhlstenden.jabberpoint.slide.Slide;
+import com.nhlstenden.jabberpoint.slide.SlideViewerComponent;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +41,7 @@ class SlideViewerComponentTest {
     @Test
     void update_withNullSlide_repaintsWithoutError() {
         // Arrange
-        when(mockPresentation.getSlideNumber()).thenReturn(-1);
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(-1);
 
         // Act & Assert
         assertDoesNotThrow(() -> viewer.update(mockPresentation, null));
@@ -48,8 +50,8 @@ class SlideViewerComponentTest {
     @Test
     void update_withValidSlide_updatesTitleAndRepaints() {
         // Arrange
-        when(mockPresentation.getTitle()).thenReturn("Test Presentation");
-        when(mockPresentation.getSlideNumber()).thenReturn(0);
+        when(mockPresentation.getShowTitle()).thenReturn("Test Presentation");
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(0);
         when(mockPresentation.getSize()).thenReturn(5);
 
         // Act
@@ -57,7 +59,6 @@ class SlideViewerComponentTest {
 
         // Assert
         verify(mockFrame).setTitle("Test Presentation");
-        assertNotNull(viewer.getSlide());
     }
 
     @Test
@@ -75,7 +76,7 @@ class SlideViewerComponentTest {
     void paintComponent_withValidSlide_drawsSlide()
     {
         // Arrange
-        when(mockPresentation.getSlideNumber()).thenReturn(1);
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(1);
         when(mockPresentation.getSize()).thenReturn(3);
         viewer.update(mockPresentation, mockSlide);
 
@@ -92,7 +93,7 @@ class SlideViewerComponentTest {
     @Test
     void paintComponent_withNegativeSlideNumber_doesNotDrawSlide() {
         // Arrange
-        when(mockPresentation.getSlideNumber()).thenReturn(-1);
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(-1);
         viewer.update(mockPresentation, mockSlide);
 
         BufferedImage image = new BufferedImage(Slide.WIDTH, Slide.HEIGHT, BufferedImage.TYPE_INT_ARGB);

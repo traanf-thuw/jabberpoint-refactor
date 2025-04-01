@@ -1,9 +1,9 @@
 package com.nhlstenden.jabberpoint.files.loading;
 
+import com.nhlstenden.jabberpoint.slide.Slide;
 import org.junit.jupiter.api.Test;
 import com.nhlstenden.jabberpoint.Presentation;
 import static org.junit.jupiter.api.Assertions.*;
-import com.nhlstenden.jabberpoint.Slide;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InOrder;
@@ -39,7 +39,7 @@ class DemoLoaderTest {
 
         // Verify call order and structure
         InOrder inOrder = inOrder(mockPresentation);
-        inOrder.verify(mockPresentation).setTitle("Demo Presentation");
+        inOrder.verify(mockPresentation).setShowTitle("Demo Presentation");
         inOrder.verify(mockPresentation, times(3)).append(any(Slide.class));
     }
 
@@ -53,7 +53,7 @@ class DemoLoaderTest {
         demoLoader.loadPresentation(mockPresentation, dummyFile);
 
         // Verify title was set
-        verify(mockPresentation).setTitle("Demo Presentation");
+        verify(mockPresentation).setShowTitle("Demo Presentation");
 
         // Verify slides were added
         verify(mockPresentation, times(3)).append(any(Slide.class));
@@ -89,7 +89,7 @@ class DemoLoaderTest {
         demoLoader.loadPresentation(mockPresentation, null);
 
         // Verify
-        verify(mockPresentation).setTitle("Demo Presentation");
+        verify(mockPresentation).setShowTitle("Demo Presentation");
     }
 
     @Test
@@ -107,7 +107,7 @@ class DemoLoaderTest {
         demoLoader.loadPresentation(mockPresentation, null);
 
         // Verify
-        verify(mockPresentation).setTitle(eq("Demo Presentation"));
+        verify(mockPresentation).setShowTitle(eq("Demo Presentation"));
     }
 
     @Test

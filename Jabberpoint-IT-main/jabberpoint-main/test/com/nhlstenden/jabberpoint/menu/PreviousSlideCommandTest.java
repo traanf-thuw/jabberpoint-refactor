@@ -22,7 +22,7 @@ class PreviousSlideCommandTest {
     @Test
     void execute_normalExecution_callsPrevSlideOnPresentation() {
         // Arrange
-        when(mockPresentation.getSlideNumber()).thenReturn(2); // Not on first slide
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(2); // Not on first slide
 
         // Act
         command.execute();
@@ -34,7 +34,7 @@ class PreviousSlideCommandTest {
     @Test
     void execute_onFirstSlide_doesNotThrowException() {
         // Arrange
-        when(mockPresentation.getSlideNumber()).thenReturn(0); // First slide
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(0); // First slide
 
         // Act & Assert
         assertDoesNotThrow(() -> command.execute());
@@ -44,7 +44,7 @@ class PreviousSlideCommandTest {
     @Test
     void execute_onSecondSlide_goesToFirstSlide() {
         // Arrange
-        when(mockPresentation.getSlideNumber()).thenReturn(1); // Second slide
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(1); // Second slide
 
         // Act
         command.execute();
@@ -56,7 +56,7 @@ class PreviousSlideCommandTest {
     @Test
     void execute_emptyPresentation_doesNotThrowException() {
         // Arrange
-        when(mockPresentation.getSlideNumber()).thenReturn(-1); // Empty presentation
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(-1); // Empty presentation
 
         // Act & Assert
         assertDoesNotThrow(() -> command.execute());
@@ -66,7 +66,7 @@ class PreviousSlideCommandTest {
     @Test
     void execute_multipleCalls_callsPrevSlideEachTime() {
         // Arrange
-        when(mockPresentation.getSlideNumber()).thenReturn(3); // Start from slide 3
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(3); // Start from slide 3
 
         // Act
         command.execute(); // Should go to slide 2
@@ -80,7 +80,7 @@ class PreviousSlideCommandTest {
     @Test
     void execute_singleSlidePresentation_doesNotGoBelowZero() {
         // Arrange
-        when(mockPresentation.getSlideNumber()).thenReturn(0); // Only one slide
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(0); // Only one slide
 
         // Act
         command.execute();

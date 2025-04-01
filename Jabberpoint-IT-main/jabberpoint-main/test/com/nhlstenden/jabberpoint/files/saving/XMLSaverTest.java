@@ -1,7 +1,7 @@
 package com.nhlstenden.jabberpoint.files.saving;
 
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.Slide;
+import com.nhlstenden.jabberpoint.slide.Slide;
 import com.nhlstenden.jabberpoint.style.DefaultStyle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class XMLSaverTest {
     void setUp() {
         xmlSaver = new XMLSaver();
         presentation = new Presentation();
-        presentation.setTitle("Test Presentation");
+        presentation.setShowTitle("Test Presentation");
     }
 
     @Test

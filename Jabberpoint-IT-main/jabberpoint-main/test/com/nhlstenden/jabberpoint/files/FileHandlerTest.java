@@ -62,7 +62,7 @@ class FileHandlerTest {
         fileHandler.loadFile(presentation, xmlFile.toString());
 
         // Assert
-        assertEquals("Test Presentation", presentation.getTitle());
+        assertEquals("Test Presentation", presentation.getShowTitle());
         assertEquals(1, presentation.getSize());
         assertNotNull(presentation.getSlide(0));
     }

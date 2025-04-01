@@ -1,7 +1,7 @@
 package com.nhlstenden.jabberpoint.menu;
 
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.SlideViewerFrame;
+import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 import com.nhlstenden.jabberpoint.files.FileHandler;
 
 import javax.swing.*;
@@ -34,7 +34,7 @@ class OpenPresentationCommand implements MenuCommand {
                 fileHandler.loadFile(presentation, file.getAbsolutePath());  // Use FileHandler to find the right loader
 
                 presentation.setSlideNumber(0);  // Ensure first slide is displayed
-                frame.setTitle(presentation.getTitle());
+                frame.setTitle(presentation.getShowTitle());
                 frame.repaint();  // Refresh UI
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, IOEX + e.getMessage(), LOADERR, JOptionPane.ERROR_MESSAGE);

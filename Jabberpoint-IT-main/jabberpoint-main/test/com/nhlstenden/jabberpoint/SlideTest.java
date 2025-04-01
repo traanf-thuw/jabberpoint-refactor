@@ -1,5 +1,8 @@
 package com.nhlstenden.jabberpoint;
 
+import com.nhlstenden.jabberpoint.slide.CompositeSlideItem;
+import com.nhlstenden.jabberpoint.slide.Slide;
+import com.nhlstenden.jabberpoint.slide.TextItem;
 import com.nhlstenden.jabberpoint.style.DefaultStyle;
 import com.nhlstenden.jabberpoint.style.LevelStyle;
 import com.nhlstenden.jabberpoint.style.Style;
@@ -21,7 +24,6 @@ class SlideTest {
     private ImageObserver mockObserver;
     private Style mockStyle;
     private LevelStyle mockLevelStyle;
-    private AbstractSlideItem mockItem;
 
     @BeforeEach
     void setUp() {
@@ -31,7 +33,6 @@ class SlideTest {
         mockObserver = mock(ImageObserver.class);
         mockStyle = mock(Style.class);
         mockLevelStyle = mock(LevelStyle.class);
-        mockItem = mock(AbstractSlideItem.class);
 
         slide = new Slide(mockStyle);
 
@@ -98,14 +99,6 @@ class SlideTest {
         String newTitle = "New Title";
         slide.setTitle(newTitle);
         assertEquals(newTitle, slide.getTitle());
-    }
-
-    @Test
-    void getSlideItem_withValidIndex_returnsCorrectItem() {
-        slide.addText(1, "Test text");
-        AbstractSlideItem item = slide.getSlideItem(0);
-        assertNotNull(item);
-        assertTrue(item instanceof TextItem);
     }
 
     @Test

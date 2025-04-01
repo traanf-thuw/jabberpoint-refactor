@@ -1,5 +1,6 @@
 package com.nhlstenden.jabberpoint;
 
+import com.nhlstenden.jabberpoint.slide.Slide;
 import com.nhlstenden.jabberpoint.style.DefaultStyle;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,22 +27,22 @@ class PresentationTest {
 
     @Test
     void getSlideNumber_withNoSlides_returnsNegativeOne() {
-        assertEquals(-1, presentation.getSlideNumber());
+        assertEquals(-1, presentation.getCurrentSlideNumber());
     }
 
     @Test
     void setSlideNumber_withValidIndex_updatesCurrentSlide() {
         presentation.append(testSlide);
         presentation.setSlideNumber(0);
-        assertEquals(0, presentation.getSlideNumber());
+        assertEquals(0, presentation.getCurrentSlideNumber());
     }
 
     @Test
     void setSlideNumber_withInvalidIndex_doesNotChangeCurrentSlide() {
         presentation.append(testSlide);
-        int initialSlideNumber = presentation.getSlideNumber();
+        int initialSlideNumber = presentation.getCurrentSlideNumber();
         presentation.setSlideNumber(-1);
-        assertEquals(initialSlideNumber, presentation.getSlideNumber());
+        assertEquals(initialSlideNumber, presentation.getCurrentSlideNumber());
     }
 
     @Test
@@ -50,7 +51,7 @@ class PresentationTest {
         presentation.append(new Slide(new DefaultStyle()));
         presentation.setSlideNumber(0);
         presentation.nextSlide();
-        assertEquals(1, presentation.getSlideNumber());
+        assertEquals(1, presentation.getCurrentSlideNumber());
     }
 
     @Test
@@ -58,7 +59,7 @@ class PresentationTest {
         presentation.append(testSlide);
         presentation.setSlideNumber(0);
         presentation.nextSlide();
-        assertEquals(0, presentation.getSlideNumber());
+        assertEquals(0, presentation.getCurrentSlideNumber());
     }
 
     @Test
@@ -67,7 +68,7 @@ class PresentationTest {
         presentation.append(new Slide(new DefaultStyle()));
         presentation.setSlideNumber(1);
         presentation.prevSlide();
-        assertEquals(0, presentation.getSlideNumber());
+        assertEquals(0, presentation.getCurrentSlideNumber());
     }
 
     @Test
@@ -75,7 +76,7 @@ class PresentationTest {
         presentation.append(testSlide);
         presentation.setSlideNumber(0);
         presentation.prevSlide();
-        assertEquals(0, presentation.getSlideNumber());
+        assertEquals(0, presentation.getCurrentSlideNumber());
     }
 
     @Test
@@ -83,6 +84,6 @@ class PresentationTest {
         presentation.append(testSlide);
         presentation.clear();
         assertEquals(0, presentation.getSize());
-        assertEquals(-1, presentation.getSlideNumber());
+        assertEquals(-1, presentation.getCurrentSlideNumber());
     }
 }

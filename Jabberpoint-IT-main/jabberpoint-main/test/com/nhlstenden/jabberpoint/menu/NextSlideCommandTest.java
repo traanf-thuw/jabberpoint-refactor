@@ -23,7 +23,7 @@ class NextSlideCommandTest {
     void execute_normalExecution_callsNextSlideOnPresentation() {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(5);
-        when(mockPresentation.getSlideNumber()).thenReturn(2);
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(2);
 
         // Act
         command.execute();
@@ -36,7 +36,7 @@ class NextSlideCommandTest {
     void execute_onLastSlide_doesNotThrowException() {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(3);
-        when(mockPresentation.getSlideNumber()).thenReturn(2); // Last slide (0-based)
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(2); // Last slide (0-based)
 
         // Act & Assert
         assertDoesNotThrow(() -> command.execute());
@@ -47,7 +47,7 @@ class NextSlideCommandTest {
     void execute_onFirstSlide_advancesToSecondSlide() {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(3);
-        when(mockPresentation.getSlideNumber()).thenReturn(0); // First slide
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(0); // First slide
 
         // Act
         command.execute();
@@ -60,7 +60,7 @@ class NextSlideCommandTest {
     void execute_emptyPresentation_doesNotThrowException() {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(0);
-        when(mockPresentation.getSlideNumber()).thenReturn(-1);
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(-1);
 
         // Act & Assert
         assertDoesNotThrow(() -> command.execute());
@@ -85,7 +85,7 @@ class NextSlideCommandTest {
     void execute_singleSlidePresentation_doesNotAdvanceBeyondBounds() {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(1);
-        when(mockPresentation.getSlideNumber()).thenReturn(0);
+        when(mockPresentation.getCurrentSlideNumber()).thenReturn(0);
 
         // Act
         command.execute();

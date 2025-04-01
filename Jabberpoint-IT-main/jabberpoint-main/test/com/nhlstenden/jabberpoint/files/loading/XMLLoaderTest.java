@@ -1,7 +1,7 @@
 package com.nhlstenden.jabberpoint.files.loading;
 
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.Slide;
+import com.nhlstenden.jabberpoint.slide.Slide;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -61,7 +61,7 @@ class XMLLoaderTest
         xmlLoader.loadPresentation(presentation, xmlFile.toFile());
 
         // Assert
-        assertEquals("Test Presentation", presentation.getTitle());
+        assertEquals("Test Presentation", presentation.getShowTitle());
         assertEquals(1, presentation.getSize());
         Slide slide = presentation.getSlide(0);
         assertNotNull(slide);

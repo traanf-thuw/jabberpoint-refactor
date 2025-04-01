@@ -1,5 +1,7 @@
 package com.nhlstenden.jabberpoint;
 
+import com.nhlstenden.jabberpoint.slide.SlideViewerComponent;
+import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.awt.*;

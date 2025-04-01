@@ -1,4 +1,6 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.slide;
+
+import com.nhlstenden.jabberpoint.Presentation;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -43,36 +45,6 @@ public class SlideViewerComponent extends JComponent {
 		this.frame = frame;
 	}
 
-	public Slide getSlide()
-	{
-		return this.slide;
-	}
-
-	public void setSlide(Slide slide)
-	{
-		this.slide = slide;
-	}
-
-	public Font getLabelFont()
-	{
-		return this.labelFont;
-	}
-
-	public Presentation getPresentation()
-	{
-		return this.presentation;
-	}
-
-	public void setPresentation(Presentation presentation)
-	{
-		this.presentation = presentation;
-	}
-
-	public JFrame getFrame()
-	{
-		return this.frame;
-	}
-
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(Slide.WIDTH, Slide.HEIGHT);
@@ -86,7 +58,7 @@ public class SlideViewerComponent extends JComponent {
 		this.presentation = presentation;
 		this.slide = data;
 		repaint();
-		frame.setTitle(presentation.getTitle());
+		frame.setTitle(presentation.getShowTitle());
 	}
 
 	//Draw the slide
@@ -94,13 +66,13 @@ public class SlideViewerComponent extends JComponent {
 	public void paintComponent(Graphics g) {
 		g.setColor(BGCOLOR);
 		g.fillRect(0, 0, getSize().width, getSize().height);
-		if (presentation.getSlideNumber() < 0 || slide == null) {
+		if (presentation.getSize() < 0 || slide == null) {
 			return;
 		}
 		g.setFont(labelFont);
 		g.setColor(COLOR);
-		g.drawString("Slide " + (1 + presentation.getSlideNumber()) + " of " +
-                 presentation.getSize(), XPOS, YPOS);
+		g.drawString("Slide " + (presentation.getCurrentSlideNumber() + 1) + " of " +
+				presentation.getSize(), XPOS, YPOS);
 		Rectangle area = new Rectangle(0, YPOS, getWidth(), (getHeight() - YPOS));
 		slide.draw(g, area, this);
 	}

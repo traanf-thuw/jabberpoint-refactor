@@ -1,9 +1,9 @@
 package com.nhlstenden.jabberpoint.files.loading;
 
-import com.nhlstenden.jabberpoint.BitmapItem;
+import com.nhlstenden.jabberpoint.slide.BitmapItem;
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.Slide;
-import com.nhlstenden.jabberpoint.TextItem;
+import com.nhlstenden.jabberpoint.slide.Slide;
+import com.nhlstenden.jabberpoint.slide.TextItem;
 import com.nhlstenden.jabberpoint.style.DefaultStyle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,7 +35,7 @@ public class XMLLoader extends FileLoader{
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = builder.parse(file); //Create a JDOM document
             Element doc = document.getDocumentElement();
-            presentation.setTitle(getTitle(doc, "showtitle"));
+            presentation.setShowTitle(getTitle(doc, "showtitle"));
 
             NodeList slides = doc.getElementsByTagName("slide");
             int max = slides.getLength();

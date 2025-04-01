@@ -1,33 +1,126 @@
 package com.nhlstenden.jabberpoint;
 
+import com.nhlstenden.jabberpoint.slide.Slide;
+import com.nhlstenden.jabberpoint.slide.SlideComponent;
+import com.nhlstenden.jabberpoint.slide.SlideItemFactory;
+import com.nhlstenden.jabberpoint.slide.SlideItemFactory.SlideItemType;
+import com.nhlstenden.jabberpoint.slide.SlideViewerComponent;
+import com.nhlstenden.jabberpoint.style.LevelStyle;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <p>Presentations keeps track of the slides in a presentation.</p>
- * <p>Only one instance of this class is available.</p>
- *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman, Rick Vinke
- * @version 1.7 2023/01/14 Rick Vinke
- */
 public class Presentation
 {
-    private String showTitle; //The title of the presentation
-    private List<Slide> showList; //An ArrayList with slides
-    private int currentSlideNumber; //The number of the current slide
-    private SlideViewerComponent slideViewComponent; //The view component of the slides
+    private String showTitle; // The title of the presentation
+    private List<Slide> showList; // List of slides
+    private int currentSlideNumber; // The number of the current slide
+    private SlideViewerComponent slideViewComponent; // The view component of the slides
+    private SlideItemFactory factory; // Factory instance
 
     public Presentation()
     {
         showTitle = "";
         slideViewComponent = null;
+        factory = SlideItemFactory.getInstance();
         clear();
     }
 
     public Presentation(SlideViewerComponent slideViewerComponent)
     {
         this.slideViewComponent = slideViewerComponent;
+        factory = SlideItemFactory.getInstance();
         clear();
+    }
+
+    public String getShowTitle()
+    {
+        return this.showTitle;
+    }
+
+    public void setShowTitle(String showTitle)
+    {
+        this.showTitle = showTitle;
+    }
+
+    public List<Slide> getShowList()
+    {
+        return this.showList;
+    }
+
+    public void setShowList(List<Slide> showList)
+    {
+        this.showList = showList;
+    }
+
+    public int getCurrentSlideNumber()
+    {
+        return this.currentSlideNumber;
+    }
+
+    public void setCurrentSlideNumber(int currentSlideNumber)
+    {
+        this.currentSlideNumber = currentSlideNumber;
+    }
+
+    public SlideViewerComponent getSlideViewComponent()
+    {
+        return this.slideViewComponent;
+    }
+
+    public void setSlideViewComponent(SlideViewerComponent slideViewComponent)
+    {
+        this.slideViewComponent = slideViewComponent;
+    }
+
+    public SlideItemFactory getFactory()
+    {
+        return this.factory;
+    }
+
+    public void setFactory(SlideItemFactory factory)
+    {
+        this.factory = factory;
+    }
+
+    public void addSlideComponent(int slideIndex, SlideComponent component)
+    {
+        if (slideIndex < 0 || slideIndex >= showList.size())
+        {
+            throw new IllegalArgumentException("Invalid slide index");
+        }
+        showList.get(slideIndex).addSlideItem(component);
+    }
+
+    public void addSlideItem(int slideIndex, SlideItemType type, int level, String content)
+    {
+        SlideComponent component = factory.createSlideItem(type, level, content);
+        addSlideComponent(slideIndex, component);
+    }
+
+    public void addSlideItem(int slideIndex, SlideItemType type, LevelStyle style)
+    {
+        SlideComponent component = factory.createSlideItem(type, style);
+        addSlideComponent(slideIndex, component);
+    }
+
+    public void append(Slide slide)
+    {
+        showList.add(slide);
+    }
+
+    public Slide getSlide(int number)
+    {
+        if (number < 0 || number >= getSize())
+        {
+            return null;
+        }
+        return showList.get(number);
+    }
+
+    public Slide getCurrentSlide()
+    {
+        return getSlide(currentSlideNumber);
     }
 
     public int getSize()
@@ -35,41 +128,33 @@ public class Presentation
         return showList.size();
     }
 
-    public String getTitle()
+    public void clear()
     {
-        return showTitle;
+        showList = new ArrayList<>();
+        setSlideNumber(-1);
     }
 
-    public void setTitle(String nt)
-    {
-        showTitle = nt;
-    }
-
-    public void setShowView(SlideViewerComponent slideViewerComponent)
-    {
-        this.slideViewComponent = slideViewerComponent;
-    }
-
-    //Returns the number of the current slide
-    public int getSlideNumber()
-    {
-        return currentSlideNumber;
-    }
-
-    //Change the current slide number and report it to the window
     public void setSlideNumber(int number)
     {
-        currentSlideNumber = number;
+        if (number < 0)
+        {
+            currentSlideNumber = 0; // Ensure it doesn't go below 0
+        }
+        else if (number >= getSize())
+        {
+            currentSlideNumber = getSize() - 1; // Prevent exceeding available slides
+        }
+        else
+        {
+            currentSlideNumber = number;
+        }
+
         if (slideViewComponent != null)
         {
             slideViewComponent.update(this, getCurrentSlide());
         }
     }
 
-    public List<Slide> getShowList()
-    {
-        return this.showList;
-    }
 
     //Navigate to the previous slide unless we are at the first slide
     public void prevSlide()
@@ -87,34 +172,5 @@ public class Presentation
         {
             setSlideNumber(currentSlideNumber + 1);
         }
-    }
-
-    //Remove the presentation
-    public void clear()
-    {
-        showList = new ArrayList<>();
-        setSlideNumber(-1);
-    }
-
-    //Add a slide to the presentation
-    public void append(Slide slide)
-    {
-        showList.add(slide);
-    }
-
-    //Return a slide with a specific number
-    public Slide getSlide(int number)
-    {
-        if (number < 0 || number >= getSize())
-        {
-            return null;
-        }
-        return showList.get(number);
-    }
-
-    //Return the current slide
-    public Slide getCurrentSlide()
-    {
-        return getSlide(currentSlideNumber);
     }
 }
