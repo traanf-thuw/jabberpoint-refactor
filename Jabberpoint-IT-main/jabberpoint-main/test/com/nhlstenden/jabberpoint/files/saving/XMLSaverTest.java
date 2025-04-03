@@ -6,7 +6,6 @@ import com.nhlstenden.jabberpoint.style.DefaultStyle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.mockito.InOrder;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,11 +14,10 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class XMLSaverTest {
 
-    private XMLSaver xmlSaver;
+    private XMLSaveStrategy xmlSaver;
     private Presentation presentation;
 
     @TempDir
@@ -27,7 +25,7 @@ class XMLSaverTest {
 
     @BeforeEach
     void setUp() {
-        xmlSaver = new XMLSaver();
+        xmlSaver = new XMLSaveStrategy();
         presentation = new Presentation();
         presentation.setShowTitle("Test Presentation");
     }

@@ -16,9 +16,9 @@ import java.io.File;
  * @version 1.4 2007/07/16 Sylvia Stuurman
  * @version 1.5 2010/03/03 Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
- * @version 1.7 2023/01/14 Rick Vinke
+ * @version 1.7 2025/04/02 Thu Tran
  */
-public class DemoLoader extends FileLoader {
+public class DemoLoader implements LoadStrategy {
 
     @Override
     public void loadPresentation(Presentation presentation, File file) {
@@ -58,15 +58,5 @@ public class DemoLoader extends FileLoader {
         slide.addText(1, "This is the end of the presentation.");
         slide.addSlideItem(new BitmapItem(1, "JabberPoint.jpg"));
         presentation.append(slide);
-    }
-
-    @Override
-    public String getExtension() {
-        return null;
-    }
-
-    @Override
-    public char getShortcut() {
-        return 0;
     }
 }

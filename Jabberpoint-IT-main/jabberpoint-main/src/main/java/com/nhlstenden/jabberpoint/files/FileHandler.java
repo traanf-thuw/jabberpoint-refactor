@@ -1,36 +1,14 @@
 package com.nhlstenden.jabberpoint.files;
 
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.files.loading.FileLoader;
-import com.nhlstenden.jabberpoint.files.loading.XMLLoader;
-import com.nhlstenden.jabberpoint.files.saving.FileSaver;
-import com.nhlstenden.jabberpoint.files.saving.XMLSaver;
+import com.nhlstenden.jabberpoint.files.loading.LoadStrategy;
+import com.nhlstenden.jabberpoint.files.saving.SaveStrategy;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
-/**
- * <p>Handles saving and loading of files.<p>
- *
- * @author Ian F. Darwin, ian@darwinsys.com
- * @version 1.7 2023/01/14 Rick Vinke
- */
 public class FileHandler
 {
-
-    private final Set<FileLoader> fileLoaders = new HashSet<>();
-    private final Set<FileSaver> fileSavers = new HashSet<>();
-
-    public FileHandler()
-    {
-        loadLoaders();
-        loadSavers();
-    }
-
     public void loadFile(Presentation presentation, String fileName)
     {
         try
@@ -38,97 +16,57 @@ public class FileHandler
             File file = new File(fileName);
             if (!file.exists())
             {
-                JOptionPane.showMessageDialog(null,
-                        "The file " + fileName + " does not exist.", "IO Error", JOptionPane.ERROR_MESSAGE);
+                showError("File Not Found", "The file " + fileName + " does not exist.");
                 return;
             }
 
-            // Correct way to extract the file extension
-            String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+            String fileExtension = extractExtension(fileName);
+            LoadStrategy loader = FileStrategyFactory.createLoader(fileExtension);
+            loader.loadPresentation(presentation, file);
 
-            for (FileLoader loader : fileLoaders)
-            {
-                if (fileExtension.equals(loader.getExtension()))
-                {
-                    try
-                    {
-                        loader.loadPresentation(presentation, file);
-                        return;
-                    } catch (RuntimeException e)
-                    {
-                        JOptionPane.showMessageDialog(null,
-                                "Error parsing " + fileExtension + " file: " + e.getMessage(),
-                                "Parsing Error",
-                                JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                }
-            }
+        } catch (IllegalArgumentException e)
+        {
+            showError("Unsupported Format", "File format not supported: " + e.getMessage());
         } catch (Exception e)
         {
-            JOptionPane.showMessageDialog(null,
-                    "Unexpected error loading file: " + e.getMessage(),
-                    "Load Error",
-                    JOptionPane.ERROR_MESSAGE);
+            showError("Load Error", "Failed to load file: " + e.getMessage());
         }
     }
 
     public void saveFile(Presentation presentation, String fileName)
     {
-        File file = new File(fileName);
-        if (!file.exists())
+        try
         {
-            try
+            File file = new File(fileName);
+            if (!file.exists() && !file.createNewFile())
             {
-                file.createNewFile();
-            } catch (IOException e)
-            {
-                JOptionPane.showMessageDialog(null,
-                        e.getMessage(), "IO Error", JOptionPane.ERROR_MESSAGE);
+                showError("IO Error", "Failed to create file: " + fileName);
                 return;
             }
-        }
-        String fileExtension = String.valueOf(Optional.of(fileName)
-                .filter(f -> f.contains("."))
-                .map(f -> f.substring(fileName.lastIndexOf(".") + 1)));
 
-        for (FileSaver saver : fileSavers)
+            String fileExtension = extractExtension(fileName);
+            SaveStrategy saveStrategy = FileStrategyFactory.createSaver(fileExtension);
+            saveStrategy.savePresentation(presentation, file);
+
+        } catch (IllegalArgumentException e)
         {
-            if (fileExtension.equals(saver.getExtension()))
-            {
-                try
-                {
-                    saver.savePresentation(presentation, file);
-                    return;
-                } catch (IOException e)
-                {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), "File save error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
+            showError("Unsupported Format", "File format not supported: " + e.getMessage());
+        } catch (Exception e)
+        {
+            showError("Save Error", "Failed to save file: " + e.getMessage());
         }
-
-        JOptionPane.showMessageDialog(null,
-                "The " + fileExtension + " extension is not supported for saving.", "Unsupported file", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void loadLoaders()
+    // Helper methods
+    private String extractExtension(String fileName)
     {
-        fileLoaders.add(new XMLLoader());  // Supports XML files
+        int dotIndex = fileName.lastIndexOf(".");
+        if (dotIndex == -1) throw new IllegalArgumentException("No file extension");
+        return fileName.substring(dotIndex + 1).toLowerCase();
     }
 
-    private void loadSavers()
+    private void showError(String title, String message)
     {
-        fileSavers.add(new XMLSaver());
-    }
-
-    public Set<FileLoader> getFileLoaders()
-    {
-        return fileLoaders;
-    }
-
-    public Set<FileSaver> getFileSavers()
-    {
-        return fileSavers;
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
     }
 }
