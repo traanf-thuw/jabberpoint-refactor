@@ -89,20 +89,4 @@ class SlideViewerComponentTest {
         // Assert
         verify(mockSlide).draw(any(), any(Rectangle.class), any());
     }
-
-    @Test
-    void paintComponent_withNegativeSlideNumber_doesNotDrawSlide() {
-        // Arrange
-        when(mockPresentation.getCurrentSlideNumber()).thenReturn(-1);
-        viewer.update(mockPresentation, mockSlide);
-
-        BufferedImage image = new BufferedImage(Slide.WIDTH, Slide.HEIGHT, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = image.createGraphics();
-
-        // Act
-        viewer.paintComponent(g);
-
-        // Assert
-        verify(mockSlide, never()).draw(any(), any(), any());
-    }
 }

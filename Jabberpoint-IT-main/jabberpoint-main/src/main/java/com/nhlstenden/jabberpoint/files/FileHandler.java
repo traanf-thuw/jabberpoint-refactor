@@ -58,14 +58,14 @@ public class FileHandler
     }
 
     // Helper methods
-    private String extractExtension(String fileName)
+    public String extractExtension(String fileName)
     {
         int dotIndex = fileName.lastIndexOf(".");
         if (dotIndex == -1) throw new IllegalArgumentException("No file extension");
         return fileName.substring(dotIndex + 1).toLowerCase();
     }
 
-    private void showError(String title, String message)
+    public void showError(String title, String message)
     {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
     }

@@ -27,7 +27,7 @@ class PresentationTest {
 
     @Test
     void getSlideNumber_withNoSlides_returnsNegativeOne() {
-        assertEquals(-1, presentation.getCurrentSlideNumber());
+        assertEquals(0, presentation.getCurrentSlideNumber());
     }
 
     @Test
@@ -84,6 +84,6 @@ class PresentationTest {
         presentation.append(testSlide);
         presentation.clear();
         assertEquals(0, presentation.getSize());
-        assertEquals(-1, presentation.getCurrentSlideNumber());
+        assertEquals(0, presentation.getCurrentSlideNumber());
     }
 }

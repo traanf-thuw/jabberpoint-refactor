@@ -21,6 +21,26 @@ class SavePresentationCommand implements MenuCommand
         this.frame = frame;
     }
 
+    public Presentation getPresentation()
+    {
+        return this.presentation;
+    }
+
+    public void setPresentation(Presentation presentation)
+    {
+        this.presentation = presentation;
+    }
+
+    public SlideViewerFrame getFrame()
+    {
+        return this.frame;
+    }
+
+    public void setFrame(SlideViewerFrame frame)
+    {
+        this.frame = frame;
+    }
+
     @Override
     public void execute()
     {

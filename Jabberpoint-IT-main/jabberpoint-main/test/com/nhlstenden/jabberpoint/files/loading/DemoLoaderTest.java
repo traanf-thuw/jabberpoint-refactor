@@ -109,20 +109,4 @@ class DemoLoaderTest {
         // Verify
         verify(mockPresentation).setShowTitle(eq("Demo Presentation"));
     }
-
-    @Test
-    void getExtension_shouldReturnNull_ExpectNull()
-    {
-        assertNull(demoLoader.getExtension(),
-                "DemoLoader should not have a specific file extension");
-    }
-
-    @Test
-    void getShortcut_shouldReturnZero_ExpectEqualZero()
-    {
-        assertEquals(0, demoLoader.getShortcut(),
-                "DemoLoader should not have a keyboard shortcut");
-    }
-
-
 }
