@@ -8,19 +8,21 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class NextSlideCommandTest {
-
+class NextSlideCommandTest
+{
     private Presentation mockPresentation;
     private NextSlideCommand command;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         mockPresentation = Mockito.mock(Presentation.class);
         command = new NextSlideCommand(mockPresentation);
     }
 
     @Test
-    void execute_normalExecution_callsNextSlideOnPresentation() {
+    void execute_normalExecution_callsNextSlideOnPresentation()
+    {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(5);
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(2);
@@ -33,7 +35,8 @@ class NextSlideCommandTest {
     }
 
     @Test
-    void execute_onLastSlide_doesNotThrowException() {
+    void execute_onLastSlide_doesNotThrowException()
+    {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(3);
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(2); // Last slide (0-based)
@@ -44,7 +47,8 @@ class NextSlideCommandTest {
     }
 
     @Test
-    void execute_onFirstSlide_advancesToSecondSlide() {
+    void execute_onFirstSlide_advancesToSecondSlide()
+    {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(3);
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(0); // First slide
@@ -57,7 +61,8 @@ class NextSlideCommandTest {
     }
 
     @Test
-    void execute_emptyPresentation_doesNotThrowException() {
+    void execute_emptyPresentation_doesNotThrowException()
+    {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(0);
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(-1);
@@ -68,7 +73,8 @@ class NextSlideCommandTest {
     }
 
     @Test
-    void execute_multipleCalls_callsNextSlideEachTime() {
+    void execute_multipleCalls_callsNextSlideEachTime()
+    {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(5);
 
@@ -82,7 +88,8 @@ class NextSlideCommandTest {
     }
 
     @Test
-    void execute_singleSlidePresentation_doesNotAdvanceBeyondBounds() {
+    void execute_singleSlidePresentation_doesNotAdvanceBeyondBounds()
+    {
         // Arrange
         when(mockPresentation.getSize()).thenReturn(1);
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(0);

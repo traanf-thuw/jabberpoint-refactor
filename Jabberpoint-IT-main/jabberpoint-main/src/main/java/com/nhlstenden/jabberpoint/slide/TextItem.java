@@ -107,36 +107,9 @@ public class TextItem extends SlideComponent
     }
 
     @Override
-    public List<SlideComponent> getChildren()
-    {
-        // Leaf items have no children
-        return Collections.emptyList();
-    }
-
-    @Override
-    public boolean hasChildren()
-    {
-        return false;
-    }
-
-    @Override
     public String getContent()
     {
         return this.text;
-    }
-
-    @Override
-    public void addChild(SlideComponent child)
-    {
-        // Leaf items cannot have children
-        throw new UnsupportedOperationException("TextItem cannot have children");
-    }
-
-    @Override
-    public void removeChild(SlideComponent child)
-    {
-        // Leaf items cannot have children
-        throw new UnsupportedOperationException("TextItem cannot have children");
     }
 
     @Override

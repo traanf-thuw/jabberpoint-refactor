@@ -1,5 +1,13 @@
 package com.nhlstenden.jabberpoint.files;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import javax.swing.JOptionPane;
+
 import com.nhlstenden.jabberpoint.Presentation;
 import com.nhlstenden.jabberpoint.files.loading.LoadStrategy;
 import com.nhlstenden.jabberpoint.files.saving.SaveStrategy;
@@ -7,113 +15,159 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import javax.swing.JOptionPane;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class FileHandlerTest {
-
-    private FileHandler fileHandler;
-    private Presentation mockPresentation;
-
+class FileHandlerTest
+{
     @TempDir
-    Path tempDir;
+    File tempDir;
+    @Mock
+    private Presentation mockPresentation;
+    @Mock
+    private LoadStrategy mockLoadStrategy;
+    @Mock
+    private SaveStrategy mockSaveStrategy;
+    @InjectMocks
+    private FileHandler fileHandler;
 
     @BeforeEach
-    void setUp() {
-        fileHandler = new FileHandler();
-        mockPresentation = mock(Presentation.class);
+    void setUp()
+    {
+        // Reset mocks between tests
+        reset(mockPresentation, mockLoadStrategy, mockSaveStrategy);
     }
 
     @Test
-    void loadFile_withExistingFile_shouldDelegateToLoader() throws Exception {
-        // Arrange
-        Path validFile = tempDir.resolve("test.xml");
-        Files.writeString(validFile, "<content>");
+    void loadFile_ValidFile_LoadsSuccessfully() throws Exception
+    {
+        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class);
+             MockedStatic<FileStrategyFactory> mockedFactory = mockStatic(FileStrategyFactory.class))
+        {
 
-        LoadStrategy mockLoader = mock(LoadStrategy.class);
-        try (MockedStatic<FileStrategyFactory> factory = mockStatic(FileStrategyFactory.class)) {
-            factory.when(() -> FileStrategyFactory.createLoader("xml"))
-                    .thenReturn(mockLoader);
+            // Arrange
+            Path testFile = tempDir.toPath().resolve("test.xml");
+            Files.createFile(testFile);
+
+            // Mock static factory method
+            mockedFactory.when(() -> FileStrategyFactory.createLoader("xml"))
+                    .thenReturn(mockLoadStrategy);
 
             // Act
-            fileHandler.loadFile(mockPresentation, validFile.toString());
+            fileHandler.loadFile(mockPresentation, testFile.toString());
 
             // Assert
-            verify(mockLoader).loadPresentation(mockPresentation, validFile.toFile());
+            verify(mockLoadStrategy).loadPresentation(mockPresentation, testFile.toFile());
+            mockedPane.verifyNoInteractions();
         }
     }
 
     @Test
-    void loadFile_withMissingFile_shouldShowErrorMessage() {
-        try (MockedStatic<JOptionPane> optionPane = mockStatic(JOptionPane.class)) {
+    void loadFile_FileNotFound_ShowsError()
+    {
+        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class))
+        {
             // Act
-            fileHandler.loadFile(mockPresentation, "missing.txt");
+            fileHandler.loadFile(mockPresentation, "nonexistent.txt");
 
             // Assert
-            optionPane.verify(() -> JOptionPane.showMessageDialog(
-                    null,
-                    "The file missing.txt does not exist.",
-                    "File Not Found",
-                    JOptionPane.ERROR_MESSAGE
-            ));
+            mockedPane.verify(() ->
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "The file nonexistent.txt does not exist.",
+                            "File Not Found",
+                            JOptionPane.ERROR_MESSAGE
+                    ));
         }
     }
 
     @Test
-    void saveFile_withValidFile_shouldDelegateToSaver() throws Exception {
-        // Arrange
-        Path outputFile = tempDir.resolve("test.xml");
-        SaveStrategy mockSaver = mock(SaveStrategy.class);
+    void loadFile_UnsupportedFormat_ShowsError() throws Exception
+    {
+        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class);
+             MockedStatic<FileStrategyFactory> mockedFactory = mockStatic(FileStrategyFactory.class))
+        {
 
-        try (MockedStatic<FileStrategyFactory> factory = mockStatic(FileStrategyFactory.class)) {
-            factory.when(() -> FileStrategyFactory.createSaver("xml"))
-                    .thenReturn(mockSaver);
+            // Arrange
+            Path testFile = tempDir.toPath().resolve("test.unsupported");
+            Files.createFile(testFile);
+
+            mockedFactory.when(() -> FileStrategyFactory.createLoader("unsupported"))
+                    .thenThrow(new IllegalArgumentException("Unsupported format"));
 
             // Act
-            fileHandler.saveFile(mockPresentation, outputFile.toString());
+            fileHandler.loadFile(mockPresentation, testFile.toString());
 
             // Assert
-            verify(mockSaver).savePresentation(mockPresentation, outputFile.toFile());
+            mockedPane.verify(() ->
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "File format not supported: Unsupported format",
+                            "Unsupported Format",
+                            JOptionPane.ERROR_MESSAGE
+                    ));
         }
     }
 
     @Test
-    void extractExtension_withValidFileName_shouldReturnExtension() {
+    void saveFile_NewFile_SavesSuccessfully() throws Exception
+    {
+        try (MockedStatic<FileStrategyFactory> mockedFactory = mockStatic(FileStrategyFactory.class))
+        {
+            // Arrange
+            Path testFile = tempDir.toPath().resolve("newfile.xml");
+
+            mockedFactory.when(() -> FileStrategyFactory.createSaver("xml"))
+                    .thenReturn(mockSaveStrategy);
+
+            // Act
+            fileHandler.saveFile(mockPresentation, testFile.toString());
+
+            // Assert
+            verify(mockSaveStrategy).savePresentation(mockPresentation, testFile.toFile());
+        }
+    }
+
+    @Test
+    void saveFile_ExistingFile_OverwritesSuccessfully() throws Exception
+    {
+        try (MockedStatic<FileStrategyFactory> mockedFactory = mockStatic(FileStrategyFactory.class))
+        {
+            // Arrange
+            Path existingFile = tempDir.toPath().resolve("existing.xml");
+            Files.createFile(existingFile);
+
+            mockedFactory.when(() -> FileStrategyFactory.createSaver("xml"))
+                    .thenReturn(mockSaveStrategy);
+
+            // Act
+            fileHandler.saveFile(mockPresentation, existingFile.toString());
+
+            // Assert
+            verify(mockSaveStrategy).savePresentation(mockPresentation, existingFile.toFile());
+        }
+    }
+
+    @Test
+    void extractExtension_ValidFilename_ReturnsExtension()
+    {
         assertEquals("xml", fileHandler.extractExtension("presentation.xml"));
-        assertEquals("txt", fileHandler.extractExtension("notes.TXT"));
-        assertEquals("jpg", fileHandler.extractExtension("image.1.jpg"));
+        assertEquals("jpg", fileHandler.extractExtension("image.1.JPG"));
     }
 
     @Test
-    void extractExtension_withNoExtension_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () ->
-                fileHandler.extractExtension("README")
-        );
+    void extractExtension_NoExtension_ThrowsException()
+    {
+        assertThrows(IllegalArgumentException.class,
+                () -> fileHandler.extractExtension("README"));
     }
 
     @Test
-    void showError_shouldDisplayCorrectDialog() {
-        try (MockedStatic<JOptionPane> optionPane = mockStatic(JOptionPane.class)) {
-            // Act
-            fileHandler.showError("Test Title", "Test Message");
-
-            // Assert
-            optionPane.verify(() -> JOptionPane.showMessageDialog(
-                    null,
-                    "Test Message",
-                    "Test Title",
-                    JOptionPane.ERROR_MESSAGE
-            ));
-        }
+    void extractExtension_MultipleDots_ReturnsLastExtension()
+    {
+        assertEquals("gz", fileHandler.extractExtension("archive.tar.gz"));
     }
 }

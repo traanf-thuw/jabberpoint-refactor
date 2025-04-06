@@ -5,6 +5,7 @@ import com.nhlstenden.jabberpoint.style.LevelStyle;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,21 +47,5 @@ public abstract class SlideComponent
 
     public abstract Rectangle getBoundingBox(Graphics graphics, ImageObserver observer, float scale);
 
-    // Composite pattern methods
-    public abstract List<SlideComponent> getChildren();
-
-    public abstract boolean hasChildren();
-
     public abstract String getContent();
-
-    // Methods that might be overridden by composite implementations
-    public void addChild(SlideComponent child)
-    {
-        throw new UnsupportedOperationException("Cannot add child to this component");
-    }
-
-    public void removeChild(SlideComponent child)
-    {
-        throw new UnsupportedOperationException("Cannot remove child from this component");
-    }
 }

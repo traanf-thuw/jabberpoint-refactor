@@ -1,7 +1,5 @@
 package com.nhlstenden.jabberpoint.slide;
 
-import com.nhlstenden.jabberpoint.slide.SlideComponent;
-
 import java.awt.Rectangle;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
@@ -10,11 +8,12 @@ import java.util.List;
 
 public class CompositeSlideItem extends SlideComponent
 {
-    private final List<SlideComponent> children = new ArrayList<>();
+    private final List<SlideComponent> children;
 
     public CompositeSlideItem(int level)
     {
         super(level);
+        this.children = new ArrayList<>();
     }
 
     @Override
@@ -58,13 +57,11 @@ public class CompositeSlideItem extends SlideComponent
         return combinedBox != null ? combinedBox : new Rectangle(0, 0, 0, 0);
     }
 
-    @Override
     public List<SlideComponent> getChildren()
     {
         return new ArrayList<>(this.children);
     }
 
-    @Override
     public boolean hasChildren()
     {
         return !this.children.isEmpty();
@@ -76,13 +73,11 @@ public class CompositeSlideItem extends SlideComponent
         return null;
     }
 
-    @Override
     public void addChild(SlideComponent child)
     {
         this.children.add(child);
     }
 
-    @Override
     public void removeChild(SlideComponent child)
     {
         this.children.remove(child);

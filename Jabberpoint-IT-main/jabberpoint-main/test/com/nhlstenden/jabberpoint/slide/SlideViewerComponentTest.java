@@ -1,5 +1,6 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.slide;
 
+import com.nhlstenden.jabberpoint.Presentation;
 import com.nhlstenden.jabberpoint.slide.Slide;
 import com.nhlstenden.jabberpoint.slide.SlideViewerComponent;
 import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;

@@ -9,8 +9,8 @@ import java.util.List;
 public class ButtonItem extends SlideComponent
 {
     private final String label;
-    private ActionListener actionListener;
-    private final Rectangle bounds;
+    ActionListener actionListener;
+    final Rectangle bounds;
 
     public ButtonItem(int style, String label)
     {
@@ -59,18 +59,6 @@ public class ButtonItem extends SlideComponent
         int width = metrics.stringWidth(this.label) + 20; // Padding
         int height = metrics.getHeight() + 10;
         return new Rectangle(0, 0, width, height);
-    }
-
-    @Override
-    public List<SlideComponent> getChildren()
-    {
-        return null;
-    }
-
-    @Override
-    public boolean hasChildren()
-    {
-        return false;
     }
 
     @Override

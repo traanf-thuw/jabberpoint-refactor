@@ -2,8 +2,7 @@ package com.nhlstenden.jabberpoint.slide;
 
 import com.nhlstenden.jabberpoint.style.LevelStyle;
 
-import java.awt.Rectangle;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
@@ -22,7 +21,7 @@ import java.util.List;
  */
 public class BitmapItem extends SlideComponent
 {
-    private BufferedImage bufferedImage;
+    BufferedImage bufferedImage;
     private final String imageName;
 
     protected static final String FILE = "File ";
@@ -73,58 +72,32 @@ public class BitmapItem extends SlideComponent
     }
 
     @Override
-    public void draw(Graphics graphics, Rectangle area, ImageObserver observer)
-    {
-        if (this.bufferedImage == null)
-        {
-            return;
-        }
+    public void draw(Graphics graphics, Rectangle area, ImageObserver observer) {
+        if (this.bufferedImage == null) return;
 
-        LevelStyle myStyle = getStyle(); // Assuming getStyle() method from parent class
-        int width = area.x + (int) (myStyle.getIndent() * area.getWidth() / area.getWidth());
-        int height = area.y + (int) (myStyle.getLeading() * area.getHeight() / area.getHeight());
+        Graphics2D g2d = (Graphics2D) graphics;
 
-        graphics.drawImage(
-                this.bufferedImage,
-                width,
-                height,
-                (int) (this.bufferedImage.getWidth(observer) * area.getWidth() / area.getWidth()),
-                (int) (this.bufferedImage.getHeight(observer) * area.getHeight() / area.getHeight()),
-                observer
+        // Calculate scaling while preserving aspect ratio
+        double scaleFactor = Math.min(
+                area.getWidth() / this.bufferedImage.getWidth() * 20,
+                area.getHeight() / this.bufferedImage.getHeight() * 20
         );
-    }
 
-    @Override
-    public List<SlideComponent> getChildren()
-    {
-        // Leaf items have no children
-        return Collections.emptyList();
-    }
+        // Calculate scaled dimensions
+        int scaledWidth = (int) (this.bufferedImage.getWidth() * scaleFactor);
+        int scaledHeight = (int) (this.bufferedImage.getHeight() * scaleFactor);
 
-    @Override
-    public boolean hasChildren()
-    {
-        return false;
+        // Center the image in the available area
+        int x = area.x + ((area.width - scaledWidth) / 2);
+        int y = area.y + ((area.height - scaledHeight) / 2);
+
+        g2d.drawImage(this.bufferedImage, x, y, scaledWidth, scaledHeight, observer);
     }
 
     @Override
     public String getContent()
     {
         return this.imageName;
-    }
-
-    @Override
-    public void addChild(SlideComponent child)
-    {
-        // Leaf items cannot have children
-        throw new UnsupportedOperationException("BitmapItem cannot have children");
-    }
-
-    @Override
-    public void removeChild(SlideComponent child)
-    {
-        // Leaf items cannot have children
-        throw new UnsupportedOperationException("BitmapItem cannot have children");
     }
 
     @Override

@@ -18,38 +18,39 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class XMLLoadStrategyTest {
-
+class XMLLoadStrategyTest
+{
     private XMLLoadStrategy loader;
     private Presentation presentation;
-
     @TempDir
     Path tempDir;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         loader = new XMLLoadStrategy();
         presentation = new Presentation();
     }
 
     @Test
-    void loadPresentation_withValidXml_shouldLoadCorrectly() throws Exception {
+    void loadPresentation_withValidXml_shouldLoadCorrectly() throws Exception
+    {
         // Arrange
         String xmlContent = """
-            <?xml version="1.0"?>
-            <presentation>
-                <showtitle>Test Presentation</showtitle>
-                <slide>
-                    <title>Slide 1</title>
-                    <item kind="text" level="1">Text content</item>
-                    <item kind="image" level="2">image.jpg</item>
-                </slide>
-                <slide>
-                    <title>Slide 2</title>
-                    <item kind="text" level="2">More text</item>
-                </slide>
-            </presentation>
-            """;
+                <?xml version="1.0"?>
+                <presentation>
+                    <showtitle>Test Presentation</showtitle>
+                    <slide>
+                        <title>Slide 1</title>
+                        <item kind="text" level="1">Text content</item>
+                        <item kind="image" level="2">image.jpg</item>
+                    </slide>
+                    <slide>
+                        <title>Slide 2</title>
+                        <item kind="text" level="2">More text</item>
+                    </slide>
+                </presentation>
+                """;
         File xmlFile = createTempFile(xmlContent);
 
         // Act
@@ -70,17 +71,18 @@ class XMLLoadStrategyTest {
     }
 
     @Test
-    void loadPresentation_withMissingLevel_shouldUseDefaultLevel() throws Exception {
+    void loadPresentation_withMissingLevel_shouldUseDefaultLevel() throws Exception
+    {
         String xmlContent = """
-            <?xml version="1.0"?>
-            <presentation>
-                <showtitle>Test</showtitle>
-                <slide>
-                    <title>Slide</title>
-                    <item kind="text">No level</item>
-                </slide>
-            </presentation>
-            """;
+                <?xml version="1.0"?>
+                <presentation>
+                    <showtitle>Test</showtitle>
+                    <slide>
+                        <title>Slide</title>
+                        <item kind="text">No level</item>
+                    </slide>
+                </presentation>
+                """;
         File xmlFile = createTempFile(xmlContent);
 
         loader.loadPresentation(presentation, xmlFile);
@@ -91,17 +93,18 @@ class XMLLoadStrategyTest {
     }
 
     @Test
-    void loadPresentation_withInvalidLevel_shouldUseDefault() throws Exception {
+    void loadPresentation_withInvalidLevel_shouldUseDefault() throws Exception
+    {
         String xmlContent = """
-            <?xml version="1.0"?>
-            <presentation>
-                <showtitle>Test</showtitle>
-                <slide>
-                    <title>Slide</title>
-                    <item kind="text" level="invalid">Text</item>
-                </slide>
-            </presentation>
-            """;
+                <?xml version="1.0"?>
+                <presentation>
+                    <showtitle>Test</showtitle>
+                    <slide>
+                        <title>Slide</title>
+                        <item kind="text" level="invalid">Text</item>
+                    </slide>
+                </presentation>
+                """;
         File xmlFile = createTempFile(xmlContent);
 
         loader.loadPresentation(presentation, xmlFile);
@@ -111,17 +114,18 @@ class XMLLoadStrategyTest {
     }
 
     @Test
-    void loadPresentation_withUnknownItemType_shouldSkipItem() throws Exception {
+    void loadPresentation_withUnknownItemType_shouldSkipItem() throws Exception
+    {
         String xmlContent = """
-            <?xml version="1.0"?>
-            <presentation>
-                <showtitle>Test</showtitle>
-                <slide>
-                    <title>Slide</title>
-                    <item kind="video" level="1">movie.mp4</item>
-                </slide>
-            </presentation>
-            """;
+                <?xml version="1.0"?>
+                <presentation>
+                    <showtitle>Test</showtitle>
+                    <slide>
+                        <title>Slide</title>
+                        <item kind="video" level="1">movie.mp4</item>
+                    </slide>
+                </presentation>
+                """;
         File xmlFile = createTempFile(xmlContent);
 
         loader.loadPresentation(presentation, xmlFile);
@@ -130,7 +134,8 @@ class XMLLoadStrategyTest {
     }
 
     @Test
-    void loadPresentation_withMalformedXml_shouldThrowException() {
+    void loadPresentation_withMalformedXml_shouldThrowException()
+    {
         String badXml = "This is not XML";
         File xmlFile = createTempFile(badXml);
 
@@ -140,15 +145,16 @@ class XMLLoadStrategyTest {
     }
 
     @Test
-    void loadPresentation_withMissingShowTitle_shouldThrowException() {
+    void loadPresentation_withMissingShowTitle_shouldThrowException()
+    {
         String xmlContent = """
-            <?xml version="1.0"?>
-            <presentation>
-                <slide>
-                    <title>Slide</title>
-                </slide>
-            </presentation>
-            """;
+                <?xml version="1.0"?>
+                <presentation>
+                    <slide>
+                        <title>Slide</title>
+                    </slide>
+                </presentation>
+                """;
         File xmlFile = createTempFile(xmlContent);
 
         assertThrows(NullPointerException.class, () ->
@@ -156,12 +162,15 @@ class XMLLoadStrategyTest {
         );
     }
 
-    private File createTempFile(String content) {
-        try {
+    private File createTempFile(String content)
+    {
+        try
+        {
             Path path = tempDir.resolve("test.xml");
             Files.writeString(path, content);
             return path.toFile();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             throw new RuntimeException("Failed to create temp file", e);
         }
     }

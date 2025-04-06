@@ -1,4 +1,4 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.slide;
 
 import com.nhlstenden.jabberpoint.slide.CompositeSlideItem;
 import com.nhlstenden.jabberpoint.slide.Slide;
@@ -7,7 +7,9 @@ import com.nhlstenden.jabberpoint.style.DefaultStyle;
 import com.nhlstenden.jabberpoint.style.LevelStyle;
 import com.nhlstenden.jabberpoint.style.Style;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import java.awt.*;
@@ -17,7 +19,8 @@ import java.nio.file.Paths;
 
 import static org.mockito.Mockito.*;
 
-class SlideTest {
+class SlideTest
+{
     private Slide slide;
     private DefaultStyle defaultStyle;
     private Graphics mockGraphics;
@@ -26,7 +29,8 @@ class SlideTest {
     private LevelStyle mockLevelStyle;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         defaultStyle = new DefaultStyle();
         slide = new Slide(defaultStyle);
         mockGraphics = mock(Graphics.class);
@@ -45,7 +49,8 @@ class SlideTest {
     }
 
     @Test
-    void draw_withTitle_drawsTitleFirst() {
+    void draw_withTitle_drawsTitleFirst()
+    {
         // Arrange
         slide.setTitle("Test Title");
         Rectangle area = new Rectangle(0, 0, 800, 600);
@@ -64,7 +69,8 @@ class SlideTest {
     }
 
     @Test
-    void draw_withTitleAndItem_properlyPositionsItems() {
+    void draw_withTitleAndItem_properlyPositionsItems()
+    {
         // Arrange
         slide.setTitle("Test Title");
         TextItem testItem = new TextItem(1, "Test Item");
@@ -80,14 +86,16 @@ class SlideTest {
     }
 
     @Test
-    void addTextItem_withValidText_addsItemToSlide() {
+    void addTextItem_withValidText_addsItemToSlide()
+    {
         int initialSize = slide.getSize();
         slide.addText(1, "Test text");
         assertEquals(initialSize + 1, slide.getSize());
     }
 
     @Test
-    void addImageItem_withValidPath_addsItemToSlide() {
+    void addImageItem_withValidPath_addsItemToSlide()
+    {
         String imagePath = Paths.get("test/resources/JabberPoint.jpg").toString();
         int initialSize = slide.getSize();
         slide.addImage(1, imagePath);
@@ -95,14 +103,16 @@ class SlideTest {
     }
 
     @Test
-    void setTitle_withNewTitle_updatesTitle() {
+    void setTitle_withNewTitle_updatesTitle()
+    {
         String newTitle = "New Title";
         slide.setTitle(newTitle);
         assertEquals(newTitle, slide.getTitle());
     }
 
     @Test
-    void createComposite_withMultipleItems_returnsCompositeWithAllItems() {
+    void createComposite_withMultipleItems_returnsCompositeWithAllItems()
+    {
         slide.addText(1, "Text 1");
         slide.addText(2, "Text 2");
         CompositeSlideItem composite = slide.createComposite();

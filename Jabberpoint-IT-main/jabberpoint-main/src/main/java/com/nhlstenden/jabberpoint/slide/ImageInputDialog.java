@@ -9,8 +9,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ImageInputDialog extends JDialog
 {
-    private File selectedFile;
-    private JLabel imagePreview;
+    File selectedFile;
+    JLabel imagePreview;
 
     public ImageInputDialog(Frame parent)
     {
@@ -55,7 +55,7 @@ public class ImageInputDialog extends JDialog
         getRootPane().setDefaultButton(okButton);
     }
 
-    private void browseImage()
+    void browseImage()
     {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter(

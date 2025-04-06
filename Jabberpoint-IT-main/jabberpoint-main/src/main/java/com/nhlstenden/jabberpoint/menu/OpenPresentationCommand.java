@@ -47,4 +47,17 @@ class OpenPresentationCommand implements MenuCommand
             }
         }
     }
+
+    public JFileChooser createFileChooser() {
+        return new JFileChooser();
+    }
+
+    public FileHandler createFileHandler() {
+        return new FileHandler();
+    }
+
+    public void showErrorDialog(Exception e) {
+        JOptionPane.showMessageDialog(this.frame, IOEX + e.getMessage(),
+                LOADERR, JOptionPane.ERROR_MESSAGE);
+    }
 }

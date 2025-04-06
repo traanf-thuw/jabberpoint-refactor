@@ -8,19 +8,21 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class PreviousSlideCommandTest {
-
+class PreviousSlideCommandTest
+{
     private Presentation mockPresentation;
     private PreviousSlideCommand command;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         mockPresentation = Mockito.mock(Presentation.class);
         command = new PreviousSlideCommand(mockPresentation);
     }
 
     @Test
-    void execute_normalExecution_callsPrevSlideOnPresentation() {
+    void execute_normalExecution_callsPrevSlideOnPresentation()
+    {
         // Arrange
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(2); // Not on first slide
 
@@ -32,7 +34,8 @@ class PreviousSlideCommandTest {
     }
 
     @Test
-    void execute_onFirstSlide_doesNotThrowException() {
+    void execute_onFirstSlide_doesNotThrowException()
+    {
         // Arrange
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(0); // First slide
 
@@ -42,7 +45,8 @@ class PreviousSlideCommandTest {
     }
 
     @Test
-    void execute_onSecondSlide_goesToFirstSlide() {
+    void execute_onSecondSlide_goesToFirstSlide()
+    {
         // Arrange
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(1); // Second slide
 
@@ -54,7 +58,8 @@ class PreviousSlideCommandTest {
     }
 
     @Test
-    void execute_emptyPresentation_doesNotThrowException() {
+    void execute_emptyPresentation_doesNotThrowException()
+    {
         // Arrange
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(-1); // Empty presentation
 
@@ -64,7 +69,8 @@ class PreviousSlideCommandTest {
     }
 
     @Test
-    void execute_multipleCalls_callsPrevSlideEachTime() {
+    void execute_multipleCalls_callsPrevSlideEachTime()
+    {
         // Arrange
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(3); // Start from slide 3
 
@@ -78,7 +84,8 @@ class PreviousSlideCommandTest {
     }
 
     @Test
-    void execute_singleSlidePresentation_doesNotGoBelowZero() {
+    void execute_singleSlidePresentation_doesNotGoBelowZero()
+    {
         // Arrange
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(0); // Only one slide
 

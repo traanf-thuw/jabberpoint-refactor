@@ -1,4 +1,4 @@
-package com.nhlstenden.jabberpoint.menu;//package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.menu;
 
 import com.nhlstenden.jabberpoint.*;
 import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
@@ -27,7 +27,6 @@ public class MenuController extends MenuBar implements ActionListener
     // Class fields
     private final SlideViewerFrame frame;
     private final Presentation presentation;
-    private final CommandHistory commandHistory;
 
     /**
      * Constructor
@@ -36,17 +35,6 @@ public class MenuController extends MenuBar implements ActionListener
     {
         this.frame = frame;
         this.presentation = presentation;
-        this.commandHistory = new CommandHistory();
-    }
-
-    /**
-     * Constructor with command history
-     */
-    public MenuController(SlideViewerFrame frame, Presentation presentation, CommandHistory commandHistory)
-    {
-        this.frame = frame;
-        this.presentation = presentation;
-        this.commandHistory = commandHistory;
     }
 
     /**
@@ -74,7 +62,7 @@ public class MenuController extends MenuBar implements ActionListener
         MenuCommand command = createCommand(e.getActionCommand());
         if (command != null)
         {
-            commandHistory.execute(command);
+            command.execute();
         }
     }
 }

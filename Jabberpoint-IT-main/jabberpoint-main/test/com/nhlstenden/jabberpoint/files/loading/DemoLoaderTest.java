@@ -3,7 +3,9 @@ package com.nhlstenden.jabberpoint.files.loading;
 import com.nhlstenden.jabberpoint.slide.Slide;
 import org.junit.jupiter.api.Test;
 import com.nhlstenden.jabberpoint.Presentation;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InOrder;
@@ -14,26 +16,29 @@ import java.nio.file.Paths;
 
 import static org.mockito.Mockito.*;
 
-class DemoLoaderTest {
-
+class DemoLoaderTest
+{
     private Presentation mockPresentation;
     private DemoLoader demoLoader;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         mockPresentation = mock(Presentation.class);
         demoLoader = new DemoLoader();
     }
 
     @Test
-    void loadPresentation_withNullPresentation_shouldThrowNullPointerException() {
+    void loadPresentation_withNullPresentation_shouldThrowNullPointerException()
+    {
         assertThrows(NullPointerException.class,
                 () -> demoLoader.loadPresentation(null, new File("dummy")),
                 "Should throw NPE for null presentation");
     }
 
     @Test
-    void loadPresentation_shouldCreateDemoPresentationWithCorrectStructure() {
+    void loadPresentation_shouldCreateDemoPresentationWithCorrectStructure()
+    {
         // Act
         demoLoader.loadPresentation(mockPresentation, null);
 
@@ -93,7 +98,8 @@ class DemoLoaderTest {
     }
 
     @Test
-    void loadPresentation_shouldCreateExactlyThreeSlides() {
+    void loadPresentation_shouldCreateExactlyThreeSlides()
+    {
         // Act
         demoLoader.loadPresentation(mockPresentation, null);
 
@@ -102,7 +108,8 @@ class DemoLoaderTest {
     }
 
     @Test
-    void loadPresentation_shouldSetCorrectTitle() {
+    void loadPresentation_shouldSetCorrectTitle()
+    {
         // Act
         demoLoader.loadPresentation(mockPresentation, null);
 

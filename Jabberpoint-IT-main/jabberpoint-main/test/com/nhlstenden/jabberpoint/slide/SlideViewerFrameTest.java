@@ -1,32 +1,38 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.slide;
 
+import com.nhlstenden.jabberpoint.Presentation;
 import com.nhlstenden.jabberpoint.slide.SlideViewerComponent;
 import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.awt.*;
 import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class SlideViewerFrameTest {
+class SlideViewerFrameTest
+{
 
     private SlideViewerFrame frame;
     private Presentation presentation;
     private SlideViewerComponent mockViewerComponent;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         presentation = new Presentation();
         mockViewerComponent = mock(SlideViewerComponent.class);
 
         // Use reflection to set the slideViewComponent in presentation
-        try {
+        try
+        {
             Field field = Presentation.class.getDeclaredField("slideViewComponent");
             field.setAccessible(true);
             field.set(presentation, mockViewerComponent);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             fail("Failed to set slideViewComponent via reflection");
         }
 
@@ -34,28 +40,33 @@ class SlideViewerFrameTest {
     }
 
     @Test
-    void setupWindow_setsCorrectWindowSize() {
+    void setupWindow_setsCorrectWindowSize()
+    {
         // Verify the size is set correctly in the constructor
         Dimension expectedSize = new Dimension(SlideViewerFrame.WIDTH, SlideViewerFrame.HEIGHT);
         assertEquals(expectedSize, frame.getSize());
     }
 
     @Test
-    void setupWindow_addsKeyListener() {
+    void setupWindow_addsKeyListener()
+    {
         // Verify a KeyListener is added
         assertTrue(frame.getKeyListeners().length > 0);
     }
 
     @Test
-    void createMenuBar_returnsMenuBarWithFileMenu() {
+    void createMenuBar_returnsMenuBarWithFileMenu()
+    {
         MenuBar menuBar = frame.createMenuBar(presentation);
         assertNotNull(menuBar);
 
         // Check if File menu exists
         boolean hasFileMenu = false;
-        for (int i = 0; i < menuBar.getMenuCount(); i++) {
+        for (int i = 0; i < menuBar.getMenuCount(); i++)
+        {
             Menu menu = menuBar.getMenu(i);
-            if ("File".equals(menu.getLabel())) {
+            if ("File".equals(menu.getLabel()))
+            {
                 hasFileMenu = true;
                 break;
             }

@@ -1,26 +1,30 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.slide;
 
 import com.nhlstenden.jabberpoint.slide.TextItem;
 import com.nhlstenden.jabberpoint.style.LevelStyle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+
 import static org.mockito.Mockito.*;
 
-public class TextItemTest {
+public class TextItemTest
+{
 
     private TextItem textItem;
     private LevelStyle levelStyle;
-    private Graphics2D realGraphics;
     private Graphics2D mockGraphics;
     private ImageObserver observer;
     private FontMetrics mockFontMetrics;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         textItem = new TextItem(1, "Test Text");
         levelStyle = new LevelStyle("Arial", 10, Color.BLACK, 12, 14);
         textItem.setStyle(levelStyle);
@@ -56,7 +60,8 @@ public class TextItemTest {
     }
 
     @Test
-    void draw_withNullGraphics_throwsNullPointerException() {
+    void draw_withNullGraphics_throwsNullPointerException()
+    {
         // Arrange
         Rectangle area = new Rectangle(10, 20, 80, 60);
 
@@ -66,7 +71,8 @@ public class TextItemTest {
     }
 
     @Test
-    void draw_withNullArea_throwsNullPointerException() {
+    void draw_withNullArea_throwsNullPointerException()
+    {
         // Act & Assert
         assertThrows(NullPointerException.class, () ->
                 textItem.draw(mockGraphics, null, observer));
@@ -111,33 +117,24 @@ public class TextItemTest {
     }
 
     @Test
-    void getText_afterConstruction_returnsCorrectText() {
+    void getText_afterConstruction_returnsCorrectText()
+    {
         assertEquals("Test Text", textItem.getText());
     }
 
     @Test
-    void setText_withNewText_updatesText() {
+    void setText_withNewText_updatesText()
+    {
         textItem.setText("New Text");
         assertEquals("New Text", textItem.getText());
     }
 
     @Test
-    void getBoundingBox_withValidGraphics_returnsNonEmptyRectangle() {
+    void getBoundingBox_withValidGraphics_returnsNonEmptyRectangle()
+    {
         Graphics graphics = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB).getGraphics();
         Rectangle bounds = textItem.getBoundingBox(graphics, null, 1.0f);
         assertNotNull(bounds);
         assertTrue(bounds.width > 0);
-    }
-
-    @Test
-    void getChildren_asLeafItem_returnsEmptyList() {
-        assertTrue(textItem.getChildren().isEmpty());
-    }
-
-    @Test
-    void addChild_asLeafItem_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> {
-            textItem.addChild(new TextItem(2, "Child"));
-        });
     }
 }

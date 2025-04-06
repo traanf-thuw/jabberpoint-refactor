@@ -10,7 +10,7 @@ class NewPresentationCommand implements MenuCommand
 {
     private final Presentation presentation;
     private final SlideViewerFrame frame;
-    private final SlideItemFactory factory;
+    SlideItemFactory factory;
 
     public NewPresentationCommand(Presentation presentation, SlideViewerFrame parentFrame)
     {
@@ -43,7 +43,7 @@ class NewPresentationCommand implements MenuCommand
         this.presentation.setSlideNumber(0);
     }
 
-    private void showTextInputDialog(Slide targetSlide)
+    void showTextInputDialog(Slide targetSlide)
     {
         TextInputDialog dialog = new TextInputDialog(this.frame);
         dialog.setVisible(true);
@@ -52,22 +52,22 @@ class NewPresentationCommand implements MenuCommand
         if (inputText != null && !inputText.trim().isEmpty())
         {
             // Use the factory to create the new TextItem
-            TextItem newTextItem = (TextItem) factory.createSlideItem(SlideItemType.TEXT, 2, inputText.trim());
+            TextItem newTextItem = (TextItem) this.factory.createSlideItem(SlideItemType.TEXT, 3, inputText.trim());
             targetSlide.addSlideItem(newTextItem);
             this.presentation.refreshView();
         }
     }
 
-    private void showImageInputDialog(Slide targetSlide)
+    void showImageInputDialog(Slide targetSlide)
     {
-        ImageInputDialog dialog = new ImageInputDialog(frame);
+        ImageInputDialog dialog = new ImageInputDialog(this.frame);
         dialog.setVisible(true);
 
         File imageFile = dialog.getSelectedFile();
         if (imageFile != null)
         {
             // Use the factory to create the BitmapItem
-            BitmapItem imageItem = (BitmapItem) factory.createSlideItem(SlideItemType.BITMAP, 2, imageFile.getAbsolutePath());
+            BitmapItem imageItem = (BitmapItem) this.factory.createSlideItem(SlideItemType.BITMAP, 4, imageFile.getAbsolutePath());
             targetSlide.addSlideItem(imageItem);
             this.presentation.refreshView();
         }

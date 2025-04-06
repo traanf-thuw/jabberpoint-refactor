@@ -1,7 +1,6 @@
 package com.nhlstenden.jabberpoint;
 
 import com.nhlstenden.jabberpoint.slide.*;
-import com.nhlstenden.jabberpoint.style.LevelStyle;
 
 import java.util.ArrayList;
 import java.util.List;

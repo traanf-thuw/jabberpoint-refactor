@@ -39,16 +39,4 @@ public class SlideItemFactory
             case BITMAP -> new BitmapItem(level, content);
         };
     }
-
-    /**
-     * Additional factory method for creating items with default styling
-     */
-    public SlideComponent createSlideItem(SlideItemType type, LevelStyle style)
-    {
-        return switch (type)
-        {
-            case TEXT -> new TextItem(style);
-            case BITMAP -> new BitmapItem();
-        };
-    }
 }

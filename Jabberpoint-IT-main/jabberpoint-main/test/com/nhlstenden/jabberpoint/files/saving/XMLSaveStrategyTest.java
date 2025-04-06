@@ -17,22 +17,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XMLSaveStrategyTest
 {
-
     private XMLSaveStrategy xmlSaver;
     private Presentation presentation;
-
     @TempDir
     Path tempDir;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         xmlSaver = new XMLSaveStrategy();
         presentation = new Presentation();
         presentation.setShowTitle("Test Presentation");
     }
 
     @Test
-    void savePresentation_shouldCreateValidXmlFile() throws IOException {
+    void savePresentation_shouldCreateValidXmlFile() throws IOException
+    {
         // Arrange
         Slide slide = new Slide(new DefaultStyle());
         slide.setTitle("Test Slide");
@@ -55,7 +55,8 @@ class XMLSaveStrategyTest
     }
 
     @Test
-    void savePresentation_withEmptyPresentation_shouldCreateMinimalXml() throws IOException {
+    void savePresentation_withEmptyPresentation_shouldCreateMinimalXml() throws IOException
+    {
         // Arrange
         File outputFile = tempDir.resolve("empty.xml").toFile();
 
@@ -70,7 +71,8 @@ class XMLSaveStrategyTest
     }
 
     @Test
-    void savePresentation_withImageItem_shouldNotIncludeImagePath() throws IOException {
+    void savePresentation_withImageItem_shouldIncludeImagePath() throws IOException
+    {
         // Arrange
         Slide slide = new Slide(new DefaultStyle());
         slide.addImage(1, "test/resources/JabberPoint.jpg");
@@ -83,11 +85,12 @@ class XMLSaveStrategyTest
 
         // Assert
         String content = Files.readString(outputFile.toPath());
-        assertFalse(content.contains("<item kind=\"image\" level=\"1\">test/resources/JabberPoint.jpg</item>"));
+        assertTrue(content.contains("<item kind=\"image\" level=\"1\">test/resources/JabberPoint.jpg</item>"));
     }
 
     @Test
-    void savePresentation_toReadOnlyFile_shouldPass() throws IOException {
+    void savePresentation_toReadOnlyFile_shouldPass() throws IOException
+    {
         // Arrange
         File readOnlyFile = tempDir.resolve("readonly.xml").toFile();
         Files.write(readOnlyFile.toPath(), "dummy".getBytes(), StandardOpenOption.CREATE);
@@ -97,7 +100,8 @@ class XMLSaveStrategyTest
     }
 
     @Test
-    void savePresentation_shouldMaintainElementOrder() throws IOException {
+    void savePresentation_shouldMaintainElementOrder() throws IOException
+    {
         // Arrange
         Slide slide1 = new Slide(new DefaultStyle());
         slide1.setTitle("First");

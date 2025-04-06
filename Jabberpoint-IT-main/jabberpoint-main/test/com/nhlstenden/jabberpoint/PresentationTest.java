@@ -1,89 +1,172 @@
 package com.nhlstenden.jabberpoint;
 
-import com.nhlstenden.jabberpoint.slide.Slide;
-import com.nhlstenden.jabberpoint.style.DefaultStyle;
-import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.nhlstenden.jabberpoint.slide.*;
+import com.nhlstenden.jabberpoint.style.Style;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-class PresentationTest {
+import java.util.List;
+
+@ExtendWith(MockitoExtension.class)
+class PresentationTest
+{
+
     private Presentation presentation;
-    private Slide testSlide;
+
+    @Mock
+    private SlideViewerComponent mockViewer;
+
+    @Mock
+    private SlideItemFactory mockFactory;
+
+    @Mock
+    private SlideComponent mockComponent;
+
+    @Mock
+    private Slide mockSlide;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         presentation = new Presentation();
-        testSlide = new Slide(new DefaultStyle());
-        testSlide.setTitle("Test Slide");
+        presentation.setSlideViewComponent(mockViewer);
+        presentation.setFactory(mockFactory);
     }
 
     @Test
-    void append_addSlideToEmptyPresentation_sizeIncreasesByOne() {
+    void constructor_initializesEmptyPresentation()
+    {
+        Presentation newPres = new Presentation();
+        assertEquals(0, newPres.getSize());
+        assertEquals(0, newPres.getCurrentSlideNumber());
+    }
+
+    @Test
+    void addSlideComponent_validIndex_addsComponent()
+    {
+        // Create a real Slide with a mock style
+        Slide slide = new Slide(mock(Style.class));
+        presentation.append(slide);
+
+        presentation.addSlideComponent(0, mockComponent);
+
+        assertEquals(1, presentation.getSlide(0).getSlideItems().size());
+    }
+
+    @Test
+    void addSlideComponent_invalidIndex_throwsException()
+    {
+        assertThrows(IllegalArgumentException.class,
+                () -> presentation.addSlideComponent(0, mockComponent));
+    }
+
+    @Test
+    void append_slide_increasesSize()
+    {
         int initialSize = presentation.getSize();
-        presentation.append(testSlide);
+        presentation.append(mockSlide);
         assertEquals(initialSize + 1, presentation.getSize());
     }
 
     @Test
-    void getSlideNumber_withNoSlides_returnsNegativeOne() {
-        assertEquals(0, presentation.getCurrentSlideNumber());
+    void getSlide_invalidIndex_returnsNull()
+    {
+        assertNull(presentation.getSlide(-1));
+        assertNull(presentation.getSlide(0));
     }
 
     @Test
-    void setSlideNumber_withValidIndex_updatesCurrentSlide() {
-        presentation.append(testSlide);
+    void prevSlide_atFirstSlide_doesNothing()
+    {
+        presentation.append(mockSlide);
         presentation.setSlideNumber(0);
+        presentation.prevSlide();
         assertEquals(0, presentation.getCurrentSlideNumber());
     }
 
     @Test
-    void setSlideNumber_withInvalidIndex_doesNotChangeCurrentSlide() {
-        presentation.append(testSlide);
-        int initialSlideNumber = presentation.getCurrentSlideNumber();
-        presentation.setSlideNumber(-1);
-        assertEquals(initialSlideNumber, presentation.getCurrentSlideNumber());
-    }
-
-    @Test
-    void nextSlide_withMultipleSlides_incrementsCurrentSlide() {
-        presentation.append(testSlide);
-        presentation.append(new Slide(new DefaultStyle()));
+    void nextSlide_atLastSlide_doesNothing()
+    {
+        presentation.append(mockSlide);
         presentation.setSlideNumber(0);
         presentation.nextSlide();
+        assertEquals(0, presentation.getCurrentSlideNumber());
+    }
+
+    @Test
+    void setSlideNumber_outOfBounds_clampsCorrectly()
+    {
+        presentation.append(mockSlide);
+        presentation.append(mockSlide);
+
+        presentation.setSlideNumber(-5);
+        assertEquals(0, presentation.getCurrentSlideNumber());
+
+        presentation.setSlideNumber(100);
         assertEquals(1, presentation.getCurrentSlideNumber());
     }
 
     @Test
-    void nextSlide_atLastSlide_doesNotChangeCurrentSlide() {
-        presentation.append(testSlide);
-        presentation.setSlideNumber(0);
-        presentation.nextSlide();
-        assertEquals(0, presentation.getCurrentSlideNumber());
+    void refreshView_triggersViewerUpdate()
+    {
+        presentation.append(mockSlide);
+        presentation.refreshView();
+        verify(mockViewer).update(presentation, mockSlide);
     }
 
     @Test
-    void prevSlide_withMultipleSlides_decrementsCurrentSlide() {
-        presentation.append(testSlide);
-        presentation.append(new Slide(new DefaultStyle()));
-        presentation.setSlideNumber(1);
-        presentation.prevSlide();
-        assertEquals(0, presentation.getCurrentSlideNumber());
-    }
-
-    @Test
-    void prevSlide_atFirstSlide_doesNotChangeCurrentSlide() {
-        presentation.append(testSlide);
-        presentation.setSlideNumber(0);
-        presentation.prevSlide();
-        assertEquals(0, presentation.getCurrentSlideNumber());
-    }
-
-    @Test
-    void clear_withPopulatedPresentation_resetsToEmptyState() {
-        presentation.append(testSlide);
+    void clear_resetsSlidesAndSlideNumber()
+    {
+        presentation.append(mockSlide);
         presentation.clear();
         assertEquals(0, presentation.getSize());
         assertEquals(0, presentation.getCurrentSlideNumber());
+    }
+
+    @Test
+    void setShowTitle_updatesTitle()
+    {
+        presentation.setShowTitle("New Title");
+        assertEquals("New Title", presentation.getShowTitle());
+    }
+
+    @Test
+    void setSlideViewComponent_updatesViewer()
+    {
+        SlideViewerComponent newViewer = mock(SlideViewerComponent.class);
+        presentation.setSlideViewComponent(newViewer);
+        presentation.append(mockSlide);
+        presentation.setSlideNumber(0);
+
+        verify(newViewer).update(presentation, mockSlide);
+    }
+
+    @Test
+    void getSize_returnsCorrectValue()
+    {
+        assertEquals(0, presentation.getSize());
+        presentation.append(mockSlide);
+        assertEquals(1, presentation.getSize());
+    }
+
+    @Test
+    void getCurrentSlide_withSlides_returnsSlide()
+    {
+        presentation.append(mockSlide);
+        assertEquals(mockSlide, presentation.getCurrentSlide());
+    }
+
+    @Test
+    void setFactory_updatesFactoryInstance()
+    {
+        SlideItemFactory newFactory = mock(SlideItemFactory.class);
+        presentation.setFactory(newFactory);
+        assertSame(newFactory, presentation.getFactory());
     }
 }
