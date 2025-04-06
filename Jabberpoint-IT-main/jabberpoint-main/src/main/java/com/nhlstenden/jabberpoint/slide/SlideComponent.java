@@ -21,6 +21,26 @@ public abstract class SlideComponent
         this.level = level;
     }
 
+    public int getLevel()
+    {
+        return this.level;
+    }
+
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
+
+    public LevelStyle getStyle()
+    {
+        return this.style;
+    }
+
+    public void setStyle(LevelStyle style)
+    {
+        this.style = style;
+    }
+
     // Core drawing and layout methods all components must implement
     public abstract void draw(Graphics graphics, Rectangle area, ImageObserver observer);
 
@@ -31,6 +51,8 @@ public abstract class SlideComponent
 
     public abstract boolean hasChildren();
 
+    public abstract String getContent();
+
     // Methods that might be overridden by composite implementations
     public void addChild(SlideComponent child)
     {
@@ -40,26 +62,5 @@ public abstract class SlideComponent
     public void removeChild(SlideComponent child)
     {
         throw new UnsupportedOperationException("Cannot remove child from this component");
-    }
-
-    // Getters and setters
-    public int getLevel()
-    {
-        return level;
-    }
-
-    public void setLevel(int level)
-    {
-        this.level = level;
-    }
-
-    public LevelStyle getStyle()
-    {
-        return style;
-    }
-
-    public void setStyle(LevelStyle style)
-    {
-        this.style = style;
     }
 }

@@ -1,6 +1,5 @@
 package com.nhlstenden.jabberpoint.slide;
 
-import com.nhlstenden.jabberpoint.slide.SlideComponent;
 import com.nhlstenden.jabberpoint.style.LevelStyle;
 
 import java.awt.Rectangle;
@@ -14,19 +13,13 @@ import java.util.List;
 /**
  * Text item that can be used as a leaf in the Composite pattern
  *
- * @author [Your Name]
+ * @author [Thu Tran - Bocheng Peng]
  * @version 1.8 2025/03/26
  */
 public class TextItem extends SlideComponent
 {
     private String text;
     private static final String EMPTYTEXT = "No Text Given";
-
-    // Default empty constructor
-    public TextItem()
-    {
-        this(0, EMPTYTEXT);
-    }
 
     // Constructor with level and text
     public TextItem(int level, String text)
@@ -69,7 +62,7 @@ public class TextItem extends SlideComponent
 
         // Calculate text positioning
         FontMetrics metrics = graphics.getFontMetrics();
-        int textWidth = metrics.stringWidth(text);
+        int textWidth = metrics.stringWidth(this.text);
         int textHeight = metrics.getHeight();
 
         // Calculate x position with indent
@@ -79,13 +72,13 @@ public class TextItem extends SlideComponent
         int y = area.y + area.height / 2 + textHeight / 2;
 
         // Draw the text
-        graphics.drawString(text, x, y);
+        graphics.drawString(this.text, x, y);
     }
 
     @Override
     public Rectangle getBoundingBox(Graphics graphics, ImageObserver observer, float scale)
     {
-        if (text == null || text.isEmpty())
+        if (this.text == null || this.text.isEmpty())
         {
             return new Rectangle(0, 0, 0, 0);
         }
@@ -102,7 +95,7 @@ public class TextItem extends SlideComponent
 
         // Calculate text dimensions
         FontMetrics metrics = graphics.getFontMetrics();
-        int textWidth = metrics.stringWidth(text);
+        int textWidth = metrics.stringWidth(this.text);
         int textHeight = metrics.getHeight();
 
         return new Rectangle(
@@ -127,6 +120,12 @@ public class TextItem extends SlideComponent
     }
 
     @Override
+    public String getContent()
+    {
+        return this.text;
+    }
+
+    @Override
     public void addChild(SlideComponent child)
     {
         // Leaf items cannot have children
@@ -143,6 +142,6 @@ public class TextItem extends SlideComponent
     @Override
     public String toString()
     {
-        return "TextItem[" + getLevel() + "," + text + "]";
+        return "TextItem[" + getLevel() + "," + this.text + "]";
     }
 }

@@ -1,10 +1,6 @@
 package com.nhlstenden.jabberpoint;
 
-import com.nhlstenden.jabberpoint.slide.Slide;
-import com.nhlstenden.jabberpoint.slide.SlideComponent;
-import com.nhlstenden.jabberpoint.slide.SlideItemFactory;
-import com.nhlstenden.jabberpoint.slide.SlideItemFactory.SlideItemType;
-import com.nhlstenden.jabberpoint.slide.SlideViewerComponent;
+import com.nhlstenden.jabberpoint.slide.*;
 import com.nhlstenden.jabberpoint.style.LevelStyle;
 
 import java.util.ArrayList;
@@ -20,16 +16,16 @@ public class Presentation
 
     public Presentation()
     {
-        showTitle = "";
-        slideViewComponent = null;
-        factory = SlideItemFactory.getInstance();
+        this.showTitle = "";
+        this.slideViewComponent = null;
+        this.factory = SlideItemFactory.getInstance();
         clear();
     }
 
     public Presentation(SlideViewerComponent slideViewerComponent)
     {
         this.slideViewComponent = slideViewerComponent;
-        factory = SlideItemFactory.getInstance();
+        this.factory = SlideItemFactory.getInstance();
         clear();
     }
 
@@ -85,28 +81,24 @@ public class Presentation
 
     public void addSlideComponent(int slideIndex, SlideComponent component)
     {
-        if (slideIndex < 0 || slideIndex >= showList.size())
+        if (slideIndex < 0 || slideIndex >= this.showList.size())
         {
             throw new IllegalArgumentException("Invalid slide index");
         }
-        showList.get(slideIndex).addSlideItem(component);
+
+        this.showList.get(slideIndex).addSlideItem(component);
     }
 
+    // Delegating slide item creation to the factory
     public void addSlideItem(int slideIndex, SlideItemType type, int level, String content)
     {
-        SlideComponent component = factory.createSlideItem(type, level, content);
-        addSlideComponent(slideIndex, component);
-    }
-
-    public void addSlideItem(int slideIndex, SlideItemType type, LevelStyle style)
-    {
-        SlideComponent component = factory.createSlideItem(type, style);
-        addSlideComponent(slideIndex, component);
+        SlideComponent component = this.factory.createSlideItem(type, level, content);
+        this.addSlideComponent(slideIndex, component);
     }
 
     public void append(Slide slide)
     {
-        showList.add(slide);
+        this.showList.add(slide);
     }
 
     public Slide getSlide(int number)
@@ -115,22 +107,23 @@ public class Presentation
         {
             return null;
         }
-        return showList.get(number);
+
+        return this.showList.get(number);
     }
 
     public Slide getCurrentSlide()
     {
-        return getSlide(currentSlideNumber);
+        return this.getSlide(this.currentSlideNumber);
     }
 
     public int getSize()
     {
-        return showList.size();
+        return this.showList.size();
     }
 
     public void clear()
     {
-        showList = new ArrayList<>();
+        this.showList = new ArrayList<>();
         setSlideNumber(-1);
     }
 
@@ -138,20 +131,20 @@ public class Presentation
     {
         if (number < 0)
         {
-            currentSlideNumber = 0; // Ensure it doesn't go below 0
+            this.currentSlideNumber = 0; // Ensure it doesn't go below 0
         }
         else if (number >= getSize())
         {
-            currentSlideNumber = getSize() - 1; // Prevent exceeding available slides
+            this.currentSlideNumber = getSize() - 1; // Prevent exceeding available slides
         }
         else
         {
-            currentSlideNumber = number;
+            this.currentSlideNumber = number;
         }
 
-        if (slideViewComponent != null)
+        if (this.slideViewComponent != null)
         {
-            slideViewComponent.update(this, getCurrentSlide());
+            this.slideViewComponent.update(this, getCurrentSlide());
         }
     }
 
@@ -159,18 +152,24 @@ public class Presentation
     //Navigate to the previous slide unless we are at the first slide
     public void prevSlide()
     {
-        if (currentSlideNumber > 0)
+        if (this.currentSlideNumber > 0)
         {
-            setSlideNumber(currentSlideNumber - 1);
+            setSlideNumber(this.currentSlideNumber - 1);
         }
     }
 
     //Navigate to the next slide unless we are at the last slide
     public void nextSlide()
     {
-        if (currentSlideNumber < (showList.size() - 1))
+        if (this.currentSlideNumber < (this.showList.size() - 1))
         {
-            setSlideNumber(currentSlideNumber + 1);
+            setSlideNumber(this.currentSlideNumber + 1);
         }
+    }
+
+    public void refreshView()
+    {
+        // This should trigger a UI update in your presentation component
+        setSlideNumber(this.currentSlideNumber); // Forces redraw
     }
 }

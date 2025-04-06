@@ -46,7 +46,7 @@ class SavePresentationCommand implements MenuCommand
     {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
-        int result = fileChooser.showSaveDialog(frame);
+        int result = fileChooser.showSaveDialog(this.frame);
 
         if (result == JFileChooser.APPROVE_OPTION)
         {
@@ -58,10 +58,10 @@ class SavePresentationCommand implements MenuCommand
                 {
                     filename += ".xml";
                 }
-                new FileHandler().saveFile(presentation, filename);
+                new FileHandler().saveFile(this.presentation, filename);
             } catch (Exception e)
             {
-                JOptionPane.showMessageDialog(frame, IOEX + e.getMessage(), SAVEERR, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this.frame, IOEX + e.getMessage(), SAVEERR, JOptionPane.ERROR_MESSAGE);
             }
         }
     }

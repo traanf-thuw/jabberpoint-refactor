@@ -4,7 +4,7 @@ import com.nhlstenden.jabberpoint.Presentation;
 
 class NextSlideCommand implements MenuCommand
 {
-    private Presentation presentation;
+    private final Presentation presentation;
 
     public NextSlideCommand(Presentation presentation)
     {
@@ -14,6 +14,6 @@ class NextSlideCommand implements MenuCommand
     @Override
     public void execute()
     {
-        presentation.nextSlide();
+        this.presentation.nextSlide();
     }
 }

@@ -1,8 +1,10 @@
 package com.nhlstenden.jabberpoint.menu;
 
-class ExitApplicationCommand implements MenuCommand {
+class ExitApplicationCommand implements MenuCommand
+{
     @Override
-    public void execute() {
+    public void execute()
+    {
         System.exit(0);
     }
 }

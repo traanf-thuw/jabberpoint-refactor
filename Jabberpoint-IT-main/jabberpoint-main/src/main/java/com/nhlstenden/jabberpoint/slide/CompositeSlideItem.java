@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CompositeSlideItem extends SlideComponent
 {
-    private List<SlideComponent> children = new ArrayList<>();
+    private final List<SlideComponent> children = new ArrayList<>();
 
     public CompositeSlideItem(int level)
     {
@@ -21,7 +21,7 @@ public class CompositeSlideItem extends SlideComponent
     public void draw(Graphics graphics, Rectangle area, ImageObserver observer)
     {
         // Divide area among children and draw each
-        int childCount = children.size();
+        int childCount = this.children.size();
         if (childCount == 0) return;
 
         int areaWidth = area.width / childCount;
@@ -34,7 +34,7 @@ public class CompositeSlideItem extends SlideComponent
                     areaWidth,
                     area.height
             );
-            children.get(i).draw(graphics, childArea, observer);
+            this.children.get(i).draw(graphics, childArea, observer);
         }
     }
 
@@ -43,7 +43,7 @@ public class CompositeSlideItem extends SlideComponent
     {
         // Combine bounding boxes of all children
         Rectangle combinedBox = null;
-        for (SlideComponent child : children)
+        for (SlideComponent child : this.children)
         {
             Rectangle childBox = child.getBoundingBox(graphics, observer, scale);
             if (combinedBox == null)
@@ -61,24 +61,30 @@ public class CompositeSlideItem extends SlideComponent
     @Override
     public List<SlideComponent> getChildren()
     {
-        return new ArrayList<>(children);
+        return new ArrayList<>(this.children);
     }
 
     @Override
     public boolean hasChildren()
     {
-        return !children.isEmpty();
+        return !this.children.isEmpty();
+    }
+
+    @Override
+    public String getContent()
+    {
+        return null;
     }
 
     @Override
     public void addChild(SlideComponent child)
     {
-        children.add(child);
+        this.children.add(child);
     }
 
     @Override
     public void removeChild(SlideComponent child)
     {
-        children.remove(child);
+        this.children.remove(child);
     }
 }

@@ -7,8 +7,8 @@ import javax.swing.*;
 
 public class GotoSlideCommand implements MenuCommand
 {
-    private Presentation presentation;
-    private SlideViewerFrame frame;
+    private final Presentation presentation;
+    private final SlideViewerFrame frame;
     private static final String PAGENR = "Page number?";
 
     public GotoSlideCommand(Presentation presentation, SlideViewerFrame frame)
@@ -21,24 +21,24 @@ public class GotoSlideCommand implements MenuCommand
     public void execute()
     {
         // Ask for slide number input
-        String slideNumberStr = JOptionPane.showInputDialog(frame, PAGENR);
+        String slideNumberStr = JOptionPane.showInputDialog(this.frame, PAGENR);
         if (slideNumberStr != null)
         {
             try
             {
                 int slideNumber = Integer.parseInt(slideNumberStr.trim()) - 1;
-                if (slideNumber >= 0 && slideNumber < presentation.getShowList().size())
+                if (slideNumber >= 0 && slideNumber < this.presentation.getShowList().size())
                 {
-                    presentation.setSlideNumber(slideNumber);
-                    frame.repaint();  // Refresh the viewer
+                    this.presentation.setSlideNumber(slideNumber);
+                    this.frame.repaint();  // Refresh the viewer
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(frame, "Slide number out of range.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this.frame, "Slide number out of range.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException e)
             {
-                JOptionPane.showMessageDialog(frame, "Invalid input. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this.frame, "Invalid input. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

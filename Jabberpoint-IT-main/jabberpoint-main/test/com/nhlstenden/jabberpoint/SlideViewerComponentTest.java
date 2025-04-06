@@ -2,16 +2,20 @@ package com.nhlstenden.jabberpoint;
 
 import com.nhlstenden.jabberpoint.slide.Slide;
 import com.nhlstenden.jabberpoint.slide.SlideViewerComponent;
+import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeEach;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class SlideViewerComponentTest {
+class SlideViewerComponentTest
+{
     private SlideViewerComponent viewer;
     private Presentation mockPresentation;
     private Slide mockSlide;
@@ -19,17 +23,19 @@ class SlideViewerComponentTest {
     private Graphics2D mockGraphics;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         mockPresentation = mock(Presentation.class);
-        mockFrame = mock(JFrame.class);
+        mockFrame = new SlideViewerFrame("New", mockPresentation);
         mockSlide = mock(Slide.class);
         mockGraphics = mock(Graphics2D.class);
 
-        viewer = new SlideViewerComponent(mockPresentation, mockFrame);
+        viewer = new SlideViewerComponent(mockPresentation, (SlideViewerFrame) mockFrame);
     }
 
     @Test
-    void getPreferredSize_returnsCorrectDimensions() {
+    void getPreferredSize_returnsCorrectDimensions()
+    {
         // Act
         Dimension size = viewer.getPreferredSize();
 
@@ -39,7 +45,8 @@ class SlideViewerComponentTest {
     }
 
     @Test
-    void update_withNullSlide_repaintsWithoutError() {
+    void update_withNullSlide_repaintsWithoutError()
+    {
         // Arrange
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(-1);
 
@@ -48,7 +55,8 @@ class SlideViewerComponentTest {
     }
 
     @Test
-    void update_withValidSlide_updatesTitleAndRepaints() {
+    void update_withValidSlide_updatesTitleAndRepaints()
+    {
         // Arrange
         when(mockPresentation.getShowTitle()).thenReturn("Test Presentation");
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(0);
@@ -58,11 +66,12 @@ class SlideViewerComponentTest {
         viewer.update(mockPresentation, mockSlide);
 
         // Assert
-        verify(mockFrame).setTitle("Test Presentation");
+        assertEquals("Test Presentation", mockFrame.getTitle());
     }
 
     @Test
-    void paintComponent_withNullSlide_doesNotThrowException() {
+    void paintComponent_withNullSlide_doesNotThrowException()
+    {
         // Arrange
         viewer.update(mockPresentation, null);
         BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);

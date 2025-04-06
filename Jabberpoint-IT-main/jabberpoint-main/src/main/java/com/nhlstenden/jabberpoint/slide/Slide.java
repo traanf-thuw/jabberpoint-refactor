@@ -24,7 +24,7 @@ public class Slide
 
     public Slide(Style style)
     {
-        items = new ArrayList<>();
+        this.items = new ArrayList<>();
         this.style = style;
     }
 
@@ -36,9 +36,9 @@ public class Slide
     public void addSlideItem(SlideComponent item)
     {
         // Set the style for the item based on its level
-        LevelStyle levelStyle = style.getStyle(item.getLevel());
+        LevelStyle levelStyle = this.style.getStyle(item.getLevel());
         item.setStyle(levelStyle);
-        items.add(item);
+        this.items.add(item);
     }
 
     /**
@@ -50,7 +50,7 @@ public class Slide
     public void addText(int level, String message)
     {
         TextItem textItem = new TextItem(level, message);
-        addSlideItem(textItem);
+        this.addSlideItem(textItem);
     }
 
     /**
@@ -62,32 +62,32 @@ public class Slide
     public void addImage(int level, String imagePath)
     {
         BitmapItem bitmapItem = new BitmapItem(level, imagePath);
-        addSlideItem(bitmapItem);
+        this.addSlideItem(bitmapItem);
     }
 
     public String getTitle()
     {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String newTitle)
     {
-        title = newTitle;
+        this.title = newTitle;
     }
 
     public SlideComponent getSlideItem(int number)
     {
-        return items.get(number);
+        return this.items.get(number);
     }
 
     public List<SlideComponent> getSlideItems()
     {
-        return new ArrayList<>(items);
+        return new ArrayList<>(this.items);
     }
 
     public int getSize()
     {
-        return items.size();
+        return this.items.size();
     }
 
     /**
@@ -103,10 +103,10 @@ public class Slide
         int currentY = area.y;
 
         // Draw title
-        if (title != null && !title.isEmpty())
+        if (this.title != null && !this.title.isEmpty())
         {
-            TextItem titleItem = new TextItem(0, title);
-            LevelStyle titleStyle = style.getStyle(0);
+            TextItem titleItem = new TextItem(0, this.title);
+            LevelStyle titleStyle = this.style.getStyle(0);
             titleItem.setStyle(titleStyle);
 
             Rectangle titleArea = new Rectangle(
@@ -122,10 +122,10 @@ public class Slide
         }
 
         // Draw slide items with vertical spacing and level-based sizing
-        for (SlideComponent item : items)
+        for (SlideComponent item : this.items)
         {
             // Get style for this item's level
-            LevelStyle itemStyle = style.getStyle(item.getLevel());
+            LevelStyle itemStyle = this.style.getStyle(item.getLevel());
 
             // Calculate font size based on level (smaller for deeper levels)
             int fontSize = (int) (itemStyle.getFontSize() * scale * (1.5 - (item.getLevel() * 0.2)));
@@ -178,7 +178,7 @@ public class Slide
     public CompositeSlideItem createComposite()
     {
         CompositeSlideItem composite = new CompositeSlideItem(1);
-        for (SlideComponent item : items)
+        for (SlideComponent item : this.items)
         {
             composite.addChild(item);
         }

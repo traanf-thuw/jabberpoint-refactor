@@ -8,20 +8,18 @@ import com.nhlstenden.jabberpoint.style.Style;
 
 import java.io.File;
 
-/** <p>The loader for the Demo presentation.<p>
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman, Rick Vinke
- * @version 1.1 2002/12/17 Gert Florijn
- * @version 1.2 2003/11/19 Sylvia Stuurman
- * @version 1.3 2004/08/17 Sylvia Stuurman
- * @version 1.4 2007/07/16 Sylvia Stuurman
- * @version 1.5 2010/03/03 Sylvia Stuurman
- * @version 1.6 2014/05/16 Sylvia Stuurman
- * @version 1.7 2025/04/02 Thu Tran
+/**
+ * <p>The loader for the Demo presentation.<p>
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class DemoLoader implements LoadStrategy {
+public class DemoLoader implements LoadStrategy
+{
 
     @Override
-    public void loadPresentation(Presentation presentation, File file) {
+    public void loadPresentation(Presentation presentation, File file)
+    {
         presentation.setShowTitle("Demo Presentation");
         Style style = new DefaultStyle();
         Slide slide;

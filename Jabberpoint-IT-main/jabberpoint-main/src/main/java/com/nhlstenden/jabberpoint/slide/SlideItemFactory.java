@@ -19,6 +19,7 @@ public class SlideItemFactory
         {
             instance = new SlideItemFactory();
         }
+
         return instance;
     }
 
@@ -40,15 +41,6 @@ public class SlideItemFactory
     }
 
     /**
-     * Enum to represent different types of SlideItems
-     */
-    public enum SlideItemType
-    {
-        TEXT,
-        BITMAP
-    }
-
-    /**
      * Additional factory method for creating items with default styling
      */
     public SlideComponent createSlideItem(SlideItemType type, LevelStyle style)
@@ -56,7 +48,7 @@ public class SlideItemFactory
         return switch (type)
         {
             case TEXT -> new TextItem(style);
-            case BITMAP -> new BitmapItem(style);
+            case BITMAP -> new BitmapItem();
         };
     }
 }

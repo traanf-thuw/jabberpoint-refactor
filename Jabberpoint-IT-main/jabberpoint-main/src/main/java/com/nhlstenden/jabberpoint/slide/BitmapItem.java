@@ -1,6 +1,5 @@
 package com.nhlstenden.jabberpoint.slide;
 
-import com.nhlstenden.jabberpoint.slide.SlideComponent;
 import com.nhlstenden.jabberpoint.style.LevelStyle;
 
 import java.awt.Rectangle;
@@ -33,18 +32,18 @@ public class BitmapItem extends SlideComponent
     public BitmapItem(int level, String name)
     {
         super(level);
-        imageName = name;
+        this.imageName = name;
         try
         {
-            bufferedImage = (name != null) ? ImageIO.read(new File(name)) : null;
+            this.bufferedImage = (name != null) ? ImageIO.read(new File(name)) : null;
         } catch (IOException e)
         {
-            System.err.println(FILE + imageName + NOTFOUND);
+            System.err.println(FILE + this.imageName + NOTFOUND);
         }
     }
 
     // Constructor for creating an empty bitmap item
-    public BitmapItem(LevelStyle levelStyle)
+    public BitmapItem()
     {
         this(0, null);
     }
@@ -52,13 +51,13 @@ public class BitmapItem extends SlideComponent
     // Returns the filename of the image
     public String getName()
     {
-        return imageName;
+        return this.imageName;
     }
 
     @Override
     public Rectangle getBoundingBox(Graphics graphics, ImageObserver observer, float scale)
     {
-        if (bufferedImage == null)
+        if (this.bufferedImage == null)
         {
             return new Rectangle(0, 0, 0, 0);
         }
@@ -67,16 +66,16 @@ public class BitmapItem extends SlideComponent
         return new Rectangle(
                 (int) (myStyle.getIndent() * scale),
                 0,
-                (int) (bufferedImage.getWidth(observer) * scale),
+                (int) (this.bufferedImage.getWidth(observer) * scale),
                 ((int) (myStyle.getLeading() * scale)) +
-                        (int) (bufferedImage.getHeight(observer) * scale)
+                        (int) (this.bufferedImage.getHeight(observer) * scale)
         );
     }
 
     @Override
     public void draw(Graphics graphics, Rectangle area, ImageObserver observer)
     {
-        if (bufferedImage == null)
+        if (this.bufferedImage == null)
         {
             return;
         }
@@ -86,11 +85,11 @@ public class BitmapItem extends SlideComponent
         int height = area.y + (int) (myStyle.getLeading() * area.getHeight() / area.getHeight());
 
         graphics.drawImage(
-                bufferedImage,
+                this.bufferedImage,
                 width,
                 height,
-                (int) (bufferedImage.getWidth(observer) * area.getWidth() / area.getWidth()),
-                (int) (bufferedImage.getHeight(observer) * area.getHeight() / area.getHeight()),
+                (int) (this.bufferedImage.getWidth(observer) * area.getWidth() / area.getWidth()),
+                (int) (this.bufferedImage.getHeight(observer) * area.getHeight() / area.getHeight()),
                 observer
         );
     }
@@ -106,6 +105,12 @@ public class BitmapItem extends SlideComponent
     public boolean hasChildren()
     {
         return false;
+    }
+
+    @Override
+    public String getContent()
+    {
+        return this.imageName;
     }
 
     @Override
@@ -125,6 +130,6 @@ public class BitmapItem extends SlideComponent
     @Override
     public String toString()
     {
-        return "BitmapItem[" + getLevel() + "," + imageName + "]";
+        return "BitmapItem[" + getLevel() + "," + this.imageName + "]";
     }
 }
