@@ -6,6 +6,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
 import java.util.List;
 
+/**
+ * Create a button on the slide
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
+ */
 public class ButtonItem extends SlideComponent
 {
     private final String label;

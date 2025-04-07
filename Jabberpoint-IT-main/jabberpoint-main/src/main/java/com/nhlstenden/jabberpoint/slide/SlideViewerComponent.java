@@ -13,20 +13,17 @@ import javax.swing.JFrame;
 /**
  * <p>SlideViewerComponent is a graphical component that ca display Slides.</p>
  *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman, Rick Vinke
- * @version 1.7 2023/01/14 Rick Vinke
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
 public class SlideViewerComponent extends JComponent
 {
-
     private Slide slide; //The current slide
     private final Font labelFont; //The font for labels
     private Presentation presentation; //The presentation
     private final SlideViewerFrame frame;
-
     @Serial
     private static final long serialVersionUID = 227L;
-
     private static final Color BGCOLOR = Color.white;
     private static final Color COLOR = Color.black;
     private static final String FONTNAME = "Dialog";

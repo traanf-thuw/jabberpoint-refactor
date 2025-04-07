@@ -6,6 +6,12 @@ import com.nhlstenden.jabberpoint.style.DefaultStyle;
 
 import java.io.File;
 
+/**
+ * <p>Create new presentation<p>
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
+ */
 class NewPresentationCommand implements MenuCommand
 {
     private final Presentation presentation;

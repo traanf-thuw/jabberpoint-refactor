@@ -7,6 +7,12 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * Dialog to browse and add image to the slide
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
+ */
 public class ImageInputDialog extends JDialog
 {
     File selectedFile;

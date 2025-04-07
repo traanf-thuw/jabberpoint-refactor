@@ -6,6 +6,12 @@ import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Composite element in the Composite pattern
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
+ */
 public class CompositeSlideItem extends SlideComponent
 {
     private final List<SlideComponent> children;

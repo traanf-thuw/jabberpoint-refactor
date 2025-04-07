@@ -16,8 +16,8 @@ import java.util.List;
 /**
  * Bitmap item that can be used as a leaf in the Composite pattern
  *
- * @author Thu Tran - Bocheng
- * @version 1.8 2025/03/26
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
 public class BitmapItem extends SlideComponent
 {

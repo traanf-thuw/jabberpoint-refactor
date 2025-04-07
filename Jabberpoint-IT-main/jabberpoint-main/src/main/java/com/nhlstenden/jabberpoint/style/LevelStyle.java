@@ -1,21 +1,14 @@
 package com.nhlstenden.jabberpoint.style;
 
-/**
- * <p>Contains data for the Style of a item-level.</p>
- *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman, Rick Vinke
- * @version 1.1 2002/12/17 Gert Florijn
- * @version 1.2 2003/11/19 Sylvia Stuurman
- * @version 1.3 2004/08/17 Sylvia Stuurman
- * @version 1.4 2007/07/16 Sylvia Stuurman
- * @version 1.5 2010/03/03 Sylvia Stuurman
- * @version 1.6 2014/05/16 Sylvia Stuurman
- * @version 1.7 2025/04/06 Thu Tran - Bocheng Peng
- */
-
 import java.awt.Color;
 import java.awt.Font;
 
+/**
+ * Contains data for the Style of a item-level
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
+ */
 public class LevelStyle
 {
     private final String fontName;

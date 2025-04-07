@@ -12,7 +12,7 @@ import java.io.Serial;
 import javax.swing.JFrame;
 
 /**
- * <p>The applicatiewindow for a slideviewcomponent</p>
+ * <p>The application window for a SlideViewerComponent</p>
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng

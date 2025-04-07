@@ -7,8 +7,8 @@ import java.util.Map;
 /**
  * <p>Contains data for the Styles.</p>
  *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman, Rick Vinke
- * @version 1.7 2023/01/14 Rick Vinke
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
 public class Style
 {

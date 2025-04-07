@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * <p>Contains the default style of the older versions.</p>
  *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman, Rick Vinke
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
 public class DefaultStyle extends Style

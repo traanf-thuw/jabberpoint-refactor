@@ -1,7 +1,11 @@
 package com.nhlstenden.jabberpoint.slide;
 
-import com.nhlstenden.jabberpoint.style.LevelStyle;
-
+/**
+ * Factory to create TextItem and BitmapItem
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
+ */
 public class SlideItemFactory
 {
     // Singleton instance of the factory

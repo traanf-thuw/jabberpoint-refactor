@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * Text item that can be used as a leaf in the Composite pattern
  *
- * @author [Thu Tran - Bocheng Peng]
- * @version 1.8 2025/03/26
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
 public class TextItem extends SlideComponent
 {
@@ -26,12 +26,6 @@ public class TextItem extends SlideComponent
     {
         super(level);
         this.text = text != null ? text : EMPTYTEXT;
-    }
-
-    // Constructor with style (for compatibility)
-    public TextItem(LevelStyle levelStyle)
-    {
-        this(0, EMPTYTEXT);
     }
 
     // Getter for text
