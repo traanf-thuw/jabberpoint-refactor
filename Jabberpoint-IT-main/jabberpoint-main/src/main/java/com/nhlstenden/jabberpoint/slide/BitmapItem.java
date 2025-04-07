@@ -79,8 +79,8 @@ public class BitmapItem extends SlideComponent
 
         // Calculate scaling while preserving aspect ratio
         double scaleFactor = Math.min(
-                area.getWidth() / this.bufferedImage.getWidth() * 20,
-                area.getHeight() / this.bufferedImage.getHeight() * 20
+                area.getWidth() / this.bufferedImage.getWidth() * 2,
+                area.getHeight() / this.bufferedImage.getHeight() * 2
         );
 
         // Calculate scaled dimensions
