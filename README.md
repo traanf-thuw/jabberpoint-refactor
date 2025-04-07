@@ -8,3 +8,4 @@ The detailed description of how design patterns are implemented in the refactore
 # Maven Project
 When you download the source code, please open in InteliJ and click the button "Load" to load the Maven project.
 ![maven load](image.png)
+Please also right-click on the test folder and mark it as a test source root to test the application.
