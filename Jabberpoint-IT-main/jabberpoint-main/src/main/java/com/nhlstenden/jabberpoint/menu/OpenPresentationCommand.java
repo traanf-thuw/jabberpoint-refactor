@@ -14,56 +14,27 @@ import java.io.File;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-class OpenPresentationCommand implements MenuCommand
-{
+public class OpenPresentationCommand implements MenuCommand {
     private static final String IOEX = "IO Exception: ";
     private static final String LOADERR = "Load Error";
-    private final Presentation presentation;
-    private final SlideViewerFrame frame;
-
-    public OpenPresentationCommand(Presentation presentation, SlideViewerFrame frame)
-    {
-        this.presentation = presentation;
-        this.frame = frame;
-    }
 
     @Override
-    public void execute()
-    {
+    public void execute(CommandContext context) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
-        int result = fileChooser.showOpenDialog(this.frame);
+        int result = fileChooser.showOpenDialog(context.getFrame());
 
-        if (result == JFileChooser.APPROVE_OPTION)
-        {
+        if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-
-            try
-            {
-                FileHandler fileHandler = new FileHandler();  // Use FileHandler like the original
-                this.presentation.clear();  // Clear existing slides before loading
-                fileHandler.loadFile(this.presentation, file.getAbsolutePath());  // Use FileHandler to find the right loader
-
-                this.presentation.setSlideNumber(0);  // Ensure first slide is displayed
-                this.frame.setTitle(this.presentation.getShowTitle());
-                this.frame.repaint();  // Refresh UI
-            } catch (Exception e)
-            {
-                JOptionPane.showMessageDialog(this.frame, IOEX + e.getMessage(), LOADERR, JOptionPane.ERROR_MESSAGE);
+            try {
+                context.getPresentation().clear();
+                context.getFileHandler().loadFile(context.getPresentation(), file.getAbsolutePath());
+                context.getPresentation().setSlideNumber(0);
+                context.getFrame().setTitle(context.getPresentation().getShowTitle());
+                context.getFrame().repaint();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(context.getFrame(), IOEX + e.getMessage(), LOADERR, JOptionPane.ERROR_MESSAGE);
             }
         }
-    }
-
-    public JFileChooser createFileChooser() {
-        return new JFileChooser();
-    }
-
-    public FileHandler createFileHandler() {
-        return new FileHandler();
-    }
-
-    public void showErrorDialog(Exception e) {
-        JOptionPane.showMessageDialog(this.frame, IOEX + e.getMessage(),
-                LOADERR, JOptionPane.ERROR_MESSAGE);
     }
 }

@@ -14,61 +14,28 @@ import java.io.File;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-class SavePresentationCommand implements MenuCommand
-{
-    private static final String IOEX = "IO Exception: ";
-    private static final String SAVEERR = "Save Error";
-    private Presentation presentation;
-    private SlideViewerFrame frame;
-
-    public SavePresentationCommand(Presentation presentation, SlideViewerFrame frame)
-    {
-        this.presentation = presentation;
-        this.frame = frame;
-    }
-
-    public Presentation getPresentation()
-    {
-        return this.presentation;
-    }
-
-    public void setPresentation(Presentation presentation)
-    {
-        this.presentation = presentation;
-    }
-
-    public SlideViewerFrame getFrame()
-    {
-        return this.frame;
-    }
-
-    public void setFrame(SlideViewerFrame frame)
-    {
-        this.frame = frame;
-    }
-
+public class SavePresentationCommand implements MenuCommand {
     @Override
-    public void execute()
-    {
+    public void execute(CommandContext context) {
+        SlideViewerFrame frame = context.getFrame();
+        Presentation presentation = context.getPresentation();
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
-        int result = fileChooser.showSaveDialog(this.frame);
+        int result = fileChooser.showSaveDialog(frame);
 
-        if (result == JFileChooser.APPROVE_OPTION)
-        {
+        if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             String filename = file.getAbsolutePath();
-            try
-            {
-                if (fileChooser.getFileFilter().getDescription().equalsIgnoreCase("xml files"))
-                {
+            try {
+                if (!filename.toLowerCase().endsWith(".xml")) {
                     filename += ".xml";
                 }
-                new FileHandler().saveFile(this.presentation, filename);
-            } catch (Exception e)
-            {
-                JOptionPane.showMessageDialog(this.frame, IOEX + e.getMessage(), SAVEERR, JOptionPane.ERROR_MESSAGE);
+                new FileHandler().saveFile(presentation, filename);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(frame, "IO Exception: " + e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 }
+
