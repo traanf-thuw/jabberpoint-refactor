@@ -30,3 +30,4 @@ jobs:
 
       - name: Build with Maven (debug mode)
         run: mvn clean test -X
+        working-directory: jabberpoint-main
