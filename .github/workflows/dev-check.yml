@@ -30,10 +30,3 @@ jobs:
 
       - name: Build with Maven (debug mode)
         run: mvn clean test -X
-
-      - name: Upload test results if failed
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-results
-          path: target/surefire-reports/
