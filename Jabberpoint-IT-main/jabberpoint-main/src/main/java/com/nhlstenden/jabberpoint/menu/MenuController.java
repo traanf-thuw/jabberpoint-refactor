@@ -1,13 +1,8 @@
 package com.nhlstenden.jabberpoint.menu;
 
-import com.nhlstenden.jabberpoint.*;
-import com.nhlstenden.jabberpoint.files.FileHandler;
-import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Serial;
 
 /**
  * <p>Invoker of command pattern, creates different buttons command<p>

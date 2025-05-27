@@ -16,7 +16,6 @@ import java.io.File;
  */
 public class DemoLoader implements LoadStrategy
 {
-
     @Override
     public void loadPresentation(Presentation presentation, File file)
     {
