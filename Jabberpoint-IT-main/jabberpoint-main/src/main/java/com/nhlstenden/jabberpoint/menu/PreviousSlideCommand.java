@@ -11,7 +11,8 @@ import com.nhlstenden.jabberpoint.Presentation;
 public class PreviousSlideCommand implements MenuCommand
 {
     @Override
-    public void execute(CommandContext context) {
+    public void execute(CommandContext context)
+    {
         context.getPresentation().nextSlide();
     }
 }

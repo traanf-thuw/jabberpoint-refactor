@@ -14,9 +14,11 @@ import java.io.File;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class SavePresentationCommand implements MenuCommand {
+public class SavePresentationCommand implements MenuCommand
+{
     @Override
-    public void execute(CommandContext context) {
+    public void execute(CommandContext context)
+    {
         SlideViewerFrame frame = context.getFrame();
         Presentation presentation = context.getPresentation();
 
@@ -24,15 +26,19 @@ public class SavePresentationCommand implements MenuCommand {
         fileChooser.setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
         int result = fileChooser.showSaveDialog(frame);
 
-        if (result == JFileChooser.APPROVE_OPTION) {
+        if (result == JFileChooser.APPROVE_OPTION)
+        {
             File file = fileChooser.getSelectedFile();
             String filename = file.getAbsolutePath();
-            try {
-                if (!filename.toLowerCase().endsWith(".xml")) {
+            try
+            {
+                if (!filename.toLowerCase().endsWith(".xml"))
+                {
                     filename += ".xml";
                 }
                 new FileHandler().saveFile(presentation, filename);
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 JOptionPane.showMessageDialog(frame, "IO Exception: " + e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);
             }
         }
