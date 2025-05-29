@@ -15,5 +15,5 @@ import java.io.IOException;
  */
 public interface LoadContentStrategy<T extends Content>
 {
-    void loadContent(T content, File file) throws IOException, ParserConfigurationException, SAXException;
+    void loadContent(T content, File file) throws Exception;
 }

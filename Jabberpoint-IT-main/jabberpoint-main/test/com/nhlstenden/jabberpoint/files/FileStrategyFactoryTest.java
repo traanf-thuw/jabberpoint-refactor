@@ -2,7 +2,7 @@ package com.nhlstenden.jabberpoint.files;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.nhlstenden.jabberpoint.files.loading.XMLLoadPresentationStrategy;
+import com.nhlstenden.jabberpoint.files.loading.XMLLoadStrategy;
 import com.nhlstenden.jabberpoint.files.saving.XMLSavePresentationStrategy;
 import org.junit.jupiter.api.Test;
 import com.nhlstenden.jabberpoint.files.loading.LoadContentStrategy;
@@ -15,7 +15,7 @@ class FileStrategyFactoryTest
     void createLoader_ValidXmlExtension_ReturnsXmlLoader()
     {
         LoadContentStrategy strategy = FileStrategyFactory.createLoader("xml");
-        assertInstanceOf(XMLLoadPresentationStrategy.class, strategy);
+        assertInstanceOf(XMLLoadStrategy.class, strategy);
     }
 
     @Test

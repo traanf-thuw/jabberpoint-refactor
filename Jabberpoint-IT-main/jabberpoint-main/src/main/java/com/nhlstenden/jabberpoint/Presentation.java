@@ -34,11 +34,13 @@ public class Presentation implements Content
         clear();
     }
 
+    @Override
     public String getTitle()
     {
         return this.title;
     }
 
+    @Override
     public void setTitle(String title)
     {
         this.title = title;
@@ -126,10 +128,17 @@ public class Presentation implements Content
         return this.showList.size();
     }
 
+    @Override
     public void clear()
     {
         this.showList = new ArrayList<>();
         setSlideNumber(-1);
+    }
+
+    @Override
+    public void accept(ContentVisitor visitor)
+    {
+        visitor.visitPresentation(this);
     }
 
     public void setSlideNumber(int number)

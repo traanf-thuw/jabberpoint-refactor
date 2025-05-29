@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XMLLoadStrategyTest
 {
-    private XMLLoadPresentationStrategy loader;
+    private XMLLoadStrategy loader;
     private Presentation presentation;
     @TempDir
     Path tempDir;
@@ -26,7 +26,7 @@ class XMLLoadStrategyTest
     @BeforeEach
     void setUp()
     {
-        loader = new XMLLoadPresentationStrategy();
+        loader = new XMLLoadStrategy();
         presentation = new Presentation();
     }
 
