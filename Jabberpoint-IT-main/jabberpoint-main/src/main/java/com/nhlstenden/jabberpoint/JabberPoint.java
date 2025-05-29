@@ -28,7 +28,7 @@ public class JabberPoint
         new SlideViewerFrame(JAB_NAME + " " + JAB_VERSION, presentation);
         if (argv.length == 0)
         { //a demo presentation
-            new DemoLoader().loadPresentation(presentation, null);
+            new DemoLoader().loadContent(presentation, null);
         }
         else
         {

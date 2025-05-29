@@ -7,9 +7,7 @@ import com.nhlstenden.jabberpoint.Presentation;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InOrder;
-import org.mockito.Mockito;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -32,7 +30,7 @@ class DemoLoaderTest
     void loadPresentation_withNullPresentation_shouldThrowNullPointerException()
     {
         assertThrows(NullPointerException.class,
-                () -> demoLoader.loadPresentation(null, new File("dummy")),
+                () -> demoLoader.loadContent(null, new File("dummy")),
                 "Should throw NPE for null presentation");
     }
 
@@ -40,11 +38,11 @@ class DemoLoaderTest
     void loadPresentation_shouldCreateDemoPresentationWithCorrectStructure()
     {
         // Act
-        demoLoader.loadPresentation(mockPresentation, null);
+        demoLoader.loadContent(mockPresentation, null);
 
         // Verify call order and structure
         InOrder inOrder = inOrder(mockPresentation);
-        inOrder.verify(mockPresentation).setShowTitle("Demo Presentation");
+        inOrder.verify(mockPresentation).setTitle("Demo Presentation");
         inOrder.verify(mockPresentation, times(3)).append(any(Slide.class));
     }
 
@@ -55,10 +53,10 @@ class DemoLoaderTest
         String imagePath = Paths.get("test/resources/JabberPoint.jpg").toString();
         File dummyFile = new File(imagePath);
         // Act
-        demoLoader.loadPresentation(mockPresentation, dummyFile);
+        demoLoader.loadContent(mockPresentation, dummyFile);
 
         // Verify title was set
-        verify(mockPresentation).setShowTitle("Demo Presentation");
+        verify(mockPresentation).setTitle("Demo Presentation");
 
         // Verify slides were added
         verify(mockPresentation, times(3)).append(any(Slide.class));
@@ -71,7 +69,7 @@ class DemoLoaderTest
     void loadPresentation_shouldNotClearExistingSlides_ExpectPass()
     {
         // Act
-        demoLoader.loadPresentation(mockPresentation, null);
+        demoLoader.loadContent(mockPresentation, null);
 
         // Verify
         verify(mockPresentation, never()).clear();
@@ -81,7 +79,7 @@ class DemoLoaderTest
     void loadPresentation_createsCorrectNumberOfSlides_ExpectPass()
     {
         // Act
-        demoLoader.loadPresentation(mockPresentation, null);
+        demoLoader.loadContent(mockPresentation, null);
 
         // Verify exactly 3 slides were added
         verify(mockPresentation, times(3)).append(any(Slide.class));
@@ -91,17 +89,17 @@ class DemoLoaderTest
     void loadPresentation_setsCorrectTitle_ExpectPass()
     {
         // Act
-        demoLoader.loadPresentation(mockPresentation, null);
+        demoLoader.loadContent(mockPresentation, null);
 
         // Verify
-        verify(mockPresentation).setShowTitle("Demo Presentation");
+        verify(mockPresentation).setTitle("Demo Presentation");
     }
 
     @Test
     void loadPresentation_shouldCreateExactlyThreeSlides()
     {
         // Act
-        demoLoader.loadPresentation(mockPresentation, null);
+        demoLoader.loadContent(mockPresentation, null);
 
         // Verify
         verify(mockPresentation, times(3)).append(any(Slide.class));
@@ -111,9 +109,9 @@ class DemoLoaderTest
     void loadPresentation_shouldSetCorrectTitle()
     {
         // Act
-        demoLoader.loadPresentation(mockPresentation, null);
+        demoLoader.loadContent(mockPresentation, null);
 
         // Verify
-        verify(mockPresentation).setShowTitle(eq("Demo Presentation"));
+        verify(mockPresentation).setTitle(eq("Demo Presentation"));
     }
 }

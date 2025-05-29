@@ -1,6 +1,6 @@
 package com.nhlstenden.jabberpoint.files.saving;
 
-import com.nhlstenden.jabberpoint.Presentation;
+import com.nhlstenden.jabberpoint.Content;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public interface SaveStrategy
+public interface SaveContentStrategy<T extends Content>
 {
-    void savePresentation(Presentation presentation, File file) throws IOException;
+    void saveContent(T content, File file) throws IOException;
 }

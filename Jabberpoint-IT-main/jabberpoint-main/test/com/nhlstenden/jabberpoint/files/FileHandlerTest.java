@@ -9,8 +9,8 @@ import java.nio.file.Path;
 import javax.swing.JOptionPane;
 
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.files.loading.LoadStrategy;
-import com.nhlstenden.jabberpoint.files.saving.SaveStrategy;
+import com.nhlstenden.jabberpoint.files.loading.LoadContentStrategy;
+import com.nhlstenden.jabberpoint.files.saving.SaveContentStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,9 +28,9 @@ class FileHandlerTest
     @Mock
     private Presentation mockPresentation;
     @Mock
-    private LoadStrategy mockLoadStrategy;
+    private LoadContentStrategy mockLoadStrategy;
     @Mock
-    private SaveStrategy mockSaveStrategy;
+    private SaveContentStrategy mockSaveStrategy;
     @InjectMocks
     private FileHandler fileHandler;
 
@@ -60,7 +60,7 @@ class FileHandlerTest
             fileHandler.loadFile(mockPresentation, testFile.toString());
 
             // Assert
-            verify(mockLoadStrategy).loadPresentation(mockPresentation, testFile.toFile());
+            verify(mockLoadStrategy).loadContent(mockPresentation, testFile.toFile());
             mockedPane.verifyNoInteractions();
         }
     }
@@ -127,7 +127,7 @@ class FileHandlerTest
             fileHandler.saveFile(mockPresentation, testFile.toString());
 
             // Assert
-            verify(mockSaveStrategy).savePresentation(mockPresentation, testFile.toFile());
+            verify(mockSaveStrategy).saveContent(mockPresentation, testFile.toFile());
         }
     }
 
@@ -147,7 +147,7 @@ class FileHandlerTest
             fileHandler.saveFile(mockPresentation, existingFile.toString());
 
             // Assert
-            verify(mockSaveStrategy).savePresentation(mockPresentation, existingFile.toFile());
+            verify(mockSaveStrategy).saveContent(mockPresentation, existingFile.toFile());
         }
     }
 

@@ -11,9 +11,9 @@ import java.util.List;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class Presentation
+public class Presentation implements Content
 {
-    private String showTitle; // The title of the presentation
+    private String title; // The title of the presentation
     private List<Slide> showList; // List of slides
     private int currentSlideNumber; // The number of the current slide
     private SlideViewerComponent slideViewComponent; // The view component of the slides
@@ -21,7 +21,7 @@ public class Presentation
 
     public Presentation()
     {
-        this.showTitle = "";
+        this.title = "";
         this.slideViewComponent = null;
         this.factory = SlideItemFactory.getInstance();
         clear();
@@ -34,14 +34,14 @@ public class Presentation
         clear();
     }
 
-    public String getShowTitle()
+    public String getTitle()
     {
-        return this.showTitle;
+        return this.title;
     }
 
-    public void setShowTitle(String showTitle)
+    public void setTitle(String title)
     {
-        this.showTitle = showTitle;
+        this.title = title;
     }
 
     public List<Slide> getShowList()

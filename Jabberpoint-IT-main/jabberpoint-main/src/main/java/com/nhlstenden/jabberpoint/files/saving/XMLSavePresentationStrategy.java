@@ -1,7 +1,6 @@
 package com.nhlstenden.jabberpoint.files.saving;
 
 import com.nhlstenden.jabberpoint.*;
-import com.nhlstenden.jabberpoint.slide.BitmapItem;
 import com.nhlstenden.jabberpoint.slide.Slide;
 import com.nhlstenden.jabberpoint.slide.SlideComponent;
 import com.nhlstenden.jabberpoint.slide.TextItem;
@@ -19,10 +18,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * <p>The saver for .XML files.<p>
@@ -30,10 +25,10 @@ import java.util.List;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class XMLSaveStrategy implements SaveStrategy
+public class XMLSavePresentationStrategy implements SaveContentStrategy<Presentation>
 {
     @Override
-    public void savePresentation(Presentation presentation, File file)
+    public void saveContent(Presentation presentation, File file)
     {
         try
         {
@@ -74,7 +69,7 @@ public class XMLSaveStrategy implements SaveStrategy
     private void addPresentationTitle(Presentation presentation, Document doc, Element root)
     {
         Element showTitle = doc.createElement("showtitle");
-        showTitle.setTextContent(presentation.getShowTitle());
+        showTitle.setTextContent(presentation.getTitle());
         root.appendChild(showTitle);
     }
 

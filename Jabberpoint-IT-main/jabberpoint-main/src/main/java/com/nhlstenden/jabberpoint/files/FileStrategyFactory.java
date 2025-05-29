@@ -1,9 +1,10 @@
 package com.nhlstenden.jabberpoint.files;
 
-import com.nhlstenden.jabberpoint.files.loading.LoadStrategy;
-import com.nhlstenden.jabberpoint.files.loading.XMLLoadStrategy;
-import com.nhlstenden.jabberpoint.files.saving.SaveStrategy;
-import com.nhlstenden.jabberpoint.files.saving.XMLSaveStrategy;
+import com.nhlstenden.jabberpoint.Content;
+import com.nhlstenden.jabberpoint.files.loading.LoadContentStrategy;
+import com.nhlstenden.jabberpoint.files.loading.XMLLoadPresentationStrategy;
+import com.nhlstenden.jabberpoint.files.saving.SaveContentStrategy;
+import com.nhlstenden.jabberpoint.files.saving.XMLSavePresentationStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,32 +17,34 @@ import java.util.Map;
  */
 public class FileStrategyFactory
 {
-    private static final Map<String, LoadStrategy> loadStrategyMap = new HashMap<>();
-    private static final Map<String, SaveStrategy> saveStrategyMap = new HashMap<>();
+    private static final Map<String, LoadContentStrategy<? extends Content>> loadStrategyMap = new HashMap<>();
+    private static final Map<String, SaveContentStrategy<? extends Content>> saveStrategyMap = new HashMap<>();
 
     static
     {
-        loadStrategyMap.put("xml", new XMLLoadStrategy());
-        saveStrategyMap.put("xml", new XMLSaveStrategy());
+        loadStrategyMap.put("xml", new XMLLoadPresentationStrategy());
+        saveStrategyMap.put("xml", new XMLSavePresentationStrategy());
     }
 
-    public static LoadStrategy createLoader(String fileExtension)
+    @SuppressWarnings("unchecked")
+    public static <T extends Content> LoadContentStrategy<T> createLoader(String extension)
     {
-        LoadStrategy strategy = loadStrategyMap.get(fileExtension);
+        LoadContentStrategy<T> strategy = (LoadContentStrategy<T>) loadStrategyMap.get(extension);
         if (strategy == null)
         {
-            throw new IllegalArgumentException("Unsupported format: " + fileExtension);
+            throw new IllegalArgumentException("Unsupported format: " + extension);
         }
 
         return strategy;
     }
 
-    public static SaveStrategy createSaver(String fileExtension)
+    @SuppressWarnings("unchecked")
+    public static <T extends Content> SaveContentStrategy<T> createSaver(String extension)
     {
-        SaveStrategy strategy = saveStrategyMap.get(fileExtension);
+        SaveContentStrategy<T> strategy = (SaveContentStrategy<T>) saveStrategyMap.get(extension);
         if (strategy == null)
         {
-            throw new IllegalArgumentException("Unsupported format: " + fileExtension);
+            throw new IllegalArgumentException("Unsupported format: " + extension);
         }
 
         return strategy;

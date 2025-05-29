@@ -11,8 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-
 @ExtendWith(MockitoExtension.class)
 class PresentationTest
 {
@@ -132,8 +130,8 @@ class PresentationTest
     @Test
     void setShowTitle_updatesTitle()
     {
-        presentation.setShowTitle("New Title");
-        assertEquals("New Title", presentation.getShowTitle());
+        presentation.setTitle("New Title");
+        assertEquals("New Title", presentation.getTitle());
     }
 
     @Test

@@ -7,10 +7,8 @@ import com.nhlstenden.jabberpoint.slide.TextItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XMLLoadStrategyTest
 {
-    private XMLLoadStrategy loader;
+    private XMLLoadPresentationStrategy loader;
     private Presentation presentation;
     @TempDir
     Path tempDir;
@@ -28,7 +26,7 @@ class XMLLoadStrategyTest
     @BeforeEach
     void setUp()
     {
-        loader = new XMLLoadStrategy();
+        loader = new XMLLoadPresentationStrategy();
         presentation = new Presentation();
     }
 
@@ -54,10 +52,10 @@ class XMLLoadStrategyTest
         File xmlFile = createTempFile(xmlContent);
 
         // Act
-        loader.loadPresentation(presentation, xmlFile);
+        loader.loadContent(presentation, xmlFile);
 
         // Assert
-        assertEquals("Test Presentation", presentation.getShowTitle());
+        assertEquals("Test Presentation", presentation.getTitle());
         assertEquals(2, presentation.getSize());
 
         Slide firstSlide = presentation.getSlide(0);
@@ -85,7 +83,7 @@ class XMLLoadStrategyTest
                 """;
         File xmlFile = createTempFile(xmlContent);
 
-        loader.loadPresentation(presentation, xmlFile);
+        loader.loadContent(presentation, xmlFile);
 
         Slide slide = presentation.getSlide(0);
         TextItem item = (TextItem) slide.getSlideItems().get(0);
@@ -107,7 +105,7 @@ class XMLLoadStrategyTest
                 """;
         File xmlFile = createTempFile(xmlContent);
 
-        loader.loadPresentation(presentation, xmlFile);
+        loader.loadContent(presentation, xmlFile);
 
         TextItem item = (TextItem) presentation.getSlide(0).getSlideItems().get(0);
         assertEquals(1, item.getLevel());
@@ -128,7 +126,7 @@ class XMLLoadStrategyTest
                 """;
         File xmlFile = createTempFile(xmlContent);
 
-        loader.loadPresentation(presentation, xmlFile);
+        loader.loadContent(presentation, xmlFile);
 
         assertEquals(0, presentation.getSlide(0).getSlideItems().size());
     }
@@ -140,7 +138,7 @@ class XMLLoadStrategyTest
         File xmlFile = createTempFile(badXml);
 
         assertThrows(SAXException.class, () ->
-                loader.loadPresentation(presentation, xmlFile)
+                loader.loadContent(presentation, xmlFile)
         );
     }
 
@@ -158,7 +156,7 @@ class XMLLoadStrategyTest
         File xmlFile = createTempFile(xmlContent);
 
         assertThrows(NullPointerException.class, () ->
-                loader.loadPresentation(presentation, xmlFile)
+                loader.loadContent(presentation, xmlFile)
         );
     }
 

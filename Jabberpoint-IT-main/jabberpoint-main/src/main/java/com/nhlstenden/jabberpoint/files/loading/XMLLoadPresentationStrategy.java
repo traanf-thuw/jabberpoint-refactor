@@ -21,16 +21,16 @@ import static com.nhlstenden.jabberpoint.slide.SlideItemType.TEXT;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class XMLLoadStrategy implements LoadStrategy
+public class XMLLoadPresentationStrategy implements LoadContentStrategy<Presentation>
 {
     @Override
-    public void loadPresentation(Presentation presentation, File file) throws IOException, ParserConfigurationException, SAXException
+    public void loadContent(Presentation presentation, File file) throws IOException, ParserConfigurationException, SAXException
     {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = builder.parse(file);
         Element doc = document.getDocumentElement();
 
-        presentation.setShowTitle(getTitle(doc, "showtitle"));
+        presentation.setTitle(getTitle(doc, "showtitle"));
         loadSlides(doc, presentation);
     }
 

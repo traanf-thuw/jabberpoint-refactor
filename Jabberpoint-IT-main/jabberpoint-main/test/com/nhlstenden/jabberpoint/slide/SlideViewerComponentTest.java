@@ -1,9 +1,6 @@
 package com.nhlstenden.jabberpoint.slide;
 
 import com.nhlstenden.jabberpoint.Presentation;
-import com.nhlstenden.jabberpoint.slide.Slide;
-import com.nhlstenden.jabberpoint.slide.SlideViewerComponent;
-import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +56,7 @@ class SlideViewerComponentTest
     void update_withValidSlide_updatesTitleAndRepaints()
     {
         // Arrange
-        when(mockPresentation.getShowTitle()).thenReturn("Test Presentation");
+        when(mockPresentation.getTitle()).thenReturn("Test Presentation");
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(0);
         when(mockPresentation.getSize()).thenReturn(5);
 

@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.Serial;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 
 
 /**
@@ -78,7 +77,7 @@ public class SlideViewerComponent extends JComponent
         this.presentation = presentation;
         this.slide = data;
         repaint();
-        this.frame.setTitle(presentation.getShowTitle());
+        this.frame.setTitle(presentation.getTitle());
     }
 
     //Draw the slide

@@ -14,12 +14,12 @@ import java.io.File;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class DemoLoader implements LoadStrategy
+public class DemoLoader implements LoadContentStrategy<Presentation>
 {
     @Override
-    public void loadPresentation(Presentation presentation, File file)
+    public void loadContent(Presentation presentation, File file)
     {
-        presentation.setShowTitle("Demo Presentation");
+        presentation.setTitle("Demo Presentation");
         Style style = new DefaultStyle();
         Slide slide;
         slide = new Slide(style);

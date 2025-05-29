@@ -2,11 +2,11 @@ package com.nhlstenden.jabberpoint.files;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.nhlstenden.jabberpoint.files.loading.XMLLoadStrategy;
-import com.nhlstenden.jabberpoint.files.saving.XMLSaveStrategy;
+import com.nhlstenden.jabberpoint.files.loading.XMLLoadPresentationStrategy;
+import com.nhlstenden.jabberpoint.files.saving.XMLSavePresentationStrategy;
 import org.junit.jupiter.api.Test;
-import com.nhlstenden.jabberpoint.files.loading.LoadStrategy;
-import com.nhlstenden.jabberpoint.files.saving.SaveStrategy;
+import com.nhlstenden.jabberpoint.files.loading.LoadContentStrategy;
+import com.nhlstenden.jabberpoint.files.saving.SaveContentStrategy;
 
 class FileStrategyFactoryTest
 {
@@ -14,8 +14,8 @@ class FileStrategyFactoryTest
     @Test
     void createLoader_ValidXmlExtension_ReturnsXmlLoader()
     {
-        LoadStrategy strategy = FileStrategyFactory.createLoader("xml");
-        assertInstanceOf(XMLLoadStrategy.class, strategy);
+        LoadContentStrategy strategy = FileStrategyFactory.createLoader("xml");
+        assertInstanceOf(XMLLoadPresentationStrategy.class, strategy);
     }
 
     @Test
@@ -39,8 +39,8 @@ class FileStrategyFactoryTest
     @Test
     void createSaver_ValidXmlExtension_ReturnsXmlSaver()
     {
-        SaveStrategy strategy = FileStrategyFactory.createSaver("xml");
-        assertInstanceOf(XMLSaveStrategy.class, strategy);
+        SaveContentStrategy strategy = FileStrategyFactory.createSaver("xml");
+        assertInstanceOf(XMLSavePresentationStrategy.class, strategy);
     }
 
     @Test
@@ -64,16 +64,16 @@ class FileStrategyFactoryTest
     @Test
     void createLoader_MultipleCalls_ReturnsSingletonInstance()
     {
-        LoadStrategy first = FileStrategyFactory.createLoader("xml");
-        LoadStrategy second = FileStrategyFactory.createLoader("xml");
+        LoadContentStrategy first = FileStrategyFactory.createLoader("xml");
+        LoadContentStrategy second = FileStrategyFactory.createLoader("xml");
         assertSame(first, second);
     }
 
     @Test
     void createSaver_MultipleCalls_ReturnsSingletonInstance()
     {
-        SaveStrategy first = FileStrategyFactory.createSaver("xml");
-        SaveStrategy second = FileStrategyFactory.createSaver("xml");
+        SaveContentStrategy first = FileStrategyFactory.createSaver("xml");
+        SaveContentStrategy second = FileStrategyFactory.createSaver("xml");
         assertSame(first, second);
     }
 

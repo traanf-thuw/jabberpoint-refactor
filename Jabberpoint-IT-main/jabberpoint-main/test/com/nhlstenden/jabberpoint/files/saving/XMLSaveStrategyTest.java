@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XMLSaveStrategyTest
 {
-    private XMLSaveStrategy xmlSaver;
+    private XMLSavePresentationStrategy xmlSaver;
     private Presentation presentation;
     @TempDir
     Path tempDir;
@@ -25,9 +25,9 @@ class XMLSaveStrategyTest
     @BeforeEach
     void setUp()
     {
-        xmlSaver = new XMLSaveStrategy();
+        xmlSaver = new XMLSavePresentationStrategy();
         presentation = new Presentation();
-        presentation.setShowTitle("Test Presentation");
+        presentation.setTitle("Test Presentation");
     }
 
     @Test
@@ -42,7 +42,7 @@ class XMLSaveStrategyTest
         File outputFile = tempDir.resolve("presentation.xml").toFile();
 
         // Act
-        xmlSaver.savePresentation(presentation, outputFile);
+        xmlSaver.saveContent(presentation, outputFile);
 
         // Assert
         assertTrue(outputFile.exists());
@@ -61,7 +61,7 @@ class XMLSaveStrategyTest
         File outputFile = tempDir.resolve("empty.xml").toFile();
 
         // Act
-        xmlSaver.savePresentation(presentation, outputFile);
+        xmlSaver.saveContent(presentation, outputFile);
 
         // Assert
         String content = Files.readString(outputFile.toPath());
@@ -81,7 +81,7 @@ class XMLSaveStrategyTest
         File outputFile = tempDir.resolve("with_image.xml").toFile();
 
         // Act
-        xmlSaver.savePresentation(presentation, outputFile);
+        xmlSaver.saveContent(presentation, outputFile);
 
         // Assert
         String content = Files.readString(outputFile.toPath());
@@ -113,7 +113,7 @@ class XMLSaveStrategyTest
         File outputFile = tempDir.resolve("order.xml").toFile();
 
         // Act
-        xmlSaver.savePresentation(presentation, outputFile);
+        xmlSaver.saveContent(presentation, outputFile);
 
         // Assert
         String content = Files.readString(outputFile.toPath());
