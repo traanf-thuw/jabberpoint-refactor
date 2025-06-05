@@ -53,6 +53,7 @@ jobs:
 
       - name: Run Checkstyle
         run: mvn checkstyle:checkstyle
+        working-directory: Jabberpoint-IT-main/jabberpoint-main
 
   security-scan:
     name: Dependency Vulnerability Check
