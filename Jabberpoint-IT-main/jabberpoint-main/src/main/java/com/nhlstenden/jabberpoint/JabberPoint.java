@@ -35,6 +35,6 @@ public class JabberPoint
             new FileHandler().loadFile(presentation, argv[0]);
         }
 
-        presentation.setSlideNumber(0);
+        presentation.setShowListNumber(0);
     }
 }

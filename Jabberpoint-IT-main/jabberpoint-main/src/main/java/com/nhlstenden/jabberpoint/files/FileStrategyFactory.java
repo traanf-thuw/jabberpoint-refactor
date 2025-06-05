@@ -4,7 +4,7 @@ import com.nhlstenden.jabberpoint.Content;
 import com.nhlstenden.jabberpoint.files.loading.LoadContentStrategy;
 import com.nhlstenden.jabberpoint.files.loading.XMLLoadStrategy;
 import com.nhlstenden.jabberpoint.files.saving.SaveContentStrategy;
-import com.nhlstenden.jabberpoint.files.saving.XMLSavePresentationStrategy;
+import com.nhlstenden.jabberpoint.files.saving.XMLSaveStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class FileStrategyFactory
     static
     {
         loadStrategyMap.put("xml", new XMLLoadStrategy());
-        saveStrategyMap.put("xml", new XMLSavePresentationStrategy());
+        saveStrategyMap.put("xml", new XMLSaveStrategy());
     }
 
     @SuppressWarnings("unchecked")

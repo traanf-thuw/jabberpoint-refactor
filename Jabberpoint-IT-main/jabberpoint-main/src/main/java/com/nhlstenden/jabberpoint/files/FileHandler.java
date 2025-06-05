@@ -16,7 +16,6 @@ import java.io.File;
  */
 public class FileHandler<T extends Content>
 {
-
     public void loadFile(T content, String fileName)
     {
         try
@@ -31,11 +30,12 @@ public class FileHandler<T extends Content>
             String extension = extractExtension(fileName);
             LoadContentStrategy<T> loader = FileStrategyFactory.createLoader(extension);
             loader.loadContent(content, file);
-
-        } catch (IllegalArgumentException e)
+        }
+        catch (IllegalArgumentException e)
         {
             showError("Unsupported Format", "File format not supported: " + e.getMessage());
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             showError("Load Error", "Failed to load file: " + e.getMessage());
         }
@@ -56,10 +56,12 @@ public class FileHandler<T extends Content>
             SaveContentStrategy<T> saver = FileStrategyFactory.createSaver(extension);
             saver.saveContent(content, file);
 
-        } catch (IllegalArgumentException e)
+        }
+        catch (IllegalArgumentException e)
         {
             showError("Unsupported Format", "File format not supported: " + e.getMessage());
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             showError("Save Error", "Failed to save file: " + e.getMessage());
         }

@@ -1,33 +1,40 @@
 package com.nhlstenden.jabberpoint.menu;
 
+import com.nhlstenden.jabberpoint.Content;
+import com.nhlstenden.jabberpoint.ContentVisitor;
 import com.nhlstenden.jabberpoint.Presentation;
 import com.nhlstenden.jabberpoint.slide.*;
 import com.nhlstenden.jabberpoint.style.DefaultStyle;
 
 import java.io.File;
 
-/**
- * <p>Create new presentation<p>
- *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
- */
-public class NewPresentationCommand implements MenuCommand
+public class NewContentVisitor<T extends Content> implements ContentVisitor
 {
-    @Override
-    public void execute(CommandContext context)
-    {
-        Presentation presentation = context.getPresentation();
-        SlideViewerFrame frame = context.getFrame();
+    private final CommandContext<T> context;
 
-        presentation.clear();
+    public NewContentVisitor(CommandContext<T> context)
+    {
+        this.context = context;
+    }
+
+    @Override
+    public void visitPresentation(Presentation presentation)
+    {
+        SlideViewerFrame frame = context.getFrame();
 
         Slide defaultSlide = new Slide(new DefaultStyle());
         TextItem defaultTextItem = (TextItem) SlideItemFactory.getInstance()
                 .createSlideItem(SlideItemType.TEXT, 0, "New Slide");
-        defaultSlide.addSlideItem(defaultTextItem);
 
-        // Button Items
+        defaultSlide.addSlideItem(defaultTextItem);
+        addInteractiveButtons(defaultSlide, presentation, frame);
+
+        presentation.append(defaultSlide);
+        presentation.setShowListNumber(0);
+    }
+
+    private void addInteractiveButtons(Slide slide, Presentation presentation, SlideViewerFrame frame)
+    {
         ButtonItem addTextButton = new ButtonItem(1, "Add Text");
         addTextButton.setActionListener(e ->
         {
@@ -38,7 +45,7 @@ public class NewPresentationCommand implements MenuCommand
             {
                 SlideComponent item = SlideItemFactory.getInstance()
                         .createSlideItem(SlideItemType.TEXT, 3, input.trim());
-                defaultSlide.addSlideItem(item);
+                slide.addSlideItem(item);
                 presentation.refreshView();
             }
         });
@@ -53,15 +60,14 @@ public class NewPresentationCommand implements MenuCommand
             {
                 SlideComponent item = SlideItemFactory.getInstance()
                         .createSlideItem(SlideItemType.BITMAP, 4, file.getAbsolutePath());
-                defaultSlide.addSlideItem(item);
+                slide.addSlideItem(item);
                 presentation.refreshView();
             }
         });
 
-        defaultSlide.addSlideItem(addTextButton);
-        defaultSlide.addSlideItem(addImageButton);
-
-        presentation.append(defaultSlide);
-        presentation.setSlideNumber(0);
+        slide.addSlideItem(addTextButton);
+        slide.addSlideItem(addImageButton);
     }
 }
+
+

@@ -13,5 +13,5 @@ import java.io.IOException;
  */
 public interface SaveContentStrategy<T extends Content>
 {
-    void saveContent(T content, File file) throws IOException;
+    void saveContent(T content, File file) throws Exception;
 }

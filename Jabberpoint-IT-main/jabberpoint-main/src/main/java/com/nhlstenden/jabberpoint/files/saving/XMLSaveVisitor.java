@@ -1,9 +1,8 @@
 package com.nhlstenden.jabberpoint.files.saving;
 
-import com.nhlstenden.jabberpoint.*;
-import com.nhlstenden.jabberpoint.slide.Slide;
-import com.nhlstenden.jabberpoint.slide.SlideComponent;
-import com.nhlstenden.jabberpoint.slide.TextItem;
+import com.nhlstenden.jabberpoint.ContentVisitor;
+import com.nhlstenden.jabberpoint.Presentation;
+import com.nhlstenden.jabberpoint.slide.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -19,100 +18,86 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 
-/**
- * <p>The saver for .XML files.<p>
- *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
- */
-public class XMLSavePresentationStrategy implements SaveContentStrategy<Presentation>
+public class XMLSaveVisitor implements ContentVisitor
 {
+    private final File file;
+    private Document doc;
+    private Element root;
+
+    public XMLSaveVisitor(File file) throws Exception
+    {
+        this.file = file;
+        this.initializeDocument();
+    }
+
+    private void initializeDocument() throws ParserConfigurationException
+    {
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        this.doc = builder.newDocument();
+        this.root = doc.createElement("presentation");
+        doc.appendChild(root);
+    }
+
     @Override
-    public void saveContent(Presentation presentation, File file)
+    public void visitPresentation(Presentation presentation)
     {
         try
         {
-            file = ensureFileExtension(file);
-            Document doc = createDocumentStructure(presentation);
-            writeXmlToFile(doc, file);
-        } catch (ParserConfigurationException | TransformerException e)
+            this.addPresentationTitle(presentation);
+            this.addAllSlides(presentation);
+            this.writeXmlToFile();
+        }
+        catch (TransformerException e)
         {
             showSaveErrorDialog(e.getMessage());
         }
     }
 
-    private File ensureFileExtension(File file)
-    {
-        if (!file.getName().endsWith(".xml"))
-        {
-            return new File(file.getParent(), file.getName() + ".xml");
-        }
-
-        return file;
-    }
-
-    private Document createDocumentStructure(Presentation presentation)
-            throws ParserConfigurationException
-    {
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document doc = builder.newDocument();
-
-        Element root = doc.createElement("presentation");
-        doc.appendChild(root);
-
-        addPresentationTitle(presentation, doc, root);
-        addAllSlides(presentation, doc, root);
-
-        return doc;
-    }
-
-    private void addPresentationTitle(Presentation presentation, Document doc, Element root)
+    private void addPresentationTitle(Presentation presentation)
     {
         Element showTitle = doc.createElement("showtitle");
         showTitle.setTextContent(presentation.getTitle());
         root.appendChild(showTitle);
     }
 
-    private void addAllSlides(Presentation presentation, Document doc, Element root)
+    private void addAllSlides(Presentation presentation)
     {
         for (Slide slide : presentation.getShowList())
         {
-            Element xmlSlide = createSlideElement(doc, slide);
+            Element xmlSlide = createSlideElement(slide);
             root.appendChild(xmlSlide);
         }
     }
 
-    private Element createSlideElement(Document doc, Slide slide)
+    private Element createSlideElement(Slide slide)
     {
         Element xmlSlide = doc.createElement("slide");
-        addSlideTitle(doc, slide, xmlSlide);
-        addSlideItems(doc, slide, xmlSlide);
-
+        addSlideTitle(slide, xmlSlide);
+        addSlideItems(slide, xmlSlide);
         return xmlSlide;
     }
 
-    private void addSlideTitle(Document doc, Slide slide, Element xmlSlide)
+    private void addSlideTitle(Slide slide, Element xmlSlide)
     {
         Element titleElement = doc.createElement("title");
         titleElement.setTextContent(slide.getTitle());
         xmlSlide.appendChild(titleElement);
     }
 
-    private void addSlideItems(Document doc, Slide slide, Element xmlSlide)
+    private void addSlideItems(Slide slide, Element xmlSlide)
     {
         for (SlideComponent item : slide.getSlideItems())
         {
-            Element xmlItem = createItemElement(doc, item);
+            Element xmlItem = createItemElement(item);
             xmlSlide.appendChild(xmlItem);
         }
     }
 
-    private Element createItemElement(Document doc, SlideComponent item)
+    private Element createItemElement(SlideComponent item)
     {
         Element xmlItem = doc.createElement("item");
         setItemAttributes(xmlItem, item);
         xmlItem.setTextContent(item.getContent());
-
         return xmlItem;
     }
 
@@ -127,7 +112,7 @@ public class XMLSavePresentationStrategy implements SaveContentStrategy<Presenta
         return item instanceof TextItem ? "text" : "image";
     }
 
-    private void writeXmlToFile(Document doc, File file) throws TransformerException
+    private void writeXmlToFile() throws TransformerException
     {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");

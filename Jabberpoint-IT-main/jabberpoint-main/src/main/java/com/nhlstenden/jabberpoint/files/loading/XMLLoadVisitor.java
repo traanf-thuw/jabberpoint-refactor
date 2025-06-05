@@ -29,14 +29,14 @@ public class XMLLoadVisitor implements ContentVisitor
     @Override
     public void visitPresentation(Presentation presentation)
     {
-        presentation.setTitle(getText("showtitle"));
+        presentation.setTitle(getText());
         NodeList slideNodes = root.getElementsByTagName("slide");
 
         for (int i = 0; i < slideNodes.getLength(); i++)
         {
             Element slideElement = (Element) slideNodes.item(i);
             Slide slide = new Slide(new DefaultStyle());
-            slide.setTitle(getText(slideElement, "title"));
+            slide.setTitle(getText(slideElement));
             presentation.append(slide);
 
             NodeList itemNodes = slideElement.getElementsByTagName("item");
@@ -49,14 +49,14 @@ public class XMLLoadVisitor implements ContentVisitor
         }
     }
 
-    private String getText(String tag)
+    private String getText()
     {
-        return root.getElementsByTagName(tag).item(0).getTextContent();
+        return root.getElementsByTagName("showtitle").item(0).getTextContent();
     }
 
-    private String getText(Element parent, String tag)
+    private String getText(Element parent)
     {
-        return parent.getElementsByTagName(tag).item(0).getTextContent();
+        return parent.getElementsByTagName("title").item(0).getTextContent();
     }
 
     private SlideComponent createComponent(Element item)
@@ -80,7 +80,8 @@ public class XMLLoadVisitor implements ContentVisitor
         try
         {
             return Integer.parseInt(value);
-        } catch (NumberFormatException e)
+        }
+        catch (NumberFormatException e)
         {
             return 1;
         }

@@ -31,3 +31,6 @@ jobs:
       - name: Build with Maven (debug mode)
         run: mvn clean test -X
         working-directory: Jabberpoint-IT-main/jabberpoint-main
+
+      - name: Run Checkstyle
+        run: mvn checkstyle:checkstyle

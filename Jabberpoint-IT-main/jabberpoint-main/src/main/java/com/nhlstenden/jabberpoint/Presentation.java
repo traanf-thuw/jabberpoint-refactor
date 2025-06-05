@@ -41,6 +41,12 @@ public class Presentation implements Content
     }
 
     @Override
+    public int getShowListSize()
+    {
+        return this.showList.size();
+    }
+
+    @Override
     public void setTitle(String title)
     {
         this.title = title;
@@ -132,7 +138,7 @@ public class Presentation implements Content
     public void clear()
     {
         this.showList = new ArrayList<>();
-        setSlideNumber(-1);
+        setShowListNumber(-1);
     }
 
     @Override
@@ -141,7 +147,8 @@ public class Presentation implements Content
         visitor.visitPresentation(this);
     }
 
-    public void setSlideNumber(int number)
+    @Override
+    public void setShowListNumber(int number)
     {
         if (number < 0)
         {
@@ -158,32 +165,34 @@ public class Presentation implements Content
 
         if (this.slideViewComponent != null)
         {
-            this.slideViewComponent.update(this, getCurrentSlide());
+            this.slideViewComponent.update(this);
         }
     }
 
 
+    @Override
     //Navigate to the previous slide unless we are at the first slide
-    public void prevSlide()
+    public void previous()
     {
         if (this.currentSlideNumber > 0)
         {
-            setSlideNumber(this.currentSlideNumber - 1);
+            setShowListNumber(this.currentSlideNumber - 1);
         }
     }
 
+    @Override
     //Navigate to the next slide unless we are at the last slide
-    public void nextSlide()
+    public void next()
     {
         if (this.currentSlideNumber < (this.showList.size() - 1))
         {
-            setSlideNumber(this.currentSlideNumber + 1);
+            setShowListNumber(this.currentSlideNumber + 1);
         }
     }
 
     public void refreshView()
     {
         // This should trigger a UI update in your presentation component
-        setSlideNumber(this.currentSlideNumber); // Forces redraw
+        setShowListNumber(this.currentSlideNumber); // Forces redraw
     }
 }

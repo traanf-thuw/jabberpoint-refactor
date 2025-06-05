@@ -3,7 +3,7 @@ package com.nhlstenden.jabberpoint.files;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.nhlstenden.jabberpoint.files.loading.XMLLoadStrategy;
-import com.nhlstenden.jabberpoint.files.saving.XMLSavePresentationStrategy;
+import com.nhlstenden.jabberpoint.files.saving.XMLSaveStrategy;
 import org.junit.jupiter.api.Test;
 import com.nhlstenden.jabberpoint.files.loading.LoadContentStrategy;
 import com.nhlstenden.jabberpoint.files.saving.SaveContentStrategy;
@@ -40,7 +40,7 @@ class FileStrategyFactoryTest
     void createSaver_ValidXmlExtension_ReturnsXmlSaver()
     {
         SaveContentStrategy strategy = FileStrategyFactory.createSaver("xml");
-        assertInstanceOf(XMLSavePresentationStrategy.class, strategy);
+        assertInstanceOf(XMLSaveStrategy.class, strategy);
     }
 
     @Test

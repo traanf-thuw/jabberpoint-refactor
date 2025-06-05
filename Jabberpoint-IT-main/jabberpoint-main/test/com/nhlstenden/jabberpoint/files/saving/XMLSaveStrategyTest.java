@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XMLSaveStrategyTest
 {
-    private XMLSavePresentationStrategy xmlSaver;
+    private XMLSaveStrategy xmlSaver;
     private Presentation presentation;
     @TempDir
     Path tempDir;
@@ -25,7 +25,7 @@ class XMLSaveStrategyTest
     @BeforeEach
     void setUp()
     {
-        xmlSaver = new XMLSavePresentationStrategy();
+        xmlSaver = new XMLSaveStrategy();
         presentation = new Presentation();
         presentation.setTitle("Test Presentation");
     }

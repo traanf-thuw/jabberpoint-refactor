@@ -1,5 +1,6 @@
 package com.nhlstenden.jabberpoint.slide;
 
+import com.nhlstenden.jabberpoint.Content;
 import com.nhlstenden.jabberpoint.Presentation;
 
 import java.awt.*;
@@ -7,6 +8,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.Serial;
 import javax.swing.JComponent;
+
+import static javax.swing.text.html.HTML.Attribute.BGCOLOR;
 
 
 /**
@@ -17,9 +20,8 @@ import javax.swing.JComponent;
  */
 public class SlideViewerComponent extends JComponent
 {
-    private Slide slide; //The current slide
-    private final Font labelFont; //The font for labels
-    private Presentation presentation; //The presentation
+    private Content content;
+    private final Font labelFont;
     private final SlideViewerFrame frame;
     @Serial
     private static final long serialVersionUID = 227L;
@@ -31,70 +33,38 @@ public class SlideViewerComponent extends JComponent
     private static final int XPOS = 1100;
     private static final int YPOS = 20;
 
-    public SlideViewerComponent(Presentation pres, SlideViewerFrame frame)
+    public SlideViewerComponent(Content content, SlideViewerFrame frame)
     {
         setBackground(BGCOLOR);
-        this.presentation = pres;
+        this.content = content;
         this.labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
         this.frame = frame;
-        addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                handleClick(e.getPoint());
-            }
-        });
-    }
-
-    private void handleClick(Point clickPoint)
-    {
-        Slide currentSlide = this.presentation.getCurrentSlide();
-        if (currentSlide == null) return;
-
-        for (SlideComponent item : currentSlide.getSlideItems())
-        {
-            if (item instanceof ButtonItem)
-            {
-                ((ButtonItem) item).handleClick(clickPoint);
-            }
-        }
     }
 
     @Override
     public Dimension getPreferredSize()
     {
-        return new Dimension(Slide.WIDTH, Slide.HEIGHT);
+        return new Dimension(Slide.WIDTH, Slide.HEIGHT);  // Could be generalized if needed
     }
 
-    public void update(Presentation presentation, Slide data)
+    public void update(Content content)
     {
-        if (data == null)
-        {
-            repaint();
-            return;
-        }
-        this.presentation = presentation;
-        this.slide = data;
+        this.content = content;
         repaint();
-        this.frame.setTitle(presentation.getTitle());
+        frame.setTitle(content.getTitle());
     }
 
-    //Draw the slide
     @Override
-    public void paintComponent(Graphics g)
+    protected void paintComponent(Graphics g)
     {
         g.setColor(BGCOLOR);
         g.fillRect(0, 0, getSize().width, getSize().height);
-        if (this.presentation.getSize() < 0 || slide == null)
-        {
-            return;
-        }
-        g.setFont(this.labelFont);
+
+        g.setFont(labelFont);
         g.setColor(COLOR);
-        g.drawString("Slide " + (this.presentation.getCurrentSlideNumber() + 1) + " of " +
-                this.presentation.getSize(), XPOS, YPOS);
-        Rectangle area = new Rectangle(0, YPOS, getWidth(), (getHeight() - YPOS));
-        this.slide.draw(g, area, this);
+        g.drawString("Item " + (content.getShowListSize()) + " shown", XPOS, YPOS);
+
+        Rectangle area = new Rectangle(0, YPOS, getWidth(), getHeight() - YPOS);
+        content.accept(new ContentRenderVisitor(g, area, this));
     }
 }

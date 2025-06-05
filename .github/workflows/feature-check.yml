@@ -51,6 +51,9 @@ jobs:
         run: mvn pmd:pmd
         working-directory: Jabberpoint-IT-main/jabberpoint-main
 
+      - name: Run Checkstyle
+        run: mvn checkstyle:checkstyle
+
   security-scan:
     name: Dependency Vulnerability Check
     runs-on: ubuntu-latest
