@@ -1,106 +1,83 @@
-//package com.nhlstenden.jabberpoint.menu;
-//
-//import static org.mockito.Mockito.*;
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.util.stream.Stream;
-//
-//import com.nhlstenden.jabberpoint.Presentation;
-//import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.junit.jupiter.params.ParameterizedTest;
-//import org.junit.jupiter.params.provider.Arguments;
-//import org.junit.jupiter.params.provider.MethodSource;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//
-//@ExtendWith(MockitoExtension.class)
-//class MenuControllerTest
-//{
-//
-//    @Mock
-//    private SlideViewerFrame mockFrame;
-//
-//    @Mock
-//    private Presentation mockPresentation;
-//
-//    private MenuController menuController;
-//
-//    @BeforeEach
-//    void setUp()
-//    {
-//        menuController = new MenuController(mockFrame, mockPresentation);
-//    }
-//
-//    @ParameterizedTest
-//    @MethodSource("commandProvider")
-//    void createCommand_ValidActions_ReturnsCorrectCommand(
-//            String action,
-//            Class<? extends MenuCommand> expectedType
-//    )
-//    {
-//        MenuCommand command = menuController.createCommand(action);
-//        assertInstanceOf(expectedType, command);
-//    }
-//
-//    private static Stream<Arguments> commandProvider()
-//    {
-//        return Stream.of(
-//                Arguments.of("Open", OpenPresentationCommand.class),
-//                Arguments.of("New", NewPresentationCommand.class),
-//                Arguments.of("Save", SavePresentationCommand.class),
-//                Arguments.of("Exit", ExitApplicationCommand.class),
-//                Arguments.of("Next", NextSlideCommand.class),
-//                Arguments.of("Prev", PreviousSlideCommand.class),
-//                Arguments.of("Go to", GotoSlideCommand.class),
-//                Arguments.of("About", AboutCommand.class)
-//        );
-//    }
-//
-//    @Test
-//    void createCommand_UnknownAction_ReturnsNull()
-//    {
-//        assertNull(menuController.createCommand("UNKNOWN_ACTION"));
-//    }
-//
-//    @Test
-//    void actionPerformed_ValidCommand_ExecutesCommand()
-//    {
-//        // Arrange
-//        ActionEvent mockEvent = new ActionEvent(this, 0, "NEXT");
-//        NextSlideCommand mockCommand = mock(NextSlideCommand.class);
-//        MenuController spiedController = spy(menuController);
-//
-//        doReturn(mockCommand).when(spiedController).createCommand("NEXT");
-//
-//        // Act
-//        spiedController.actionPerformed(mockEvent);
-//
-//        // Assert
-//        verify(mockCommand).execute();
-//    }
-//
-//    @Test
-//    void actionPerformed_NullCommand_DoesNothing()
-//    {
-//        // Arrange
-//        ActionEvent mockEvent = new ActionEvent(this, 0, "INVALID");
-//        MenuController spiedController = spy(menuController);
-//
-//        doReturn(null).when(spiedController).createCommand("INVALID");
-//
-//        // Act & Assert (no exception expected)
-//        assertDoesNotThrow(() -> spiedController.actionPerformed(mockEvent));
-//    }
-//
-//    @Test
-//    void constructor_InitializesCorrectly()
-//    {
-//        assertNotNull(menuController);
-//        assertInstanceOf(ActionListener.class, menuController);
-//    }
-//}
+package com.nhlstenden.jabberpoint.menu;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.awt.event.ActionEvent;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class MenuControllerTest
+{
+    CommandContext context;
+    MenuController controller;
+
+    @BeforeEach
+    void setup()
+    {
+        context = mock(CommandContext.class);
+        controller = new MenuController(context);
+    }
+
+    @Test
+    void testCreateCommand_knownActions()
+    {
+        assertTrue(controller.createCommand("Open") instanceof OpenPresentationCommand);
+        assertTrue(controller.createCommand("New") instanceof NewPresentationCommand);
+        assertTrue(controller.createCommand("Save") instanceof SavePresentationCommand);
+        assertTrue(controller.createCommand("Exit") instanceof ExitApplicationCommand);
+        assertTrue(controller.createCommand("Next") instanceof NextSlideCommand);
+        assertTrue(controller.createCommand("Prev") instanceof PreviousSlideCommand);
+        assertTrue(controller.createCommand("Go to") instanceof GotoSlideCommand);
+        assertTrue(controller.createCommand("About") instanceof AboutCommand);
+    }
+
+    @Test
+    void testCreateCommand_unknownAction_returnsNull()
+    {
+        assertNull(controller.createCommand("UnknownAction"));
+    }
+
+    @Test
+    void testActionPerformed_executesCommand()
+    {
+        // Spy on a command so we can verify execute() call
+        MenuCommand commandSpy = spy(new OpenPresentationCommand());
+
+        // Create a controller subclass overriding createCommand to return our spy
+        MenuController controllerSpy = new MenuController(context)
+        {
+            @Override
+            public MenuCommand createCommand(String action)
+            {
+                return commandSpy;
+            }
+        };
+
+        // Simulate action event with any command
+        ActionEvent event = new ActionEvent(this, 0, "Open");
+        controllerSpy.actionPerformed(event);
+
+        // Verify execute was called once with context
+        verify(commandSpy, times(1)).execute(context);
+    }
+
+    @Test
+    void testActionPerformed_nullCommand_doesNothing()
+    {
+        // Create a controller subclass returning null for createCommand
+        MenuController controllerSpy = new MenuController(context)
+        {
+            @Override
+            public MenuCommand createCommand(String action)
+            {
+                return null;
+            }
+        };
+
+        ActionEvent event = new ActionEvent(this, 0, "Unknown");
+        // Just ensure no exception and no calls made
+        controllerSpy.actionPerformed(event);
+    }
+}

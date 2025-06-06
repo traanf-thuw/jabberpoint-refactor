@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: DTAP - Test Branch Check
 
 on:
   push:
