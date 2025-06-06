@@ -38,4 +38,3 @@ public class CommandContext
         return fileHandler;
     }
 }
-

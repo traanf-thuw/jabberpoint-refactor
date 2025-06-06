@@ -36,7 +36,8 @@ public class GotoSlideCommand implements MenuCommand
                 {
                     JOptionPane.showMessageDialog(frame, "Slide number out of range.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (NumberFormatException e)
+            }
+            catch (NumberFormatException e)
             {
                 JOptionPane.showMessageDialog(frame, "Invalid input.", "Error", JOptionPane.ERROR_MESSAGE);
             }

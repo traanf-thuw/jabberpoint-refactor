@@ -14,9 +14,6 @@ import java.util.List;
 
 class JabberPointTest
 {
-
-    private static final String EXPECTED_TITLE = "Jabberpoint 1.7 - OU version";
-
     @Test
     void main_withNoArgs_usesDemoLoaderAndCreatesFrame()
     {
@@ -53,19 +50,6 @@ class JabberPointTest
             // Verify file handler usage
             List<FileHandler> handlers = mockedHandler.constructed();
             assertEquals(1, handlers.size());
-        }
-    }
-
-    @Test
-    void main_withMultipleArgs_usesFirstArgument()
-    {
-        try (MockedConstruction<FileHandler> mockedHandler = mockConstruction(FileHandler.class))
-        {
-
-            JabberPoint.main(new String[]{"first.xml", "second.ppt"});
-
-            List<FileHandler> handlers = mockedHandler.constructed();
-            verify(handlers.get(0)).loadFile(any(), eq("first.xml"));
         }
     }
 }

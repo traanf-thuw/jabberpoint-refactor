@@ -1,189 +1,101 @@
-//package com.nhlstenden.jabberpoint.menu;
-//
-//import static org.mockito.Mockito.*;
-//
-//import com.nhlstenden.jabberpoint.Presentation;
-//import com.nhlstenden.jabberpoint.slide.Slide;
-//import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.Mock;
-//import org.mockito.MockedStatic;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//
-//import javax.swing.JOptionPane;
-//import java.util.List;
-//
-//@ExtendWith(MockitoExtension.class)
-//class GotoSlideCommandTest
-//{
-//
-//    @Mock
-//    private Presentation mockPresentation;
-//
-//    @Mock
-//    private SlideViewerFrame mockFrame;
-//
-//    @Test
-//    void execute_ValidInput_ChangesSlide()
-//    {
-//        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class))
-//        {
-//            // Arrange
-//            when(mockPresentation.getShowList()).thenReturn(List.of(mock(Slide.class), mock(Slide.class), mock(Slide.class)));
-//            mockedPane.when(() -> JOptionPane.showInputDialog(any(), anyString()))
-//                    .thenReturn("2"); // User enters 2 (slide index 1)
-//
-//            GotoSlideCommand command = new GotoSlideCommand(mockPresentation, mockFrame);
-//
-//            // Act
-//            command.execute();
-//
-//            // Assert
-//            verify(mockPresentation).setSlideNumber(1);
-//            verify(mockFrame).repaint();
-//        }
-//    }
-//
-//    @Test
-//    void execute_InputOutOfRange_ShowsError()
-//    {
-//        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class))
-//        {
-//            // Arrange
-//            when(mockPresentation.getShowList()).thenReturn(List.of(mock(Slide.class)));
-//            mockedPane.when(() -> JOptionPane.showInputDialog(any(), anyString()))
-//                    .thenReturn("5"); // Only 1 slide exists
-//
-//            GotoSlideCommand command = new GotoSlideCommand(mockPresentation, mockFrame);
-//
-//            // Act
-//            command.execute();
-//
-//            // Assert
-//            mockedPane.verify(() ->
-//                    JOptionPane.showMessageDialog(
-//                            eq(mockFrame),
-//                            eq("Slide number out of range."),
-//                            eq("Error"),
-//                            eq(JOptionPane.ERROR_MESSAGE)
-//                    ));
-//            verify(mockPresentation, never()).setSlideNumber(anyInt());
-//            verify(mockFrame, never()).repaint();
-//        }
-//    }
-//
-//    @Test
-//    void execute_InvalidNumberFormat_ShowsError()
-//    {
-//        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class))
-//        {
-//            // Arrange
-//            mockedPane.when(() -> JOptionPane.showInputDialog(any(), anyString()))
-//                    .thenReturn("abc");
-//
-//            GotoSlideCommand command = new GotoSlideCommand(mockPresentation, mockFrame);
-//
-//            // Act
-//            command.execute();
-//
-//            // Assert
-//            mockedPane.verify(() ->
-//                    JOptionPane.showMessageDialog(
-//                            eq(mockFrame),
-//                            eq("Invalid input. Please enter a valid number."),
-//                            eq("Error"),
-//                            eq(JOptionPane.ERROR_MESSAGE)
-//                    ));
-//            verify(mockPresentation, never()).setSlideNumber(anyInt());
-//        }
-//    }
-//
-//    @Test
-//    void execute_NullInput_DoesNothing()
-//    {
-//        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class))
-//        {
-//            // Arrange
-//            mockedPane.when(() -> JOptionPane.showInputDialog(any(), anyString()))
-//                    .thenReturn(null);
-//
-//            GotoSlideCommand command = new GotoSlideCommand(mockPresentation, mockFrame);
-//
-//            // Act
-//            command.execute();
-//
-//            // Assert
-//            verifyNoInteractions(mockPresentation);
-//            verifyNoInteractions(mockFrame);
-//        }
-//    }
-//
-//    @Test
-//    void execute_EmptyInput_ShowsError()
-//    {
-//        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class))
-//        {
-//            // Arrange
-//            mockedPane.when(() -> JOptionPane.showInputDialog(any(), anyString()))
-//                    .thenReturn("   ");
-//
-//            GotoSlideCommand command = new GotoSlideCommand(mockPresentation, mockFrame);
-//
-//            // Act
-//            command.execute();
-//
-//            // Assert
-//            mockedPane.verify(() ->
-//                    JOptionPane.showMessageDialog(
-//                            eq(mockFrame),
-//                            eq("Invalid input. Please enter a valid number."),
-//                            eq("Error"),
-//                            eq(JOptionPane.ERROR_MESSAGE)
-//                    ));
-//        }
-//    }
-//
-//    @Test
-//    void execute_BoundaryMinimumValue_Succeeds()
-//    {
-//        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class))
-//        {
-//            // Arrange
-//            when(mockPresentation.getShowList()).thenReturn(List.of(mock(Slide.class), mock(Slide.class)));
-//            mockedPane.when(() -> JOptionPane.showInputDialog(any(), anyString()))
-//                    .thenReturn("1"); // Minimum valid input
-//
-//            GotoSlideCommand command = new GotoSlideCommand(mockPresentation, mockFrame);
-//
-//            // Act
-//            command.execute();
-//
-//            // Assert
-//            verify(mockPresentation).setSlideNumber(0);
-//            verify(mockFrame).repaint();
-//        }
-//    }
-//
-//    @Test
-//    void execute_BoundaryMaximumValue_Succeeds()
-//    {
-//        try (MockedStatic<JOptionPane> mockedPane = mockStatic(JOptionPane.class))
-//        {
-//            // Arrange
-//            List<Slide> slides = List.of(mock(Slide.class), mock(Slide.class), mock(Slide.class));
-//            when(mockPresentation.getShowList()).thenReturn(slides);
-//            mockedPane.when(() -> JOptionPane.showInputDialog(any(), anyString()))
-//                    .thenReturn(String.valueOf(slides.size()));
-//
-//            GotoSlideCommand command = new GotoSlideCommand(mockPresentation, mockFrame);
-//
-//            // Act
-//            command.execute();
-//
-//            // Assert
-//            verify(mockPresentation).setSlideNumber(slides.size() - 1);
-//            verify(mockFrame).repaint();
-//        }
-//    }
-//}
+package com.nhlstenden.jabberpoint.menu;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import javax.swing.*;
+
+import com.nhlstenden.jabberpoint.Presentation;
+import com.nhlstenden.jabberpoint.slide.Slide;
+import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
+import org.junit.jupiter.api.*;
+import org.mockito.MockedStatic;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class GotoSlideCommandTest
+{
+    private GotoSlideCommand command;
+    private CommandContext context;
+    private Presentation presentation;
+    private SlideViewerFrame frame;
+
+    @BeforeEach
+    void setup()
+    {
+        command = new GotoSlideCommand();
+        presentation = mock(Presentation.class);
+        frame = mock(SlideViewerFrame.class);
+        context = new CommandContext(presentation, frame, null);
+    }
+
+    @Test
+    void testExecute_ValidInputWithinRange()
+    {
+        List<Slide> slides = Arrays.asList(mock(Slide.class), mock(Slide.class), mock(Slide.class));
+        when(presentation.getShowList()).thenReturn(slides);
+
+        try (MockedStatic<JOptionPane> mocked = mockStatic(JOptionPane.class))
+        {
+            mocked.when(() -> JOptionPane.showInputDialog(frame, "Page number?")).thenReturn("2");
+
+            command.execute(context);
+
+            verify(presentation).setSlideNumber(1);  // 2-1=1
+            verify(frame).repaint();
+            mocked.verify(() -> JOptionPane.showMessageDialog(any(), anyString(), anyString(), anyInt()), never());
+        }
+    }
+
+    @Test
+    void testExecute_ValidInputOutOfRange()
+    {
+        List<Slide> slides = Arrays.asList(mock(Slide.class), mock(Slide.class), mock(Slide.class));
+        when(presentation.getShowList()).thenReturn(slides);
+
+        try (MockedStatic<JOptionPane> mocked = mockStatic(JOptionPane.class))
+        {
+            mocked.when(() -> JOptionPane.showInputDialog(frame, "Page number?")).thenReturn("5");
+
+            command.execute(context);
+
+            verify(presentation, never()).setSlideNumber(anyInt());
+            verify(frame, never()).repaint();
+            mocked.verify(() -> JOptionPane.showMessageDialog(frame, "Slide number out of range.", "Error", JOptionPane.ERROR_MESSAGE));
+        }
+    }
+
+    @Test
+    void testExecute_InvalidNumberInput()
+    {
+        List<Slide> slides = Arrays.asList(mock(Slide.class), mock(Slide.class), mock(Slide.class));
+        when(presentation.getShowList()).thenReturn(slides);
+
+        try (MockedStatic<JOptionPane> mocked = mockStatic(JOptionPane.class))
+        {
+            mocked.when(() -> JOptionPane.showInputDialog(frame, "Page number?")).thenReturn("abc");
+
+            command.execute(context);
+
+            verify(presentation, never()).setSlideNumber(anyInt());
+            verify(frame, never()).repaint();
+            mocked.verify(() -> JOptionPane.showMessageDialog(frame, "Invalid input.", "Error", JOptionPane.ERROR_MESSAGE));
+        }
+    }
+
+    @Test
+    void testExecute_NullInput()
+    {
+        try (MockedStatic<JOptionPane> mocked = mockStatic(JOptionPane.class))
+        {
+            mocked.when(() -> JOptionPane.showInputDialog(frame, "Page number?")).thenReturn(null);
+
+            command.execute(context);
+
+            verifyNoInteractions(presentation);
+            verifyNoInteractions(frame);
+            mocked.verify(() -> JOptionPane.showMessageDialog(any(), anyString(), anyString(), anyInt()), never());
+        }
+    }
+}
