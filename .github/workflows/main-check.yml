@@ -33,13 +33,6 @@ jobs:
         run: mvn clean verify
         working-directory: Jabberpoint-IT-main/jabberpoint-main
 
-      - name: Upload test results on failure
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: Jabberpoint-IT-main/jabberpoint-main/target/surefire-reports/
-
   acceptance:
     name: Acceptance Check
     runs-on: ubuntu-latest
