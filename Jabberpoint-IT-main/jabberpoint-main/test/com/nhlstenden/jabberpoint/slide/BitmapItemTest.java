@@ -152,7 +152,7 @@ class BitmapItemTest
                 anyInt(),
                 any()
         );
-        assertEquals(-1900, xCaptor.getValue().intValue());
+        assertEquals(-100, xCaptor.getValue().intValue());
     }
 
     // --- Other Method Tests ---

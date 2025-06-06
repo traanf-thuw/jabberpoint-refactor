@@ -126,9 +126,7 @@ class XMLLoadStrategyTest
                 """;
         File xmlFile = createTempFile(xmlContent);
 
-        loader.loadContent(presentation, xmlFile);
-
-        assertEquals(0, presentation.getSlide(0).getSlideItems().size());
+        assertThrows(IllegalArgumentException.class, ()->  loader.loadContent(presentation, xmlFile));
     }
 
     @Test

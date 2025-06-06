@@ -24,7 +24,5 @@ public class ContentRenderVisitor implements ContentVisitor
             currentSlide.draw(g, area, observer);
         }
     }
-
-    // Future: render for documents, etc.
 }
 
