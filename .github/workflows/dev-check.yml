@@ -35,3 +35,12 @@ jobs:
       - name: Run Checkstyle
         run: mvn checkstyle:checkstyle
         working-directory: Jabberpoint-IT-main/jabberpoint-main
+
+  acceptance:
+    name: Acceptance Check
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Echo Acceptance Step
+        run: echo "Simulated Acceptance Step – Add deployment checks, UAT triggers, etc."
