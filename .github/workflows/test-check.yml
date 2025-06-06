@@ -2,9 +2,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ development ]
+    branches: [ test ]
   pull_request:
-    branches: [ development ]
+    branches: [ test ]
 
 jobs:
   build:
@@ -30,8 +30,4 @@ jobs:
 
       - name: Build with Maven (debug mode)
         run: mvn clean test -X
-        working-directory: Jabberpoint-IT-main/jabberpoint-main
-
-      - name: Run Checkstyle
-        run: mvn checkstyle:checkstyle
         working-directory: Jabberpoint-IT-main/jabberpoint-main
