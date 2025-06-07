@@ -1,7 +1,6 @@
 package com.nhlstenden.jabberpoint.files.saving;
 
 import com.nhlstenden.jabberpoint.*;
-import com.nhlstenden.jabberpoint.slide.BitmapItem;
 import com.nhlstenden.jabberpoint.slide.Slide;
 import com.nhlstenden.jabberpoint.slide.SlideComponent;
 import com.nhlstenden.jabberpoint.slide.TextItem;
@@ -19,10 +18,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * <p>The saver for .XML files.<p>
@@ -30,20 +25,15 @@ import java.util.List;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class XMLSaveStrategy implements SaveStrategy
+
+public class XMLSaveStrategy<T extends Content> implements SaveContentStrategy<T>
 {
     @Override
-    public void savePresentation(Presentation presentation, File file)
+    public void saveContent(T content, File file) throws Exception
     {
-        try
-        {
-            file = ensureFileExtension(file);
-            Document doc = createDocumentStructure(presentation);
-            writeXmlToFile(doc, file);
-        } catch (ParserConfigurationException | TransformerException e)
-        {
-            showSaveErrorDialog(e.getMessage());
-        }
+        file = this.ensureFileExtension(file);
+        ContentVisitor visitor = new XMLSaveVisitor(file);
+        content.accept(visitor);
     }
 
     private File ensureFileExtension(File file)
@@ -54,98 +44,5 @@ public class XMLSaveStrategy implements SaveStrategy
         }
 
         return file;
-    }
-
-    private Document createDocumentStructure(Presentation presentation)
-            throws ParserConfigurationException
-    {
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document doc = builder.newDocument();
-
-        Element root = doc.createElement("presentation");
-        doc.appendChild(root);
-
-        addPresentationTitle(presentation, doc, root);
-        addAllSlides(presentation, doc, root);
-
-        return doc;
-    }
-
-    private void addPresentationTitle(Presentation presentation, Document doc, Element root)
-    {
-        Element showTitle = doc.createElement("showtitle");
-        showTitle.setTextContent(presentation.getShowTitle());
-        root.appendChild(showTitle);
-    }
-
-    private void addAllSlides(Presentation presentation, Document doc, Element root)
-    {
-        for (Slide slide : presentation.getShowList())
-        {
-            Element xmlSlide = createSlideElement(doc, slide);
-            root.appendChild(xmlSlide);
-        }
-    }
-
-    private Element createSlideElement(Document doc, Slide slide)
-    {
-        Element xmlSlide = doc.createElement("slide");
-        addSlideTitle(doc, slide, xmlSlide);
-        addSlideItems(doc, slide, xmlSlide);
-
-        return xmlSlide;
-    }
-
-    private void addSlideTitle(Document doc, Slide slide, Element xmlSlide)
-    {
-        Element titleElement = doc.createElement("title");
-        titleElement.setTextContent(slide.getTitle());
-        xmlSlide.appendChild(titleElement);
-    }
-
-    private void addSlideItems(Document doc, Slide slide, Element xmlSlide)
-    {
-        for (SlideComponent item : slide.getSlideItems())
-        {
-            Element xmlItem = createItemElement(doc, item);
-            xmlSlide.appendChild(xmlItem);
-        }
-    }
-
-    private Element createItemElement(Document doc, SlideComponent item)
-    {
-        Element xmlItem = doc.createElement("item");
-        setItemAttributes(xmlItem, item);
-        xmlItem.setTextContent(item.getContent());
-
-        return xmlItem;
-    }
-
-    private void setItemAttributes(Element xmlItem, SlideComponent item)
-    {
-        xmlItem.setAttribute("level", String.valueOf(item.getLevel()));
-        xmlItem.setAttribute("kind", getItemType(item));
-    }
-
-    private String getItemType(SlideComponent item)
-    {
-        return item instanceof TextItem ? "text" : "image";
-    }
-
-    private void writeXmlToFile(Document doc, File file) throws TransformerException
-    {
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.transform(new DOMSource(doc), new StreamResult(file));
-    }
-
-    private void showSaveErrorDialog(String errorMessage)
-    {
-        JOptionPane.showMessageDialog(
-                null,
-                "Failed to save XML: " + errorMessage,
-                "Save Error",
-                JOptionPane.ERROR_MESSAGE
-        );
     }
 }

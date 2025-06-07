@@ -3,13 +3,16 @@ package com.nhlstenden.jabberpoint.menu;
 import com.nhlstenden.jabberpoint.Content;
 
 /**
- * <p>Command Interface<p>
+ * <p>Go to previous slide<p>
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public interface MenuCommand<T extends Content>
+public class PreviousCommand<T extends Content> implements MenuCommand<T>
 {
-    void execute(CommandContext<T> context);
+    @Override
+    public void execute(CommandContext<T> context)
+    {
+        context.getContent().previous();
+    }
 }
-

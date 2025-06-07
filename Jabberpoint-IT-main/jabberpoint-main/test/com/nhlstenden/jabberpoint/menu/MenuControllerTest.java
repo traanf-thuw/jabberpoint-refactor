@@ -23,13 +23,13 @@ public class MenuControllerTest
     @Test
     void testCreateCommand_knownActions()
     {
-        assertTrue(controller.createCommand("Open") instanceof OpenPresentationCommand);
-        assertTrue(controller.createCommand("New") instanceof NewPresentationCommand);
-        assertTrue(controller.createCommand("Save") instanceof SavePresentationCommand);
+        assertTrue(controller.createCommand("Open") instanceof OpenContentCommand<?>);
+        assertTrue(controller.createCommand("New") instanceof NewContentCommand<?>);
+        assertTrue(controller.createCommand("Save") instanceof SaveContentCommand<?>);
         assertTrue(controller.createCommand("Exit") instanceof ExitApplicationCommand);
-        assertTrue(controller.createCommand("Next") instanceof NextSlideCommand);
-        assertTrue(controller.createCommand("Prev") instanceof PreviousSlideCommand);
-        assertTrue(controller.createCommand("Go to") instanceof GotoSlideCommand);
+        assertTrue(controller.createCommand("Next") instanceof NextCommand<?>);
+        assertTrue(controller.createCommand("Prev") instanceof PreviousCommand<?>);
+        assertTrue(controller.createCommand("Go to") instanceof GotoCommand<?>);
         assertTrue(controller.createCommand("About") instanceof AboutCommand);
     }
 
@@ -43,7 +43,7 @@ public class MenuControllerTest
     void testActionPerformed_executesCommand()
     {
         // Spy on a command so we can verify execute() call
-        MenuCommand commandSpy = spy(new OpenPresentationCommand());
+        MenuCommand commandSpy = spy(new OpenContentCommand());
 
         // Create a controller subclass overriding createCommand to return our spy
         MenuController controllerSpy = new MenuController(context)

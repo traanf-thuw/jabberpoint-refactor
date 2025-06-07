@@ -1,6 +1,6 @@
 package com.nhlstenden.jabberpoint.menu;
 
-import com.nhlstenden.jabberpoint.Presentation;
+import com.nhlstenden.jabberpoint.Content;
 import com.nhlstenden.jabberpoint.files.FileHandler;
 import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 
@@ -10,31 +10,31 @@ import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class CommandContext
+public class CommandContext<T extends Content>
 {
-    private final Presentation presentation;
+    private final T content;
     private final SlideViewerFrame frame;
-    private final FileHandler fileHandler;
+    private final FileHandler<T> fileHandler;
 
-    public CommandContext(Presentation presentation, SlideViewerFrame frame, FileHandler fileHandler)
+    public CommandContext(T content, SlideViewerFrame frame, FileHandler<T> fileHandler)
     {
-        this.presentation = presentation;
+        this.content = content;
         this.frame = frame;
         this.fileHandler = fileHandler;
     }
 
-    public Presentation getPresentation()
+    public T getContent()
     {
-        return presentation;
+        return this.content;
     }
 
     public SlideViewerFrame getFrame()
     {
-        return frame;
+        return this.frame;
     }
 
-    public FileHandler getFileHandler()
+    public FileHandler<T> getFileHandler()
     {
-        return fileHandler;
+        return this.fileHandler;
     }
 }

@@ -183,6 +183,7 @@ public class Slide
         {
             composite.addChild(item);
         }
+
         return composite;
     }
 }

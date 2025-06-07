@@ -11,9 +11,9 @@ import java.util.List;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class Presentation
+public class Presentation implements Content
 {
-    private String showTitle; // The title of the presentation
+    private String title; // The title of the presentation
     private List<Slide> showList; // List of slides
     private int currentSlideNumber; // The number of the current slide
     private SlideViewerComponent slideViewComponent; // The view component of the slides
@@ -21,7 +21,7 @@ public class Presentation
 
     public Presentation()
     {
-        this.showTitle = "";
+        this.title = "";
         this.slideViewComponent = null;
         this.factory = SlideItemFactory.getInstance();
         clear();
@@ -34,14 +34,22 @@ public class Presentation
         clear();
     }
 
-    public String getShowTitle()
+    @Override
+    public String getTitle()
     {
-        return this.showTitle;
+        return this.title;
     }
 
-    public void setShowTitle(String showTitle)
+    @Override
+    public int getShowListSize()
     {
-        this.showTitle = showTitle;
+        return this.showList.size();
+    }
+
+    @Override
+    public void setTitle(String title)
+    {
+        this.title = title;
     }
 
     public List<Slide> getShowList()
@@ -126,13 +134,21 @@ public class Presentation
         return this.showList.size();
     }
 
+    @Override
     public void clear()
     {
         this.showList = new ArrayList<>();
-        setSlideNumber(-1);
+        setShowListNumber(-1);
     }
 
-    public void setSlideNumber(int number)
+    @Override
+    public void accept(ContentVisitor visitor)
+    {
+        visitor.visitPresentation(this);
+    }
+
+    @Override
+    public void setShowListNumber(int number)
     {
         if (number < 0)
         {
@@ -149,32 +165,34 @@ public class Presentation
 
         if (this.slideViewComponent != null)
         {
-            this.slideViewComponent.update(this, getCurrentSlide());
+            this.slideViewComponent.update(this);
         }
     }
 
 
+    @Override
     //Navigate to the previous slide unless we are at the first slide
-    public void prevSlide()
+    public void previous()
     {
         if (this.currentSlideNumber > 0)
         {
-            setSlideNumber(this.currentSlideNumber - 1);
+            setShowListNumber(this.currentSlideNumber - 1);
         }
     }
 
+    @Override
     //Navigate to the next slide unless we are at the last slide
-    public void nextSlide()
+    public void next()
     {
         if (this.currentSlideNumber < (this.showList.size() - 1))
         {
-            setSlideNumber(this.currentSlideNumber + 1);
+            setShowListNumber(this.currentSlideNumber + 1);
         }
     }
 
     public void refreshView()
     {
         // This should trigger a UI update in your presentation component
-        setSlideNumber(this.currentSlideNumber); // Forces redraw
+        setShowListNumber(this.currentSlideNumber); // Forces redraw
     }
 }

@@ -22,7 +22,7 @@ public class CommandContextTest
         CommandContext context = new CommandContext(mockPresentation, mockFrame, mockFileHandler);
 
         // Assert
-        assertSame(mockPresentation, context.getPresentation(), "Presentation should be the same instance");
+        assertSame(mockPresentation, context.getContent(), "Presentation should be the same instance");
         assertSame(mockFrame, context.getFrame(), "Frame should be the same instance");
         assertSame(mockFileHandler, context.getFileHandler(), "FileHandler should be the same instance");
     }

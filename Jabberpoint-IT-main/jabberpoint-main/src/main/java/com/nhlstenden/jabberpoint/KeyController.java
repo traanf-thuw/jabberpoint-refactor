@@ -22,8 +22,8 @@ public class KeyController extends KeyAdapter
     {
         switch (keyEvent.getKeyCode())
         {
-            case KeyEvent.VK_PAGE_DOWN, KeyEvent.VK_DOWN, KeyEvent.VK_ENTER, '+' -> this.presentation.nextSlide();
-            case KeyEvent.VK_PAGE_UP, KeyEvent.VK_UP, '-' -> this.presentation.prevSlide();
+            case KeyEvent.VK_PAGE_DOWN, KeyEvent.VK_DOWN, KeyEvent.VK_ENTER, '+' -> this.presentation.next();
+            case KeyEvent.VK_PAGE_UP, KeyEvent.VK_UP, '-' -> this.presentation.previous();
             case 'q', 'Q' -> System.exit(0);
             //Should not be reached
             default ->
