@@ -1,7 +1,6 @@
 package com.nhlstenden.jabberpoint.menu;
 
 import com.nhlstenden.jabberpoint.Content;
-import com.nhlstenden.jabberpoint.Presentation;
 import com.nhlstenden.jabberpoint.files.FileHandler;
 import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 
@@ -10,7 +9,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
 /**
- * <p>Save a presentation<p>
+ * <p>Save a content<p>
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng

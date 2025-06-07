@@ -79,6 +79,12 @@ public class CompositeSlideItem extends SlideComponent
         return null;
     }
 
+    @Override
+    public String getKind()
+    {
+        return null;
+    }
+
     public void addChild(SlideComponent child)
     {
         this.children.add(child);

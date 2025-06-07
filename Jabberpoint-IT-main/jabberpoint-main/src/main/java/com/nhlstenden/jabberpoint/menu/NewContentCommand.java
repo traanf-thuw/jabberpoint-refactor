@@ -3,7 +3,7 @@ package com.nhlstenden.jabberpoint.menu;
 import com.nhlstenden.jabberpoint.Content;
 
 /**
- * <p>Create new presentation<p>
+ * <p>Create new content<p>
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng

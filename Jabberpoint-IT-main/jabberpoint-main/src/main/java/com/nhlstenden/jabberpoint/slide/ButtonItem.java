@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
-import java.util.List;
 
 /**
  * Create a button on the slide
@@ -71,5 +70,11 @@ public class ButtonItem extends SlideComponent
     public String getContent()
     {
         return null;
+    }
+
+    @Override
+    public String getKind()
+    {
+        return "button";
     }
 }

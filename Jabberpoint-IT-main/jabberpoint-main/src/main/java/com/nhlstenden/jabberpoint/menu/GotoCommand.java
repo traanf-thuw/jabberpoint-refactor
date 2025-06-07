@@ -6,7 +6,7 @@ import com.nhlstenden.jabberpoint.slide.SlideViewerFrame;
 import javax.swing.*;
 
 /**
- * <p>Go to a specific slide<p>
+ * <p>Go to a specific content page<p>
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng

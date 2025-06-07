@@ -1,16 +1,10 @@
 package com.nhlstenden.jabberpoint.slide;
 
 import com.nhlstenden.jabberpoint.Content;
-import com.nhlstenden.jabberpoint.Presentation;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.Serial;
 import javax.swing.JComponent;
-
-import static javax.swing.text.html.HTML.Attribute.BGCOLOR;
-
 
 /**
  * <p>SlideViewerComponent is a graphical component that ca display Slides.</p>
@@ -62,9 +56,9 @@ public class SlideViewerComponent extends JComponent
 
         g.setFont(labelFont);
         g.setColor(COLOR);
-        g.drawString("Item " + (content.getShowListSize()) + " shown", XPOS, YPOS);
+        g.drawString("Item " + (this.content.getShowListSize()) + " shown", XPOS, YPOS);
 
         Rectangle area = new Rectangle(0, YPOS, getWidth(), getHeight() - YPOS);
-        content.accept(new ContentRenderVisitor(g, area, this));
+        this.content.accept(new ContentRenderVisitor(g, area, this));
     }
 }
