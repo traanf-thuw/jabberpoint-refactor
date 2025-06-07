@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
-class PreviousSlideCommandTest
+class PreviousCommandTest
 {
     @Test
     void testExecute_callsNextSlide()
@@ -13,14 +13,14 @@ class PreviousSlideCommandTest
         // Arrange
         CommandContext mockContext = mock(CommandContext.class);
         Presentation mockPresentation = mock(Presentation.class);
-        when(mockContext.getPresentation()).thenReturn(mockPresentation);
+        when(mockContext.getContent()).thenReturn(mockPresentation);
 
-        PreviousSlideCommand command = new PreviousSlideCommand();
+        PreviousCommand command = new PreviousCommand();
 
         // Act
         command.execute(mockContext);
 
         // Assert
-        verify(mockPresentation).nextSlide(); // verify nextSlide() was called
+        verify(mockPresentation).previous(); // verify nextSlide() was called
     }
 }

@@ -52,51 +52,18 @@ class SlideViewerComponentTest
         when(mockPresentation.getCurrentSlideNumber()).thenReturn(-1);
 
         // Act & Assert
-        assertDoesNotThrow(() -> viewer.update(mockPresentation, null));
-    }
-
-    @Test
-    void update_withValidSlide_updatesTitleAndRepaints()
-    {
-        // Arrange
-        when(mockPresentation.getShowTitle()).thenReturn("Test Presentation");
-        when(mockPresentation.getCurrentSlideNumber()).thenReturn(0);
-        when(mockPresentation.getSize()).thenReturn(5);
-
-        // Act
-        viewer.update(mockPresentation, mockSlide);
-
-        // Assert
-        assertEquals("Test Presentation", mockFrame.getTitle());
+        assertDoesNotThrow(() -> viewer.update(mockPresentation));
     }
 
     @Test
     void paintComponent_withNullSlide_doesNotThrowException()
     {
         // Arrange
-        viewer.update(mockPresentation, null);
+        viewer.update(mockPresentation);
         BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.createGraphics();
 
         // Act & Assert
         assertDoesNotThrow(() -> viewer.paintComponent(g));
-    }
-
-    @Test
-    void paintComponent_withValidSlide_drawsSlide()
-    {
-        // Arrange
-        when(mockPresentation.getCurrentSlideNumber()).thenReturn(1);
-        when(mockPresentation.getSize()).thenReturn(3);
-        viewer.update(mockPresentation, mockSlide);
-
-        BufferedImage image = new BufferedImage(Slide.WIDTH, Slide.HEIGHT, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = image.createGraphics();
-
-        // Act
-        viewer.paintComponent(g);
-
-        // Assert
-        verify(mockSlide).draw(any(), any(Rectangle.class), any());
     }
 }

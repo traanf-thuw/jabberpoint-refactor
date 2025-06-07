@@ -85,8 +85,8 @@ class PresentationTest
     void prevSlide_atFirstSlide_doesNothing()
     {
         presentation.append(mockSlide);
-        presentation.setSlideNumber(0);
-        presentation.prevSlide();
+        presentation.setShowListNumber(0);
+        presentation.previous();
         assertEquals(0, presentation.getCurrentSlideNumber());
     }
 
@@ -94,8 +94,8 @@ class PresentationTest
     void nextSlide_atLastSlide_doesNothing()
     {
         presentation.append(mockSlide);
-        presentation.setSlideNumber(0);
-        presentation.nextSlide();
+        presentation.setShowListNumber(0);
+        presentation.next();
         assertEquals(0, presentation.getCurrentSlideNumber());
     }
 
@@ -105,10 +105,10 @@ class PresentationTest
         presentation.append(mockSlide);
         presentation.append(mockSlide);
 
-        presentation.setSlideNumber(-5);
+        presentation.setShowListNumber(-5);
         assertEquals(0, presentation.getCurrentSlideNumber());
 
-        presentation.setSlideNumber(100);
+        presentation.setShowListNumber(100);
         assertEquals(1, presentation.getCurrentSlideNumber());
     }
 
@@ -117,7 +117,7 @@ class PresentationTest
     {
         presentation.append(mockSlide);
         presentation.refreshView();
-        verify(mockViewer).update(presentation, mockSlide);
+        verify(mockViewer).update(presentation);
     }
 
     @Test
@@ -132,8 +132,8 @@ class PresentationTest
     @Test
     void setShowTitle_updatesTitle()
     {
-        presentation.setShowTitle("New Title");
-        assertEquals("New Title", presentation.getShowTitle());
+        presentation.setTitle("New Title");
+        assertEquals("New Title", presentation.getTitle());
     }
 
     @Test
@@ -142,9 +142,9 @@ class PresentationTest
         SlideViewerComponent newViewer = mock(SlideViewerComponent.class);
         presentation.setSlideViewComponent(newViewer);
         presentation.append(mockSlide);
-        presentation.setSlideNumber(0);
+        presentation.setShowListNumber(0);
 
-        verify(newViewer).update(presentation, mockSlide);
+        verify(newViewer).update(presentation);
     }
 
     @Test

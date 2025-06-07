@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 import com.nhlstenden.jabberpoint.Presentation;
 import org.junit.jupiter.api.Test;
 
-public class NextSlideCommandTest
+public class NextCommandTest
 {
     @Test
     void testExecute_callsNextSlideOnPresentation()
@@ -13,14 +13,14 @@ public class NextSlideCommandTest
         // Arrange
         Presentation mockPresentation = mock(Presentation.class);
         CommandContext mockContext = mock(CommandContext.class);
-        when(mockContext.getPresentation()).thenReturn(mockPresentation);
+        when(mockContext.getContent()).thenReturn(mockPresentation);
 
-        NextSlideCommand command = new NextSlideCommand();
+        NextCommand command = new NextCommand();
 
         // Act
         command.execute(mockContext);
 
         // Assert
-        verify(mockPresentation, times(1)).nextSlide();
+        verify(mockPresentation, times(1)).next();
     }
 }

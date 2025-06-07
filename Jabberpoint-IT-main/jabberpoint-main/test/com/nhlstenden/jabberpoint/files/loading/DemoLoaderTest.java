@@ -1,119 +1,46 @@
 package com.nhlstenden.jabberpoint.files.loading;
 
-import com.nhlstenden.jabberpoint.slide.Slide;
-import org.junit.jupiter.api.Test;
-import com.nhlstenden.jabberpoint.Presentation;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.io.TempDir;
-import org.mockito.InOrder;
-import org.mockito.Mockito;
-
+import com.nhlstenden.jabberpoint.Presentation;
+import com.nhlstenden.jabberpoint.slide.BitmapItem;
+import com.nhlstenden.jabberpoint.slide.Slide;
+import com.nhlstenden.jabberpoint.slide.TextItem;
+import org.junit.jupiter.api.Test;
 import java.io.File;
-import java.nio.file.Paths;
 
-import static org.mockito.Mockito.*;
-
-class DemoLoaderTest
-{
-    private Presentation mockPresentation;
-    private DemoLoader demoLoader;
-
-    @BeforeEach
-    void setUp()
-    {
-        mockPresentation = mock(Presentation.class);
-        demoLoader = new DemoLoader();
-    }
+public class DemoLoaderTest {
 
     @Test
-    void loadPresentation_withNullPresentation_shouldThrowNullPointerException()
-    {
-        assertThrows(NullPointerException.class,
-                () -> demoLoader.loadPresentation(null, new File("dummy")),
-                "Should throw NPE for null presentation");
-    }
+    public void testLoadContent() {
+        DemoLoader loader = new DemoLoader();
+        Presentation presentation = new Presentation();
+        File dummyFile = new File("dummy.xml");  // The file is not actually used in DemoLoader.
 
-    @Test
-    void loadPresentation_shouldCreateDemoPresentationWithCorrectStructure()
-    {
-        // Act
-        demoLoader.loadPresentation(mockPresentation, null);
+        loader.loadContent(presentation, dummyFile);
 
-        // Verify call order and structure
-        InOrder inOrder = inOrder(mockPresentation);
-        inOrder.verify(mockPresentation).setShowTitle("Demo Presentation");
-        inOrder.verify(mockPresentation, times(3)).append(any(Slide.class));
-    }
+        // Check title
+        assertEquals("Demo Presentation", presentation.getTitle());
 
+        // Check number of slides loaded
+        assertEquals(3, presentation.getShowListSize());
 
-    @Test
-    void loadPresentation_createsDemoPresentationWithImage_shouldPass()
-    {
-        String imagePath = Paths.get("test/resources/JabberPoint.jpg").toString();
-        File dummyFile = new File(imagePath);
-        // Act
-        demoLoader.loadPresentation(mockPresentation, dummyFile);
+        // Check first slide title and some text items
+        Slide slide1 = presentation.getSlide(0);
+        assertEquals("JabberPoint", slide1.getTitle());
+        assertTrue(slide1.getSlideItems().stream()
+                .anyMatch(item -> item instanceof TextItem && ((TextItem) item).getText().equals("The Java prestentation tool")));
 
-        // Verify title was set
-        verify(mockPresentation).setShowTitle("Demo Presentation");
+        // Check second slide title and a text item
+        Slide slide2 = presentation.getSlide(1);
+        assertEquals("Demonstration of levels and styles", slide2.getTitle());
+        assertTrue(slide2.getSlideItems().stream()
+                .anyMatch(item -> item instanceof TextItem && ((TextItem) item).getText().equals("Level 1 has style number 1")));
 
-        // Verify slides were added
-        verify(mockPresentation, times(3)).append(any(Slide.class));
-
-        // Verify clear was NOT called
-        verify(mockPresentation, never()).clear();
-    }
-
-    @Test
-    void loadPresentation_shouldNotClearExistingSlides_ExpectPass()
-    {
-        // Act
-        demoLoader.loadPresentation(mockPresentation, null);
-
-        // Verify
-        verify(mockPresentation, never()).clear();
-    }
-
-    @Test
-    void loadPresentation_createsCorrectNumberOfSlides_ExpectPass()
-    {
-        // Act
-        demoLoader.loadPresentation(mockPresentation, null);
-
-        // Verify exactly 3 slides were added
-        verify(mockPresentation, times(3)).append(any(Slide.class));
-    }
-
-    @Test
-    void loadPresentation_setsCorrectTitle_ExpectPass()
-    {
-        // Act
-        demoLoader.loadPresentation(mockPresentation, null);
-
-        // Verify
-        verify(mockPresentation).setShowTitle("Demo Presentation");
-    }
-
-    @Test
-    void loadPresentation_shouldCreateExactlyThreeSlides()
-    {
-        // Act
-        demoLoader.loadPresentation(mockPresentation, null);
-
-        // Verify
-        verify(mockPresentation, times(3)).append(any(Slide.class));
-    }
-
-    @Test
-    void loadPresentation_shouldSetCorrectTitle()
-    {
-        // Act
-        demoLoader.loadPresentation(mockPresentation, null);
-
-        // Verify
-        verify(mockPresentation).setShowTitle(eq("Demo Presentation"));
+        // Check third slide title and that it contains a BitmapItem
+        Slide slide3 = presentation.getSlide(2);
+        assertEquals("The third slide", slide3.getTitle());
+        assertTrue(slide3.getSlideItems().stream()
+                .anyMatch(item -> item instanceof BitmapItem && ((BitmapItem) item).getName().equals("JabberPoint.jpg")));
     }
 }

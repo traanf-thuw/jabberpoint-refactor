@@ -25,7 +25,7 @@ class KeyControllerTest
     {
         KeyEvent event = new KeyEvent(mock(Component.class), 1, 1, 0, KeyEvent.VK_PAGE_DOWN, ' ');
         keyController.keyPressed(event);
-        verify(mockPresentation).nextSlide();
+        verify(mockPresentation).next();
     }
 
     @Test
@@ -33,7 +33,7 @@ class KeyControllerTest
     {
         KeyEvent event = new KeyEvent(mock(Component.class), 1, 1, 0, KeyEvent.VK_DOWN, ' ');
         keyController.keyPressed(event);
-        verify(mockPresentation).nextSlide();
+        verify(mockPresentation).next();
     }
 
     @Test
@@ -41,7 +41,7 @@ class KeyControllerTest
     {
         KeyEvent event = new KeyEvent(mock(Component.class), 1, 1, 0, KeyEvent.VK_ENTER, ' ');
         keyController.keyPressed(event);
-        verify(mockPresentation).nextSlide();
+        verify(mockPresentation).next();
     }
 
     @Test
@@ -49,7 +49,7 @@ class KeyControllerTest
     {
         KeyEvent event = new KeyEvent(mock(Component.class), 1, 1, 0, '+', '+');
         keyController.keyPressed(event);
-        verify(mockPresentation).nextSlide();
+        verify(mockPresentation).next();
     }
 
     @Test
@@ -57,7 +57,7 @@ class KeyControllerTest
     {
         KeyEvent event = new KeyEvent(mock(Component.class), 1, 1, 0, KeyEvent.VK_PAGE_UP, ' ');
         keyController.keyPressed(event);
-        verify(mockPresentation).prevSlide();
+        verify(mockPresentation).previous();
     }
 
     @Test
@@ -65,7 +65,7 @@ class KeyControllerTest
     {
         KeyEvent event = new KeyEvent(mock(Component.class), 1, 1, 0, KeyEvent.VK_UP, ' ');
         keyController.keyPressed(event);
-        verify(mockPresentation).prevSlide();
+        verify(mockPresentation).previous();
     }
 
     @Test
@@ -73,7 +73,7 @@ class KeyControllerTest
     {
         KeyEvent event = new KeyEvent(mock(Component.class), 1, 1, 0, '-', '-');
         keyController.keyPressed(event);
-        verify(mockPresentation).prevSlide();
+        verify(mockPresentation).previous();
     }
 
     @Test
