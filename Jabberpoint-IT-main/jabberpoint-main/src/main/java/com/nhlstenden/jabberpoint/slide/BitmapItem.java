@@ -10,8 +10,6 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Bitmap item that can be used as a leaf in the Composite pattern
@@ -72,7 +70,8 @@ public class BitmapItem extends SlideComponent
     }
 
     @Override
-    public void draw(Graphics graphics, Rectangle area, ImageObserver observer) {
+    public void draw(Graphics graphics, Rectangle area, ImageObserver observer)
+    {
         if (this.bufferedImage == null) return;
 
         Graphics2D g2d = (Graphics2D) graphics;
@@ -98,6 +97,12 @@ public class BitmapItem extends SlideComponent
     public String getContent()
     {
         return this.imageName;
+    }
+
+    @Override
+    public String getKind()
+    {
+        return "image";
     }
 
     @Override

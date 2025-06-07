@@ -7,8 +7,6 @@ import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.image.ImageObserver;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Text item that can be used as a leaf in the Composite pattern
@@ -104,6 +102,12 @@ public class TextItem extends SlideComponent
     public String getContent()
     {
         return this.text;
+    }
+
+    @Override
+    public String getKind()
+    {
+        return "text";
     }
 
     @Override

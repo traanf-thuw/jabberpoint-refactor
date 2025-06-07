@@ -12,9 +12,9 @@ import java.awt.event.ActionListener;
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
  */
-public class MenuController<T extends Content> extends MenuBar implements ActionListener {
+public class MenuController<T extends Content> extends MenuBar implements ActionListener
+{
     private final CommandContext<T> context;
-
     private static final String OPEN = "Open";
     private static final String NEW = "New";
     private static final String SAVE = "Save";
@@ -24,12 +24,15 @@ public class MenuController<T extends Content> extends MenuBar implements Action
     private static final String GOTO = "Go to";
     private static final String ABOUT = "About";
 
-    public MenuController(CommandContext<T> context) {
+    public MenuController(CommandContext<T> context)
+    {
         this.context = context;
     }
 
-    public MenuCommand<T> createCommand(String action) {
-        return switch (action) {
+    public MenuCommand<T> createCommand(String action)
+    {
+        return switch (action)
+        {
             case OPEN -> new OpenContentCommand<T>();
             case NEW -> new NewContentCommand<T>();
             case SAVE -> new SaveContentCommand<T>();

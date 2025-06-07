@@ -15,6 +15,17 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 
+/**
+ * <p>The loader that reads and parses presentations from .XML files using DOM parsing.</p>
+ * <p>It implements the {@code ContentVisitor} interface and constructs a {@code Presentation}
+ * object by extracting slides and their contents from an XML structure.</p>
+ *
+ * <p>This class supports slide items of kind "text" and "image", and builds each slide
+ * using a default style. If an unknown item kind is encountered, it throws an exception.</p>
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
+ */
 public class XMLLoadVisitor implements ContentVisitor
 {
     private final Element root;
@@ -23,7 +34,7 @@ public class XMLLoadVisitor implements ContentVisitor
     {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = builder.parse(file);
-        this.root = document.getDocumentElement();
+        root = document.getDocumentElement();
     }
 
     @Override

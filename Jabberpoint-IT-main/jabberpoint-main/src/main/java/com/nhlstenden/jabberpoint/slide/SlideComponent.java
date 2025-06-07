@@ -5,8 +5,6 @@ import com.nhlstenden.jabberpoint.style.LevelStyle;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * The base component in the Composite Pattern.
@@ -51,4 +49,5 @@ public abstract class SlideComponent
     public abstract Rectangle getBoundingBox(Graphics graphics, ImageObserver observer, float scale);
 
     public abstract String getContent();
+    public abstract String getKind();
 }

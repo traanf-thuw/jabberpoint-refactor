@@ -1,7 +1,6 @@
 package com.nhlstenden.jabberpoint.files;
 
 import com.nhlstenden.jabberpoint.Content;
-import com.nhlstenden.jabberpoint.Presentation;
 import com.nhlstenden.jabberpoint.files.loading.LoadContentStrategy;
 import com.nhlstenden.jabberpoint.files.saving.SaveContentStrategy;
 

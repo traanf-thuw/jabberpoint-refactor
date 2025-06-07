@@ -18,6 +18,14 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 
+/**
+ * <p>The saver that writes a {@code Presentation} object to an .XML file using DOM serialization.</p>
+ * <p>This class implements the {@code ContentVisitor} interface and converts the in-memory
+ * structure of a presentation—including its slides and items—into a well-formed XML document.</p>
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
+ */
 public class XMLSaveVisitor implements ContentVisitor
 {
     private final File file;
@@ -46,8 +54,7 @@ public class XMLSaveVisitor implements ContentVisitor
             this.addPresentationTitle(presentation);
             this.addAllSlides(presentation);
             this.writeXmlToFile();
-        }
-        catch (TransformerException e)
+        } catch (TransformerException e)
         {
             showSaveErrorDialog(e.getMessage());
         }
@@ -109,7 +116,7 @@ public class XMLSaveVisitor implements ContentVisitor
 
     private String getItemType(SlideComponent item)
     {
-        return item instanceof TextItem ? "text" : "image";
+        return item.getKind();
     }
 
     private void writeXmlToFile() throws TransformerException

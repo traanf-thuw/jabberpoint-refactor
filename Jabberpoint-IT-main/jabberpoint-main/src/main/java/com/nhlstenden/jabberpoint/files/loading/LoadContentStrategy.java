@@ -1,11 +1,7 @@
 package com.nhlstenden.jabberpoint.files.loading;
 
 import com.nhlstenden.jabberpoint.Content;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
-import java.io.IOException;
 
 /**
  * <p>The Strategy interface. It declares a method the context uses to execute a strategy.<p>

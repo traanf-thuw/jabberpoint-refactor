@@ -2,8 +2,6 @@ package com.nhlstenden.jabberpoint.slide;
 
 import com.nhlstenden.jabberpoint.Content;
 import com.nhlstenden.jabberpoint.JabberPoint;
-import com.nhlstenden.jabberpoint.KeyController;
-import com.nhlstenden.jabberpoint.Presentation;
 import com.nhlstenden.jabberpoint.files.FileHandler;
 import com.nhlstenden.jabberpoint.menu.CommandContext;
 import com.nhlstenden.jabberpoint.menu.MenuController;

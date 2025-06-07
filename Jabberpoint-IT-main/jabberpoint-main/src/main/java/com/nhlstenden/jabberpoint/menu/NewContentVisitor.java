@@ -8,6 +8,23 @@ import com.nhlstenden.jabberpoint.style.DefaultStyle;
 
 import java.io.File;
 
+/**
+ * <p>A visitor that adds a new slide with default content and interactive buttons to a {@code Presentation}.</p>
+ * <p>This class implements the {@code ContentVisitor} interface and is used to insert a default slide into
+ * the presentation. The slide includes a placeholder text item and interactive buttons that allow the user
+ * to dynamically add text or image items during runtime.</p>
+ *
+ * <p>Two interactive buttons are created:
+ * <ul>
+ *   <li>{@code "Add Text"} — prompts the user for text input and adds it as a slide item.</li>
+ *   <li>{@code "Add Image"} — allows the user to select an image file and adds it as a bitmap item.</li>
+ * </ul></p>
+ *
+ * <p>This visitor relies on a {@code CommandContext} to access the UI frame and presentation environment.</p>
+ *
+ * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * @version 1.7 2025/04/02 Thu Tran - Bocheng Peng
+ */
 public class NewContentVisitor<T extends Content> implements ContentVisitor
 {
     private final CommandContext<T> context;
